@@ -7,6 +7,8 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+import { ThemeProvider } from "@/components/stripe/ThemeProvider";
+
 export const metadata: Metadata = {
   title: "Stripe | Financial Infrastructure for the Internet",
   description: "A high-fidelity Stripe clone built with Next.js and HDS design tokens.",
@@ -18,9 +20,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" data-theme="light">
+    <html lang="en">
       <body className={`${inter.variable}`}>
-        {children}
+        <ThemeProvider>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

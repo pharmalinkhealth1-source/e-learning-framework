@@ -73,6 +73,23 @@
   gap: var(--hds-space-core-500);
 }
 
+.themeToggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hds-color-fg);
+  opacity: 0.8;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  padding: var(--hds-space-core-100);
+  border-radius: 50%;
+}
+
+.themeToggle:hover {
+  opacity: 1;
+  background-color: var(--hds-color-border);
+  transform: rotate(15deg);
+}
+
 .contactBtn {
   display: flex;
   align-items: center;

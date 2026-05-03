@@ -5,7 +5,10 @@ import Link from 'next/link';
 import styles from './Navbar.module.css';
 import Megamenu, { ProductsContent, SolutionsContent, DevelopersContent } from './Megamenu';
 
+import { useTheme } from './ThemeProvider';
+
 const Navbar = () => {
+  const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [dropdownPos, setDropdownPos] = useState<number>(0);
   const navRef = useRef<HTMLDivElement>(null);
@@ -58,7 +61,25 @@ const Navbar = () => {
           </div>
         </div>
         <div className={styles.right}>
-
+          <button onClick={toggleTheme} className={styles.themeToggle} aria-label="Toggle theme">
+            {theme === 'light' ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="18" height="18">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            )}
+          </button>
           <Link href="/signin" className={styles.navItem}>Sign in</Link>
           <Link href="/contact" className={styles.contactBtn}>
             Contact sales
