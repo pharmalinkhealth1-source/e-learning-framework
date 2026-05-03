@@ -1,19 +1,23 @@
 import Navbar from "@/components/stripe/Navbar";
+import Hero from "@/components/stripe/Hero";
 
 export default function Home() {
   return (
     <main>
       <Navbar />
-      <div style={{ height: '200vh', padding: '100px 0' }}>
-        <div className="container">
-          <h1 style={{ fontSize: 'var(--hds-size-heading-xl)', fontWeight: 'var(--hds-font-weight-bold)' }}>
-            Financial infrastructure for the internet
-          </h1>
-          <p style={{ fontSize: 'var(--hds-size-text-lg)', marginTop: '20px', opacity: 0.8 }}>
-            Millions of companies of all sizes—from startups to Fortune 500s—use Stripe’s software and APIs to accept payments, send payouts, and manage their businesses online.
+      <Hero />
+      
+      {/* Spacer to demonstrate scrolling and sticky nav */}
+      <section style={{ height: '100vh', backgroundColor: 'var(--hds-color-bg)' }}>
+        <div className="container" style={{ paddingTop: '100px' }}>
+          <h2 style={{ fontSize: 'var(--hds-size-heading-lg)', color: 'var(--hds-color-fg)' }}>
+            Next-gen financial solutions
+          </h2>
+          <p style={{ marginTop: '20px', color: 'var(--hds-color-fg)', opacity: 0.7 }}>
+            Built for growth. Powered by intelligence. Scaled for the global economy.
           </p>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
