@@ -13,5 +13,19 @@ Phased execution plan to build a high-fidelity Stripe clone basis for a client p
 - [ ] **Phase 7: MapLibre Location Directory** — High-performance vector map.
 - [ ] **Phase 8: D3 Animated Insights** — Interactive data visualisations.
 
+### Phase 5: Clerk Authentication
+**Goal:** Implement secure user authentication and role-based access using Clerk.
+
+**Objectives:**
+- Install and configure Clerk SDK.
+- Create middleware for route protection.
+- Implement login/signup pages with Stripe branding.
+- Define user roles (Client, Developer, Partner) for the platform.
+- Integrate Clerk user metadata with Sanity forum authorship.
+
+**Canonical Refs:**
+- `src/middleware.ts`
+- `src/app/layout.tsx`
+
 ---
-*Next Step: Run `/gsd-execute-phase 4` to start implementation.*
+*Next Step: Run `/gsd-plan-phase 5` to start implementation.*

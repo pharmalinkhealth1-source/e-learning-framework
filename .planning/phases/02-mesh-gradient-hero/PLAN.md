@@ -1,5 +1,5 @@
 ---
-id: 02
+id: 02-01
 wave: 1
 autonomous: true
 objective: Implement the animated mesh gradient hero section with pixel-perfect HDS typography.
@@ -9,7 +9,6 @@ files_modified:
   - src/components/stripe/Hero.module.css
   - src/app/page.tsx
 ---
-
 # Plan: Phase 2 — The Mesh Gradient Hero
 
 Implement the signature animated mesh gradient hero section with high-performance WebGL and HDS-aligned typography.

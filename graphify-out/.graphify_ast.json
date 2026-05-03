@@ -1,0 +1,1125 @@
+{
+  "nodes": [
+    {
+      "id": "next_env_d_ts",
+      "label": "next-env.d.ts",
+      "file_type": "code",
+      "source_file": "next-env.d.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "sanity_config_ts",
+      "label": "sanity.config.ts",
+      "file_type": "code",
+      "source_file": "sanity.config.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "eslint_config_mjs",
+      "label": "eslint.config.mjs",
+      "file_type": "code",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L1"
+    },
+    {
+      "id": "next_config_ts",
+      "label": "next.config.ts",
+      "file_type": "code",
+      "source_file": "next.config.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_layout_tsx",
+      "label": "layout.tsx",
+      "file_type": "code",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "app_layout_rootlayout",
+      "label": "RootLayout()",
+      "file_type": "code",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L17"
+    },
+    {
+      "id": "src_app_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_app_studio_tool_page_tsx",
+      "label": "page.tsx",
+      "file_type": "code",
+      "source_file": "src/app/studio/[[...tool]]/page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "tool_page_studiopage",
+      "label": "StudioPage()",
+      "file_type": "code",
+      "source_file": "src/app/studio/[[...tool]]/page.tsx",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_sanity_env_ts",
+      "label": "env.ts",
+      "file_type": "code",
+      "source_file": "src/sanity/env.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "sanity_env_assertvalue",
+      "label": "assertValue()",
+      "file_type": "code",
+      "source_file": "src/sanity/env.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_sanity_schematypes_forumpost_ts",
+      "label": "forumPost.ts",
+      "file_type": "code",
+      "source_file": "src/sanity/schemaTypes/forumPost.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_sanity_schematypes_datainsight_ts",
+      "label": "dataInsight.ts",
+      "file_type": "code",
+      "source_file": "src/sanity/schemaTypes/dataInsight.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_sanity_schematypes_jobopening_ts",
+      "label": "jobOpening.ts",
+      "file_type": "code",
+      "source_file": "src/sanity/schemaTypes/jobOpening.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_sanity_schematypes_directoryitem_ts",
+      "label": "directoryItem.ts",
+      "file_type": "code",
+      "source_file": "src/sanity/schemaTypes/directoryItem.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_sanity_schematypes_index_ts",
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_sanity_lib_image_ts",
+      "label": "image.ts",
+      "file_type": "code",
+      "source_file": "src/sanity/lib/image.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "lib_image_urlforimage",
+      "label": "urlForImage()",
+      "file_type": "code",
+      "source_file": "src/sanity/lib/image.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_sanity_lib_client_ts",
+      "label": "client.ts",
+      "file_type": "code",
+      "source_file": "src/sanity/lib/client.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_stripe_hero_tsx",
+      "label": "Hero.tsx",
+      "file_type": "code",
+      "source_file": "src/components/stripe/Hero.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "stripe_hero_hero",
+      "label": "Hero()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/Hero.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_components_stripe_navbar_tsx",
+      "label": "Navbar.tsx",
+      "file_type": "code",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "stripe_navbar_handlemouseenter",
+      "label": "handleMouseEnter()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L24"
+    },
+    {
+      "id": "src_components_stripe_megamenu_tsx",
+      "label": "Megamenu.tsx",
+      "file_type": "code",
+      "source_file": "src/components/stripe/Megamenu.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_stripe_themeprovider_tsx",
+      "label": "ThemeProvider.tsx",
+      "file_type": "code",
+      "source_file": "src/components/stripe/ThemeProvider.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "stripe_themeprovider_usetheme",
+      "label": "useTheme()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/ThemeProvider.tsx",
+      "source_location": "L39"
+    },
+    {
+      "id": "src_components_stripe_meshgradient_tsx",
+      "label": "MeshGradient.tsx",
+      "file_type": "code",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "stripe_meshgradient_minigl",
+      "label": "MiniGL",
+      "file_type": "code",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "stripe_meshgradient_minigl_constructor",
+      "label": ".constructor()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L13"
+    },
+    {
+      "id": "stripe_meshgradient_minigl_init",
+      "label": ".init()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "stripe_meshgradient_minigl_createshader",
+      "label": ".createShader()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L87"
+    },
+    {
+      "id": "stripe_meshgradient_minigl_render",
+      "label": ".render()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L95"
+    },
+    {
+      "id": "stripe_meshgradient_minigl_hextorgb",
+      "label": ".hexToRgb()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L111"
+    },
+    {
+      "id": "stripe_meshgradient_meshgradient",
+      "label": "MeshGradient()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L124"
+    },
+    {
+      "id": "src_components_stripe_bento_tsx",
+      "label": "Bento.tsx",
+      "file_type": "code",
+      "source_file": "src/components/stripe/Bento.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "stripe_bento_bentocard",
+      "label": "BentoCard()",
+      "file_type": "code",
+      "source_file": "src/components/stripe/Bento.tsx",
+      "source_location": "L17"
+    }
+  ],
+  "edges": [
+    {
+      "source": "next_env_d_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_next_types_routes_d_ts",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "next-env.d.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "sanity_config_ts",
+      "target": "sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "sanity.config.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "sanity_config_ts",
+      "target": "structure",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "sanity.config.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "sanity_config_ts",
+      "target": "vision",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "sanity.config.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "sanity_config_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_sanity_schematypes",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "sanity.config.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "sanity_config_ts",
+      "target": "sanity_schematypes_schema",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "sanity.config.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "sanity_config_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_sanity_env",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "sanity.config.ts",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "sanity_config_ts",
+      "target": "sanity_env_projectid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "sanity.config.ts",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "sanity_config_ts",
+      "target": "sanity_env_dataset",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "sanity.config.ts",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config_mjs",
+      "target": "config",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config_mjs",
+      "target": "core_web_vitals",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "eslint_config_mjs",
+      "target": "typescript",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.mjs",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "next_config_ts",
+      "target": "next",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "next.config.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "next",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "google",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_styles_globals_css",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_themeprovider",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "stripe_themeprovider_themeprovider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L10",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_layout_tsx",
+      "target": "app_layout_rootlayout",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/layout.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_navbar",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_hero",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_bento",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "stripe_bento_bentogrid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "stripe_bento_bentocard",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_page_tsx",
+      "target": "stripe_bento_bentotag",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/page.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_studio_tool_page_tsx",
+      "target": "studio",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/studio/[[...tool]]/page.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_studio_tool_page_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_sanity_config",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/studio/[[...tool]]/page.tsx",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_app_studio_tool_page_tsx",
+      "target": "tool_page_studiopage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/app/studio/[[...tool]]/page.tsx",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_env_ts",
+      "target": "sanity_env_assertvalue",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/env.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_forumpost_ts",
+      "target": "sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/forumPost.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_datainsight_ts",
+      "target": "sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/dataInsight.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_jobopening_ts",
+      "target": "sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/jobOpening.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_directoryitem_ts",
+      "target": "sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/directoryItem.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_sanity_schematypes_forumpost",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "schematypes_forumpost_forumpost",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_sanity_schematypes_directoryitem",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "schematypes_directoryitem_directoryitem",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_sanity_schematypes_jobopening",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "schematypes_jobopening_jobopening",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_sanity_schematypes_datainsight",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_schematypes_index_ts",
+      "target": "schematypes_datainsight_datainsight",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/schemaTypes/index.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_image_ts",
+      "target": "image_url",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/image.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_image_ts",
+      "target": "sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/image.ts",
+      "source_location": "L2",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_image_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_sanity_env",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/image.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_image_ts",
+      "target": "sanity_env_dataset",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/image.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_image_ts",
+      "target": "sanity_env_projectid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/image.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_image_ts",
+      "target": "lib_image_urlforimage",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/image.ts",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_client_ts",
+      "target": "next_sanity",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/client.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_client_ts",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_sanity_env",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/client.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_client_ts",
+      "target": "sanity_env_apiversion",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/client.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_client_ts",
+      "target": "sanity_env_dataset",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/client.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_client_ts",
+      "target": "sanity_env_projectid",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/client.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_sanity_lib_client_ts",
+      "target": "sanity_env_usecdn",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/sanity/lib/client.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_hero_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Hero.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_hero_tsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Hero.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_hero_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_meshgradient",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Hero.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_hero_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_hero_module_css",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Hero.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_hero_tsx",
+      "target": "stripe_hero_hero",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Hero.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "link",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_navbar_module_css",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_megamenu",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "stripe_megamenu_productscontent",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "stripe_megamenu_solutionscontent",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "stripe_megamenu_developerscontent",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_themeprovider",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "stripe_themeprovider_usetheme",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_navbar_tsx",
+      "target": "stripe_navbar_handlemouseenter",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Navbar.tsx",
+      "source_location": "L24",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_megamenu_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Megamenu.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_megamenu_tsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Megamenu.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_megamenu_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_megamenu_module_css",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Megamenu.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_themeprovider_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/ThemeProvider.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_themeprovider_tsx",
+      "target": "stripe_themeprovider_usetheme",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/ThemeProvider.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_meshgradient_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_meshgradient_tsx",
+      "target": "stripe_meshgradient_minigl",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "stripe_meshgradient_minigl",
+      "target": "stripe_meshgradient_minigl_constructor",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "stripe_meshgradient_minigl",
+      "target": "stripe_meshgradient_minigl_init",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "stripe_meshgradient_minigl",
+      "target": "stripe_meshgradient_minigl_createshader",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "stripe_meshgradient_minigl",
+      "target": "stripe_meshgradient_minigl_render",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L95",
+      "weight": 1.0
+    },
+    {
+      "source": "stripe_meshgradient_minigl",
+      "target": "stripe_meshgradient_minigl_hextorgb",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_meshgradient_tsx",
+      "target": "stripe_meshgradient_meshgradient",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L124",
+      "weight": 1.0
+    },
+    {
+      "source": "stripe_meshgradient_minigl_constructor",
+      "target": "stripe_meshgradient_minigl_init",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "stripe_meshgradient_minigl_init",
+      "target": "stripe_meshgradient_minigl_createshader",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/MeshGradient.tsx",
+      "source_location": "L23",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_bento_tsx",
+      "target": "react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Bento.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_bento_tsx",
+      "target": "framer_motion",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Bento.tsx",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_bento_tsx",
+      "target": "users_ciarannash_downloads_stripe_clone_reset_src_components_stripe_bento_module_css",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Bento.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_stripe_bento_tsx",
+      "target": "stripe_bento_bentocard",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/stripe/Bento.tsx",
+      "source_location": "L17",
+      "weight": 1.0
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}
