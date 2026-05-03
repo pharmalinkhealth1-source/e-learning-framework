@@ -4,6 +4,7 @@ import { redirect, notFound } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
 import { PortableText } from '@portabletext/react';
 import styled from 'styled-components';
+import CommentForm from '@/components/forum/CommentForm';
 
 export default async function ForumPostDetailPage({ params }: { params: { slug: string } }) {
   const { userId } = await auth();
@@ -13,6 +14,7 @@ export default async function ForumPostDetailPage({ params }: { params: { slug: 
   }
 
   const post = await client.fetch(`*[_type == "forumPost" && slug.current == $slug][0] {
+    _id,
     title,
     content,
     "authorName": author->name,
@@ -81,6 +83,8 @@ export default async function ForumPostDetailPage({ params }: { params: { slug: 
             </p>
           )}
         </div>
+
+        <CommentForm postId={post._id} />
       </section>
     </div>
   );
