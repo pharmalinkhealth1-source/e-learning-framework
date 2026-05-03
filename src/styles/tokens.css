@@ -1,0 +1,57 @@
+:root {
+  /* HDS Spacing Tokens */
+  --hds-space-core-100: 4px;
+  --hds-space-core-200: 8px;
+  --hds-space-core-300: 12px;
+  --hds-space-core-400: 16px;
+  --hds-space-core-500: 20px;
+  --hds-space-core-600: 24px;
+  --hds-space-core-700: 32px;
+  --hds-space-core-800: 48px;
+  --hds-space-core-900: 64px;
+  --hds-space-core-1000: 96px;
+  --hds-space-core-1100: 128px;
+  --hds-space-core-1200: 160px;
+
+  /* HDS Color Tokens - Light Mode */
+  --hds-color-bg: #ffffff;
+  --hds-color-fg: #0a2540;
+  --hds-color-primary: #635bff;
+  --hds-color-primary-hover: #7a73ff;
+  --hds-color-accent: #00d4ff;
+  --hds-color-border: rgba(0, 0, 0, 0.1);
+  --hds-color-glass-bg: rgba(255, 255, 255, 0.7);
+  --hds-color-nav-bg: rgba(255, 255, 255, 0.8);
+  
+  /* HDS Shadow Tokens */
+  --hds-shadow-sm: 0 1px 1px rgba(0,0,0,0.1);
+  --hds-shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+  --hds-shadow-lg: 0 10px 15px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.05);
+
+  /* HDS Typography Tokens */
+  --hds-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --hds-font-weight-reg: 400;
+  --hds-font-weight-med: 500;
+  --hds-font-weight-bold: 600;
+  
+  --hds-size-text-xs: 0.75rem;
+  --hds-size-text-sm: 0.875rem;
+  --hds-size-text-md: 1rem;
+  --hds-size-text-lg: 1.125rem;
+  --hds-size-text-xl: 1.25rem;
+  --hds-size-text-xxl: 1.5rem;
+  
+  --hds-size-heading-sm: 1.25rem;
+  --hds-size-heading-md: 1.5rem;
+  --hds-size-heading-lg: 2rem;
+  --hds-size-heading-xl: 3rem;
+  --hds-size-heading-xxl: 4rem;
+}
+
+[data-theme='dark'] {
+  --hds-color-bg: #0a2540;
+  --hds-color-fg: #ffffff;
+  --hds-color-border: rgba(255, 255, 255, 0.1);
+  --hds-color-glass-bg: rgba(10, 37, 64, 0.7);
+  --hds-color-nav-bg: rgba(10, 37, 64, 0.8);
+}
