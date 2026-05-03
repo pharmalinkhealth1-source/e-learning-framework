@@ -1,14 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn, useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/stripe/AuthLayout";
 import { StripeButton, StripeInput } from "@/components/stripe/StripeUI";
 import Link from "next/link";
 
 export default function SignInPage() {
-  const { isLoaded, signIn, setActive } = useSignIn();
+  const { signIn, fetchStatus } = useSignIn();
+  const { setActive } = useClerk();
+  const isLoaded = fetchStatus === "idle";
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [error, setError] = React.useState("");
@@ -23,16 +25,21 @@ export default function SignInPage() {
     setError("");
 
     try {
-      const result = await signIn.create({
+      const { error: clerkErr } = await signIn.create({
         identifier: emailAddress,
         password,
       });
 
-      if (result.status === "complete") {
-        await setActive({ session: result.createdSessionId });
+      if (clerkErr) {
+        setError(clerkErr.message);
+        return;
+      }
+
+      if (signIn.status === "complete") {
+        await setActive({ session: signIn.createdSessionId });
         router.push("/forum");
       } else {
-        console.log(result);
+        console.log(signIn);
       }
     } catch (err: any) {
       setError(err.errors?.[0]?.message || "Something went wrong. Please try again.");

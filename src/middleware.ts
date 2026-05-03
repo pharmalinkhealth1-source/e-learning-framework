@@ -5,9 +5,10 @@ const isProtectedRoute = createRouteMatcher(["/forum(.*)"]);
 
 export default clerkMiddleware(async (auth, req) => {
   const { userId, sessionClaims } = await auth();
+  const metadata = sessionClaims?.metadata as { onboarded?: boolean } | undefined;
 
   // If the user is logged in but hasn't completed onboarding, redirect them
-  if (userId && !sessionClaims?.metadata?.onboarded && req.nextUrl.pathname !== "/onboarding" && !req.nextUrl.pathname.startsWith("/api")) {
+  if (userId && !metadata?.onboarded && req.nextUrl.pathname !== "/onboarding" && !req.nextUrl.pathname.startsWith("/api")) {
     const onboardingUrl = new URL("/onboarding", req.url);
     return NextResponse.redirect(onboardingUrl);
   }

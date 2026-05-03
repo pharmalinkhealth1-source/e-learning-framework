@@ -1,14 +1,16 @@
 "use client";
 
 import * as React from "react";
-import { useSignUp } from "@clerk/nextjs";
+import { useSignUp, useClerk } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/stripe/AuthLayout";
 import { StripeButton, StripeInput } from "@/components/stripe/StripeUI";
 import Link from "next/link";
 
 export default function SignUpPage() {
-  const { isLoaded, signUp, setActive } = useSignUp();
+  const { signUp, fetchStatus } = useSignUp();
+  const { setActive } = useClerk();
+  const isLoaded = fetchStatus === "idle";
   const [emailAddress, setEmailAddress] = React.useState("");
   const [password, setPassword] = React.useState("");
   const [pendingVerification, setPendingVerification] = React.useState(false);
@@ -25,12 +27,17 @@ export default function SignUpPage() {
     setError("");
 
     try {
-      await signUp.create({
+      const { error: clerkErr } = await signUp.create({
         emailAddress,
         password,
       });
 
-      await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
+      if (clerkErr) {
+        setError(clerkErr.message);
+        return;
+      }
+
+      await signUp.verifications.sendEmailCode();
       setPendingVerification(true);
     } catch (err: any) {
       setError(err.errors?.[0]?.message || "Something went wrong. Please try again.");
@@ -47,12 +54,17 @@ export default function SignUpPage() {
     setError("");
 
     try {
-      const completeSignUp = await signUp.attemptEmailAddressVerification({
+      const { error: clerkErr } = await signUp.verifications.verifyEmailCode({
         code,
       });
 
-      if (completeSignUp.status === "complete") {
-        await setActive({ session: completeSignUp.createdSessionId });
+      if (clerkErr) {
+        setError(clerkErr.message);
+        return;
+      }
+
+      if (signUp.status === "complete") {
+        await setActive({ session: signUp.createdSessionId });
         router.push("/onboarding");
       }
     } catch (err: any) {
