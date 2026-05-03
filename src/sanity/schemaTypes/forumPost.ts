@@ -22,7 +22,8 @@ export const forumPost = defineType({
     defineField({
       name: 'author',
       title: 'Author',
-      type: 'string',
+      type: 'reference',
+      to: [{ type: 'author' }],
     }),
     defineField({
       name: 'content',
