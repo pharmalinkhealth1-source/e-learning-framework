@@ -32,7 +32,7 @@ export default async function ForumListingPage() {
 
       <div style={{ display: 'grid', gap: '16px' }}>
         {posts.length > 0 ? (
-          posts.map((post: any) => (
+          posts.map((post: any, index: number) => (
             <PostCard
               key={post.slug}
               title={post.title}
@@ -40,6 +40,7 @@ export default async function ForumListingPage() {
               author={post.authorName || 'System'}
               date={new Date(post.publishedAt).toLocaleDateString()}
               slug={post.slug}
+              index={index}
             />
           ))
         ) : (

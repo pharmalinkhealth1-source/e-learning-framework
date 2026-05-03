@@ -1,6 +1,4 @@
-import * as React from 'react';
-import Link from 'next/link';
-import styled from 'styled-components';
+import { motion } from 'framer-motion';
 
 interface PostCardProps {
   title: string;
@@ -8,9 +6,10 @@ interface PostCardProps {
   author: string;
   date: string;
   slug: string;
+  index: number;
 }
 
-const Card = styled(Link)`
+const Card = styled(motion(Link))`
   display: block;
   padding: 24px;
   background: white;
@@ -57,9 +56,14 @@ const AuthorBadge = styled.span`
   color: var(--hds-color-primary);
 `;
 
-export default function PostCard({ title, excerpt, author, date, slug }: PostCardProps) {
+export default function PostCard({ title, excerpt, author, date, slug, index }: PostCardProps) {
   return (
-    <Card href={`/forum/${slug}`}>
+    <Card 
+      href={`/forum/${slug}`}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: index * 0.05, duration: 0.4, ease: "easeOut" }}
+    >
       <Title>{title}</Title>
       <Excerpt>{excerpt}</Excerpt>
       <Meta>
