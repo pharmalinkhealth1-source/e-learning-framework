@@ -1,10 +1,39 @@
-import React from 'react';
+"use client";
+
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import styles from './Navbar.module.css';
+import Megamenu, { ProductsContent, SolutionsContent, DevelopersContent } from './Megamenu';
 
 const Navbar = () => {
+  const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [dropdownPos, setDropdownPos] = useState<number>(0);
+  const navRef = useRef<HTMLDivElement>(null);
+
+  const tabs = [
+    { id: 'products', label: 'Products', content: <ProductsContent /> },
+    { id: 'solutions', label: 'Solutions', content: <SolutionsContent /> },
+    { id: 'developers', label: 'Developers', content: <DevelopersContent /> },
+    { id: 'resources', label: 'Resources', content: null },
+    { id: 'pricing', label: 'Pricing', content: null },
+  ];
+
+  const handleMouseEnter = (id: string, e: React.MouseEvent) => {
+    const target = e.currentTarget as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const parentRect = navRef.current?.getBoundingClientRect();
+    if (parentRect) {
+      setDropdownPos(rect.left - parentRect.left + rect.width / 2);
+    }
+    setActiveTab(id);
+  };
+
+  const handleMouseLeave = () => {
+    setActiveTab(null);
+  };
+
   return (
-    <nav className={styles.navbar}>
+    <nav className={styles.navbar} onMouseLeave={handleMouseLeave} ref={navRef}>
       <div className={`container ${styles.container}`}>
         <div className={styles.left}>
           <Link href="/" className={styles.logo}>
@@ -13,14 +42,23 @@ const Navbar = () => {
             </svg>
           </Link>
           <div className={styles.links}>
-            <button className={styles.navItem}>Products</button>
-            <button className={styles.navItem}>Solutions</button>
-            <button className={styles.navItem}>Developers</button>
-            <button className={styles.navItem}>Resources</button>
-            <button className={styles.navItem}>Pricing</button>
+            {tabs.map((tab) => (
+              <button
+                key={tab.id}
+                className={styles.navItem}
+                onMouseEnter={(e) => handleMouseEnter(tab.id, e)}
+              >
+                {tab.label}
+              </button>
+            ))}
+            
+            <div className={styles.megamenuWrapper} style={{ left: dropdownPos }}>
+              <Megamenu activeTab={activeTab} tabs={tabs} />
+            </div>
           </div>
         </div>
         <div className={styles.right}>
+
           <Link href="/signin" className={styles.navItem}>Sign in</Link>
           <Link href="/contact" className={styles.contactBtn}>
             Contact sales

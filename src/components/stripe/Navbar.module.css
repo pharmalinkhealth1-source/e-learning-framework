@@ -41,6 +41,18 @@
   display: flex;
   align-items: center;
   gap: var(--hds-space-core-600);
+  position: relative;
+}
+
+.megamenuWrapper {
+  position: absolute;
+  top: 100%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.megamenuWrapper > * {
+  pointer-events: auto;
 }
 
 .navItem {
