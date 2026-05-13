@@ -220,6 +220,14 @@
   transform: translateX(3px);
 }
 
+.megamenuWrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 999;
+}
+
 @media (max-width: 940px) {
   .navigationMenuContent {
     display: none;
