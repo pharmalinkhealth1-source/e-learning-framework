@@ -1,0 +1,206 @@
+version: "1.0"
+prd: mega-menu
+generated: "2026-05-13"
+
+tasks:
+  - id: T01
+    title: "Nav data structure"
+    wave: 1
+    complexity: 1
+    priority: must
+    status: pending
+    model: sonnet
+    depends_on: []
+    files_affected:
+      - src/lib/nav-data.ts
+    description: >
+      Create src/lib/nav-data.ts defining the full navigation structure as a typed
+      TypeScript constant. Each top-level item has an id, label, href (optional),
+      and optional array of column groups. Each column group has a heading and array
+      of sub-links (label, href, descriptor). Each top-level item also has a featured
+      card definition (title, description, ctaLabel, ctaHref, and optional imageSrc).
+      Sub-links and featured card copy from PRD section 5 panel-content table.
+    acceptance_criteria:
+      - NAV_DATA exported as const array with exactly 5 items (about-us, community, data-insights, podcast, contact-us)
+      - All sub-links match approved copy from PRD section 5
+      - TypeScript types defined (NavItem, NavColumn, NavLink, FeaturedCard)
+      - Every route in PRD section 5 panel-content table is present in NAV_DATA
+      - No runtime imports — pure data file
+      - npx tsc --noEmit passes
+
+  - id: T02
+    title: "Navbar rewire"
+    wave: 2
+    complexity: 3
+    priority: must
+    status: pending
+    model: sonnet
+    depends_on: [T01]
+    files_affected:
+      - src/components/stripe/Navbar.tsx
+      - src/components/stripe/Navbar.module.css
+    description: >
+      Replace the flat 9-item link array in Navbar.tsx with the 5 top-level items
+      from NAV_DATA. Add hover state management (activeTab useState) and wire the
+      existing Megamenu component. Top-level items without sub-links (Contact Us
+      featured card only) still open the panel. Add 150ms debounce on mouseleave
+      to prevent accidental panel close. Do NOT touch layoutId in Megamenu.tsx —
+      that is T03's responsibility.
+    acceptance_criteria:
+      - Navbar renders exactly 5 top-level items matching NAV_DATA
+      - Hovering any item opens Megamenu panel
+      - Mouse leaving both trigger and panel after 150ms closes panel
+      - No useMemo or useCallback added (React Compiler active)
+      - Existing ThemeToggle, SearchModal trigger, RotatingAuthButton preserved
+      - npm run lint passes
+
+  - id: T04
+    title: "Megamenu CSS overhaul"
+    wave: 2
+    complexity: 5
+    priority: must
+    status: pending
+    model: opus
+    requires_review: true
+    depends_on: [T01]
+    files_affected:
+      - src/components/stripe/Megamenu.module.css
+      - src/styles/tokens.css
+    description: >
+      Fix all 6 undefined token references in Megamenu.module.css by mapping to
+      correct semantic HDS tokens (--hds-color-bg → --hds-color-surface-bg-quiet,
+      --hds-color-border → --hds-color-surface-border-quiet, --hds-color-primary →
+      --hds-color-button-primary-bg, --hds-shadow-lg → var with explicit fallback,
+      --hds-font-weight-med → 500, --hds-size-text-xs → 0.75rem).
+      Add --hds-shadow-sm/md/lg/xl token family to tokens.css with dark mode overrides.
+      Add all new layout classes: .section, .columnGrid, .columnHeader, .columnSeparator,
+      .navLink, .navLinkTitle, .navLinkDescriptor, .featuredCard, .featuredCardImage,
+      .featuredCardBody, .featuredCardCta. Implement Stripe-fidelity layout: panel
+      max-width 1264px matching nav container, CSS Grid for columns, backdrop-filter
+      in dark mode. src/styles/tokens.css is require_review — apply carefully.
+    acceptance_criteria:
+      - Zero undefined var() references in Megamenu.module.css (grep confirms)
+      - --hds-shadow-sm/md/lg/xl defined in tokens.css with dark mode overrides
+      - .section, .columnGrid, .columnHeader, .navLink, .navLinkTitle, .navLinkDescriptor, .featuredCard all defined
+      - Panel max-width 1264px, column grid uses CSS Grid with gap via HDS space tokens
+      - backdrop-filter: blur() present in [data-theme='dark'] .dropdownContainer rule
+      - npm run lint passes
+
+  - id: T03
+    title: "Panel content components"
+    wave: 3
+    complexity: 3
+    priority: must
+    status: pending
+    model: sonnet
+    depends_on: [T01, T04]
+    files_affected:
+      - src/components/stripe/Megamenu.tsx
+    description: >
+      Replace the placeholder ProductsContent/SolutionsContent/DevelopersContent
+      exports with PharmaLink panel components: AboutUsPanel, CommunityPanel,
+      DataInsightsPanel, PodcastPanel, ContactUsPanel. Each panel renders a
+      multi-column grid using CSS classes defined by T04 in Megamenu.module.css
+      (.columnGrid, .columnHeader, .navLink, .navLinkTitle, .navLinkDescriptor,
+      .featuredCard etc). Each sub-link renders as a Next.js Link with .navLink
+      class (title + descriptor). Each panel has a FeaturedCard in the rightmost
+      column. ContactUsPanel has no sub-link columns — featured card only. Consume
+      NAV_DATA from src/lib/nav-data.ts. Remove layoutId="dropdown-container" from
+      the motion.div in the Megamenu component (fixes unmount animation glitch).
+    acceptance_criteria:
+      - 5 panel components exported (AboutUsPanel, CommunityPanel, DataInsightsPanel, PodcastPanel, ContactUsPanel)
+      - All sub-links consume NAV_DATA (no hardcoded strings in JSX)
+      - FeaturedCard renders in all 5 panels
+      - No placeholder exports (ProductsContent/SolutionsContent/DevelopersContent) remain
+      - layoutId attribute removed from motion.div in Megamenu component
+      - No browser console warnings on panel open/close
+      - npx tsc --noEmit passes
+
+  - id: T05
+    title: "Podcast page"
+    wave: 1
+    complexity: 2
+    priority: must
+    status: pending
+    model: sonnet
+    depends_on: []
+    files_affected:
+      - src/app/podcast/page.tsx
+      - src/app/podcast/page.module.css
+    description: >
+      Create /podcast route. Page has a hero section (title "PharmaLink Podcast",
+      subtitle, Clinical Luxury styling matching other pages like /community).
+      Below hero: an embedded podcast player using Spotify's public embed iframe.
+      Use the Lex Fridman Podcast (public Spotify show) as the example embed:
+      https://open.spotify.com/embed/show/2MAi0BvDc6GTFvKFPXnkCL?utm_source=generator
+      Below player: a static episodes list (4 hardcoded episode cards with episode
+      number, title, guest name, duration, and a "Listen" link). Uses CSS Modules
+      with HDS tokens. Dark mode supported.
+    acceptance_criteria:
+      - /podcast route renders without error
+      - Hero section present with IBM Plex typography and HDS tokens
+      - Spotify embed iframe renders with correct src
+      - Exactly 4 static episode cards rendered with episode number, title, guest, duration
+      - Dark mode: all surfaces use HDS tokens (no hardcoded hex)
+      - npx tsc --noEmit passes
+
+  - id: T06
+    title: "Mobile responsive"
+    wave: 4
+    complexity: 5
+    priority: must
+    status: pending
+    model: opus
+    depends_on: [T02, T03]
+    files_affected:
+      - src/components/stripe/Navbar.tsx
+      - src/components/stripe/Navbar.module.css
+      - src/components/stripe/MobileMenu.tsx
+      - src/components/stripe/MobileMenu.module.css
+    description: >
+      At ≤940px, hide the desktop mega menu and show a hamburger icon button.
+      Clicking hamburger opens a full-screen mobile menu overlay (Framer Motion
+      fade + slide). Inside the overlay: 5 accordion items matching NAV_DATA
+      top-level items. Each accordion item expands to show sub-links as a flat
+      list with descriptors. ContactUs item links directly (no accordion). Overlay
+      has close button (X) and closes on backdrop click. Closing overlay returns
+      focus to hamburger button. Z-index must not conflict with SearchModal
+      (check Navbar.module.css for existing z-index values — assign overlay
+      a value below SearchModal's z-index). Dark mode supported via HDS tokens.
+      No useMemo/useCallback.
+    acceptance_criteria:
+      - Hamburger icon visible at ≤940px, hidden at >940px
+      - Desktop mega menu (.navigationMenuContent) hidden at ≤940px
+      - Tapping hamburger opens full-screen overlay with Framer Motion animation
+      - Each of 5 top-level items renders; tapping expands accordion to show all sub-links from NAV_DATA
+      - Closing overlay (X button or backdrop click) returns focus to hamburger button
+      - No z-index conflict with SearchModal overlay
+      - No useMemo/useCallback added
+      - npm run lint passes
+
+  - id: T07
+    title: "Accessibility"
+    wave: 5
+    complexity: 2
+    priority: should
+    status: pending
+    model: sonnet
+    depends_on: [T02, T03, T06]
+    files_affected:
+      - src/components/stripe/Navbar.tsx
+      - src/components/stripe/Megamenu.tsx
+    description: >
+      Add ARIA attributes to the mega menu: aria-expanded on top-level triggers
+      (reflects panel open/closed state), aria-haspopup="true" on dropdown triggers,
+      role="region" and aria-label on each panel content div. Confirm role="navigation"
+      on nav element. Keyboard: Tab moves between top-level items, Enter/Space opens
+      panel (add onKeyDown to trigger buttons), Escape closes panel and returns focus
+      to trigger. Add onKeyDown handlers. Focus trap (R12) is explicitly out of scope.
+    acceptance_criteria:
+      - aria-expanded on each trigger reflects open/closed state accurately
+      - aria-haspopup="true" on all 5 dropdown triggers
+      - Pressing Escape on an open panel closes it and returns focus to the trigger button
+      - Pressing Enter or Space on a trigger opens the panel (onKeyDown handler present)
+      - Tab key moves focus between top-level nav items without opening panels
+      - role="navigation" confirmed present on nav element
+      - npx tsc --noEmit passes
