@@ -368,7 +368,7 @@ const AboutPage = () => {
                 </p>
                 <div className={styles.teamGrid}>
                   {teamMembers.map((member, i) => (
-                    <div key={i} className={styles.teamCard} onClick={() => setSelectedMember(member)}>
+                    <div key={i} className={`${styles.teamCard}${i === 2 ? ` ${styles.rowBreak}` : ''}`} onClick={() => setSelectedMember(member)}>
                       <div className={styles.memberImage} style={{ background: "#F5F3FF" }}>
                         {member.image ? (
                           <Image 

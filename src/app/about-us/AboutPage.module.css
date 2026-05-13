@@ -333,6 +333,10 @@
   gap: 0;
 }
 
+.rowBreak {
+  grid-column-start: 1;
+}
+
 .teamCard {
   transition: opacity 0.2s ease;
   padding-right: 32px;

@@ -1,0 +1,132 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* ── Trigger ── */
+.trigger {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 12px 14px 12px 14px;
+  border: 1.5px solid var(--hds-color-core-neutral-100);
+  border-radius: 10px;
+  background: var(--hds-color-core-neutral-0);
+  font-family: inherit;
+  font-size: 15px;
+  color: var(--hds-color-core-neutral-1000);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* contact-page variant matches Contact.module.css input style */
+.triggerContact {
+  border: 1px solid var(--hds-color-core-neutral-100);
+  border-radius: 4px;
+  font-size: 16px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 3px rgba(50, 50, 93, 0.05), 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+
+.triggerOpen,
+.trigger:focus-visible {
+  outline: none;
+  border-color: var(--hds-color-core-primary-500);
+  box-shadow: 0 0 0 4px rgba(122, 61, 252, 0.1);
+  background: white;
+}
+
+.triggerContact.triggerOpen,
+.triggerContact:focus-visible {
+  border-color: var(--hds-color-core-primary-700);
+  box-shadow: 0 0 0 1px var(--hds-color-core-primary-700), 0 1px 3px rgba(50, 50, 93, 0.05), 0 1px 0 rgba(0, 0, 0, 0.02);
+}
+
+.triggerPlaceholder .triggerText {
+  color: var(--hds-color-core-neutral-300);
+}
+
+/* ── Trigger internals ── */
+.triggerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.triggerText {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.flag {
+  font-size: 18px;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.chevron {
+  flex-shrink: 0;
+  color: var(--hds-color-core-neutral-400);
+  transition: transform 0.2s ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Dropdown panel ── */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  background: var(--hds-color-core-neutral-0);
+  border: 1.5px solid var(--hds-color-core-neutral-100);
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  list-style: none;
+  margin: 0;
+  padding: 6px;
+  z-index: 200;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.wrapperContact .dropdown {
+  border-radius: 6px;
+}
+
+/* ── Options ── */
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--hds-color-core-neutral-900);
+  transition: background 0.1s ease;
+  user-select: none;
+}
+
+.option:hover {
+  background: var(--hds-color-core-neutral-15, #f5f7fa);
+}
+
+.optionSelected {
+  background: rgba(122, 61, 252, 0.08);
+  color: var(--hds-color-core-primary-700);
+  font-weight: 600;
+}
+
+.optionSelected:hover {
+  background: rgba(122, 61, 252, 0.12);
+}

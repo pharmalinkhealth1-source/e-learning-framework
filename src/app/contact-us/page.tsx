@@ -6,6 +6,7 @@ import Navbar from '@/components/stripe/Navbar';
 import Footer from '@/components/stripe/Footer';
 import styles from './Contact.module.css';
 import Link from 'next/link';
+import CountrySelect from '@/components/shared/CountrySelect';
 
 const HoverArrow = () => (
   <svg className={styles.HoverArrow} viewBox="0 0 10 10" aria-hidden="true">
@@ -126,6 +127,23 @@ export default function ContactPage() {
                 autoComplete="organization"
                 required
               />
+            </div>
+
+            <div className={styles.formRow}>
+              <div className={styles.formGroup}>
+                <label htmlFor="country" className={styles.label}>Country</label>
+                <CountrySelect id="country" name="country" variant="contact" required />
+              </div>
+              <div className={styles.formGroup}>
+                <label htmlFor="phone" className={styles.label}>Phone Number</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  className={styles.input}
+                  placeholder="+234 800 000 0000"
+                  autoComplete="tel"
+                />
+              </div>
             </div>
 
             <div className={styles.formGroup}>

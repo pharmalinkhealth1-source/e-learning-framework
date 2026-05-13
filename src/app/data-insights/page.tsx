@@ -608,7 +608,7 @@ const researchTeamMembers = [
     name: "Grace Ayo-Jatto, MPH",
     role: "Monitoring & Evaluation Manager, PSI Nigeria",
     location: "Nigeria",
-    image: "/images/data-and-research-team/grace-ayo.webp",
+    image: "/images/data-and-research-team/grace-ayo-jatto.webp",
     bio: "<strong>Grace (Oiza) Ayo‑Jatto</strong> is an accomplished <strong>Public Health Professional</strong> and <strong>Monitoring and Evaluation (M&E) Specialist</strong> with extensive experience in <strong>data analytics, visualization, and strategic information management</strong> within Nigeria's health sector.\n\nAs <strong>Monitoring and Evaluation Manager at Population Services International (PSI) Nigeria</strong>, she leads efforts to strengthen data systems and enhance the use of timely, high‑quality analytics for program improvement and decision‑making. Grace also contributes to the <strong>Data.FI Project</strong>, where she applies her expertise in public health data analytics and visualization to support evidence‑based programming and system performance monitoring.\n\nHer experience spans roles in <strong>epidemiology, research and surveys, health informatics, TPM (Third‑Party Monitoring),</strong> and <strong>program evaluation</strong>. A <strong>microbiologist by training</strong>, Grace holds a <strong>Master of Public Health (MPH) in Epidemiology</strong> from <strong>Ahmadu Bello University</strong> and a <strong>B.Sc. in Microbiology</strong> from the <strong>University of Ilorin</strong>.",
     linkedin: "https://www.linkedin.com/in/grace-ayo-jatto-31b246a2/",
     email: "info@pharmalinkhealth.com"
