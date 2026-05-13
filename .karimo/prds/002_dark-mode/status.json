@@ -1,0 +1,13 @@
+{
+  "status": "ready",
+  "prd": "dark-mode",
+  "generated": "2026-05-13",
+  "tasks_total": 4,
+  "tasks_complete": 3,
+  "tasks_pending": 1,
+  "complexity_total": 6,
+  "waves": 2,
+  "open_questions": [
+    "Hardcoded hex colours in component CSS Modules not fully audited — T04 addresses this"
+  ]
+}

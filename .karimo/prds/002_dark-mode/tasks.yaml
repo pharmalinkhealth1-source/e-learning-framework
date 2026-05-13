@@ -1,0 +1,84 @@
+version: "1.0"
+prd: dark-mode
+generated: "2026-05-13"
+
+tasks:
+  - id: T01
+    title: "Verify ThemeProvider and anti-flicker script"
+    wave: 1
+    complexity: 1
+    priority: critical
+    status: complete
+    model: sonnet
+    depends_on: []
+    files_affected:
+      - src/app/layout.tsx
+      - src/components/stripe/ThemeProvider.tsx
+    description: >
+      Confirm ThemeProvider wraps app in layout.tsx, inline anti-flicker script
+      reads localStorage before hydration, and system preference listener is active.
+    acceptance_criteria:
+      - ThemeProvider present in layout.tsx
+      - dangerouslySetInnerHTML script sets data-theme before React hydrates
+      - useEffect in ThemeProvider listens to prefers-color-scheme media query
+      - No FOUC on hard reload in both light and dark OS modes
+
+  - id: T02
+    title: "Verify dark token coverage in tokens.css"
+    wave: 1
+    complexity: 1
+    priority: critical
+    status: complete
+    model: sonnet
+    depends_on: []
+    files_affected:
+      - src/styles/tokens.css
+    description: >
+      Confirm :root[data-theme='dark'] block overrides all critical HDS tokens —
+      neutrals, text, surface, border, glass, control, hero, button, glow.
+    acceptance_criteria:
+      - :root[data-theme='dark'] block present in tokens.css
+      - All semantic colour tokens overridden (text-primary, surface-bg-quiet, border, etc.)
+      - Deep navy palette (#0a2540) used as primary background
+      - No light-mode colour leaks on dark pages
+
+  - id: T03
+    title: "Verify ThemeToggle in Navbar"
+    wave: 1
+    complexity: 1
+    priority: high
+    status: complete
+    model: sonnet
+    depends_on: []
+    files_affected:
+      - src/components/stripe/Navbar.tsx
+      - src/components/stripe/ThemeToggle.tsx
+    description: >
+      Confirm ThemeToggle renders in Navbar, cycles light/dark/system correctly,
+      and shows framer-motion animated sun/moon icon with Auto badge for system mode.
+    acceptance_criteria:
+      - ThemeToggle visible in Navbar on all screen sizes
+      - Click cycles light → dark → system → light
+      - Sun icon in light mode, moon in dark mode, Auto badge in system mode
+      - Icon transition animates via framer-motion
+
+  - id: T04
+    title: "Audit component CSS Modules for hardcoded colours"
+    wave: 2
+    complexity: 3
+    priority: should
+    status: pending
+    model: sonnet
+    depends_on: [T01, T02]
+    files_affected:
+      - src/components/stripe/*.module.css
+      - src/components/forum/*.module.css
+      - src/components/careers/*.module.css
+    description: >
+      Scan all CSS Module files for hardcoded hex/rgb colours not using --hds-* tokens.
+      Replace offenders with appropriate token references.
+    acceptance_criteria:
+      - No hardcoded background colours that conflict with dark mode
+      - No hardcoded text colours that remain white-on-white or black-on-black in dark mode
+      - All replaced values use existing --hds-* token references
+      - npm run lint passes after changes

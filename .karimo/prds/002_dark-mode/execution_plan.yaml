@@ -1,0 +1,20 @@
+version: "1.0"
+prd: dark-mode
+
+waves:
+  - wave: 1
+    tasks: [T01, T02, T03]
+    rationale: "Independent verification tasks — no dependencies, run in parallel"
+    verification: "Toggle dark mode in Navbar on localhost:3000, verify tokens apply"
+
+  - wave: 2
+    tasks: [T04]
+    rationale: "Audit depends on verified token system from wave 1"
+    verification: "Check Home, Forum, Careers, Community pages in dark mode for colour leaks"
+
+uat_checklist:
+  - ThemeToggle cycles correctly in Navbar
+  - Hard reload in dark mode shows no flash (anti-flicker works)
+  - OS dark mode preference detected automatically in system mode
+  - Home, Community, Directory, Careers pages render correctly in dark mode
+  - Preference persists across page navigation
