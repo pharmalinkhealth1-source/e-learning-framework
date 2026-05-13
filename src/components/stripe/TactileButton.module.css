@@ -1,0 +1,108 @@
+.tactileButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--hds-space-core-radius-md);
+  font-weight: 500;
+  transition: all 0.3s var(--hds-curve-ease-out-expo);
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  box-shadow: var(--hds-shadow-md);
+}
+
+.tactileButton:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.tactileButton:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Variants */
+.primary {
+  background-color: var(--hds-color-core-primary-600);
+  color: white;
+}
+
+.primary:hover {
+  background-color: var(--hds-color-core-primary-700);
+  transform: translateY(-1px);
+  box-shadow: var(--hds-shadow-lg);
+}
+
+.secondary {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--hds-color-core-primary-600);
+}
+
+.secondary:hover {
+  background: white;
+  border-color: rgba(79, 38, 131, 0.3);
+  transform: translateY(-1px);
+  box-shadow: var(--hds-shadow-lg);
+}
+
+.outline {
+  background: transparent;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  color: var(--hds-color-core-neutral-900);
+}
+
+.outline:hover {
+  border-color: var(--hds-color-core-neutral-900);
+  transform: translateY(-1px);
+  box-shadow: var(--hds-shadow-sm);
+}
+
+.accent {
+  background-color: var(--hds-color-core-secondary-600);
+  color: white;
+}
+
+.accent:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: var(--hds-shadow-lg);
+}
+
+/* Sizes */
+.sm {
+  padding: 8px 16px;
+  font-size: 14px;
+}
+
+.md {
+  padding: 12px 24px;
+  font-size: 16px;
+}
+
+.lg {
+  padding: 16px 32px;
+  font-size: 20px;
+}
+
+.icon {
+  margin-left: 8px;
+}
+
+.icon path:first-child {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.icon path:last-child {
+  transition: transform 0.3s ease;
+}
+
+.tactileButton:hover .icon path:first-child {
+  opacity: 1;
+}
+
+.tactileButton:hover .icon path:last-child {
+  transform: translateX(3px);
+}

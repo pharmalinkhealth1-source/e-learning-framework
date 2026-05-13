@@ -1,0 +1,581 @@
+.main {
+  background-color: var(--hds-color-surface-bg-quiet, #f6f9fc);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  --fontFamily: var(--hds-font-family);
+  font-family: var(--fontFamily);
+  font-weight: 300;
+  --accentColor: var(--hds-color-util-brand-500);
+  --knockoutColor: var(--hds-color-core-neutral-0);
+  --navColor: var(--hds-color-core-neutral-1000);
+  --titleColor: var(--hds-color-core-neutral-1000);
+  --textColor: var(--hds-color-text-secondary);
+  --cardBackground: var(--hds-color-core-neutral-0);
+  --cardBorderRadius: 4px;
+  --cardShadowSmall: 0 6px 12px -2px rgba(50, 50, 93, 0.25), 0 3px 7px -3px rgba(0, 0, 0, 0.3);
+  --cardShadowLarge: 0 30px 60px -12px rgba(50, 50, 93, 0.25), 0 18px 36px -18px rgba(0, 0, 0, 0.3);
+  --cardShadowXLarge: 0 50px 100px -20px #32325d40, 0 30px 60px -30px #0000004d;
+  --columnPaddingNormal: 16px;
+  --columnPaddingMedium: 32px;
+  --columnPaddingLarge: 64px;
+  --layoutWidth: 1080px;
+  --columnCountMax: 4;
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.gridLinesContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  margin-inline: auto;
+  pointer-events: none;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-inline: 1px solid var(--hds-color-surface-border-quiet, #e5edf5);
+}
+
+.gridLinesContainer::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -200px;
+  right: 0;
+  background: radial-gradient(circle at 200px 40px, var(--hds-color-core-neutral-0) 0%, var(--hds-color-core-neutral-0) 5%, rgba(255, 255, 255, 0) 350px);
+  pointer-events: none;
+}
+
+.line {
+  border-left: 1px dashed var(--hds-color-surface-border-quiet);
+  height: 100%;
+}
+
+.line:first-child {
+  border-left: none;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 400px;
+  background: radial-gradient(circle at 20% 30%, #635bff15 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, #9762ea15 0%, transparent 40%);
+  z-index: 0;
+}
+
+/* Layout */
+.RowLayout {
+  --sectionPaddingMin: 72;
+  --sectionPaddingNormalMax: 128;
+  --windowWidth: 100vw;
+  --sectionPaddingTop: calc(
+    var(--sectionPaddingMin) * 1px + (var(--sectionPaddingNormalMax) - var(--sectionPaddingMin)) * (var(--windowWidth) / 1440 - 0.5)
+  );
+  --rowLayoutGapNormal: 32px;
+  --rowLayoutGapMedium: var(--rowLayoutGapNormal);
+  --rowLayoutGapLarge: var(--rowLayoutGapNormal);
+  --rowLayoutGap: var(--rowLayoutGapLarge);
+  row-gap: var(--rowLayoutGap);
+  grid: auto / minmax(0, 1fr);
+  align-items: flex-start;
+  display: grid;
+  padding-top: var(--sectionPaddingTop);
+  padding-bottom: 120px;
+}
+@media (min-width: 600px) {
+  .RowLayout {
+    --rowLayoutGapMedium: 48px;
+    --rowLayoutGapLarge: var(--rowLayoutGapMedium);
+  }
+}
+@media (min-width: 900px) {
+  .RowLayout {
+    --rowLayoutGapLarge: 64px;
+  }
+}
+
+/* Segmented Control */
+.SegmentedControl {
+  --segmentedControlSpacing: 16px;
+  --segmentedControlBorderRadius: 16.5px;
+  margin: 120px 0 var(--segmentedControlSpacing);
+  padding-inline: var(--hds-space-layout-content-margin, 20px);
+  user-select: none;
+  display: flex;
+  position: relative;
+  z-index: 10;
+}
+
+.SegmentedControl__buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.SegmentedControlButton {
+  appearance: none;
+  height: 32px;
+  font-weight: 600;
+  font-size: 15px;
+  border-radius: var(--segmentedControlBorderRadius);
+  padding: 3px var(--segmentedControlSpacing) 6px;
+  cursor: pointer;
+  color: var(--navColor);
+  white-space: nowrap;
+  transition: opacity 0.15s;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  position: relative;
+}
+
+.SegmentedControlButton:hover:not(.SegmentedControlButton--active) {
+  opacity: 0.65;
+}
+
+.SegmentedControlButton--active {
+  background-color: var(--accentColor);
+  color: var(--knockoutColor);
+}
+
+/* Post Layouts */
+.BlogIndexPost {
+  grid-template-columns: repeat(var(--columnCountMax), 1fr);
+  width: 100%;
+  place-items: flex-start;
+  gap: 16px 0;
+  margin: 0 auto;
+  display: grid;
+  position: relative;
+  z-index: 10;
+}
+
+/* Variant: Normal */
+.BlogIndexPost--variantNormal {
+  grid-template-areas: "category" "title" "authorList" "date" "body" "readMore";
+}
+.BlogIndexPost--variantNormal.BlogIndexPost--hasFigure {
+  grid-template-areas: "category" "title" "authorList" "date" "image" "body" "readMore";
+}
+@media (min-width: 600px) {
+  .BlogIndexPost--variantNormal {
+    grid-template-areas: "category date" "title title" "authorList authorList" "body body" "readMore readMore";
+  }
+  .BlogIndexPost--variantNormal.BlogIndexPost--hasFigure {
+    grid-template-areas: "category date" "title title" "authorList authorList" "image image" "body body" "readMore readMore";
+  }
+}
+@media (min-width: 750px) {
+  .BlogIndexPost--variantNormal.BlogIndexPost--hasFigure {
+    grid-template-areas: "category date" "title title" "authorList authorList" "body image" "readMore image" ". image";
+  }
+}
+@media (min-width: 900px) {
+  .BlogIndexPost--variantNormal {
+    grid-template-areas: "category category category date" "title title title authorList" "body body body authorList" "readMore readMore readMore authorList";
+  }
+  .BlogIndexPost--variantNormal.BlogIndexPost--hasFigure {
+    grid-template-areas: "category category category date" "title title title authorList" "body body image image" "readMore readMore image image" ". . image image";
+  }
+}
+
+/* Variant: Featured */
+.BlogIndexPost--variantFeatured {
+  border-radius: var(--cardBorderRadius);
+  background: var(--cardBackground);
+  box-shadow: var(--cardShadowXLarge);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-areas: "category category" "title title" "authorList authorList" "body body" "readMore readMore";
+  row-gap: 24px;
+  padding: 32px 24px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.BlogIndexPost--variantFeatured.BlogIndexPost--hasFigure {
+  grid-template-areas: "category" "title" "authorList" "body" "readMore" "image";
+}
+@media (min-width: 600px) {
+  .BlogIndexPost--variantFeatured {
+    grid-template-areas: "category category" "title title" "authorList authorList" "body body" "readMore readMore";
+  }
+  .BlogIndexPost--variantFeatured.BlogIndexPost--hasFigure {
+    grid-template-areas: "category category" "title title" "authorList authorList" "body body" "readMore readMore" "image image";
+  }
+}
+@media (min-width: 750px) {
+  .BlogIndexPost--variantFeatured {
+    grid-template-areas: "category category" "title body" "authorList body" "authorList readMore";
+  }
+  .BlogIndexPost--variantFeatured.BlogIndexPost--hasFigure {
+    grid-template-areas: "category category" "title title" "authorList image" "body image" "readMore image" ". image";
+  }
+}
+@media (min-width: 900px) {
+  .BlogIndexPost--variantFeatured {
+    grid-template-areas: "category category category category" "title title body body" "authorList authorList body body" "authorList authorList readMore readMore";
+    padding: 32px 24px;
+  }
+  .BlogIndexPost--variantFeatured.BlogIndexPost--hasFigure {
+    grid-template-areas: "category category image image" "title title image image" "authorList authorList image image" "body body image image" "readMore readMore image image";
+  }
+}
+
+/* Post Elements */
+.BlogIndexPost__category {
+  grid-area: category;
+}
+.BlogIndexPost--variantFeatured .BlogIndexPost__category::before {
+  display: none;
+}
+.BlogIndexPost--variantFeatured .CopyTitle--variantDetail {
+  padding-left: var(--hds-space-layout-content-margin, 20px);
+}
+
+.BlogIndexPost__title {
+  grid-area: title;
+  --titlePaddingLeft: 0;
+  --titlePaddingRight: var(--columnPaddingLarge);
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 48px;
+  letter-spacing: -0.2px;
+  color: var(--titleColor);
+  margin-top: 16px;
+  margin-bottom: 16px;
+  padding-left: var(--titlePaddingLeft);
+}
+@media (min-width: 600px) {
+  .BlogIndexPost:not(.BlogIndexPost--variantFeatured) .BlogIndexPost__title {
+    --titlePaddingLeft: 16px;
+  }
+  .BlogIndexPost--variantFeatured .BlogIndexPost__title {
+    font-size: 38px;
+    line-height: 48px;
+    font-weight: 500;
+    letter-spacing: -1.2px;
+    margin: 0;
+  }
+}
+@media (max-width: 600px) {
+  .BlogIndexPost__title {
+    font-size: 28px;
+    line-height: 36px;
+  }
+}
+
+.BlogIndexPost__date {
+  grid-area: date;
+}
+.BlogIndexPost--variantFeatured .BlogIndexPost__date {
+  display: none;
+}
+
+.BlogIndexPost__authorList {
+  grid-area: authorList;
+  display: grid;
+  gap: 16px 0;
+}
+
+.BlogIndexPost__body {
+  grid-area: body;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  color: var(--textColor);
+  padding: 0 var(--columnPaddingLarge) 0 0;
+  margin: 0;
+}
+@media (min-width: 600px) {
+  .BlogIndexPost:not(.BlogIndexPost--variantFeatured) .BlogIndexPost__body {
+    padding-left: 16px;
+  }
+}
+@media (min-width: 600px) {
+  .BlogIndexPost__body {
+    font-size: 18px;
+    line-height: 28px;
+  }
+}
+
+.BlogIndexPost__readMoreLink {
+  grid-area: readMore;
+  font-size: 15px;
+  line-height: 24px;
+  font-weight: 600;
+  color: var(--accentColor);
+  display: flex;
+  align-items: center;
+  padding-left: 0;
+}
+@media (min-width: 600px) {
+  .BlogIndexPost:not(.BlogIndexPost--variantFeatured) .BlogIndexPost__readMoreLink {
+    padding-left: 16px;
+  }
+}
+
+.BlogIndexPost__figure {
+  grid-area: image;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--cardBorderRadius);
+}
+.BlogIndexPost--variantNormal .BlogIndexPost__figure {
+  margin: 8px 0;
+  box-shadow: var(--cardShadowSmall);
+  width: 100%;
+  height: auto;
+}
+@media (min-width: 750px) {
+  .BlogIndexPost--variantNormal .BlogIndexPost__figure {
+    box-shadow: var(--cardShadowLarge);
+    height: 100%;
+    margin: 0;
+    width: 100%;
+  }
+}
+@media (min-width: 750px) {
+  .BlogIndexPost--variantFeatured .BlogIndexPost__figure {
+    position: absolute;
+    top: 16px;
+    bottom: 16px;
+    right: 16px;
+    left: 50%;
+  }
+}
+@media (min-width: 900px) {
+  .BlogIndexPost--variantFeatured .BlogIndexPost__figure {
+    position: absolute;
+    top: -16px;
+    bottom: -16px;
+    right: -8px;
+    left: 0;
+  }
+}
+
+.BlogImageCard__image {
+  max-width: 100%;
+  height: auto;
+  vertical-align: top;
+}
+
+@media (min-width: 750px) {
+  .BlogImageCard__image {
+    width: 100%;
+    height: 100%;
+    object-position: var(--imageAnchor, center);
+    object-fit: cover;
+  }
+}
+
+/* Typography Details */
+.CopyTitle--variantDetail {
+  --titlePaddingLeft: 16px;
+  --titlePaddingRight: var(--columnPaddingMedium);
+  font-size: 15px;
+  line-height: 1.6;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  color: var(--accentColor);
+  position: relative;
+  padding: 0 var(--titlePaddingRight) 0 var(--titlePaddingLeft);
+  display: inline-block;
+  text-transform: uppercase;
+}
+.CopyTitle--variantDetail::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 2px;
+  height: 15px;
+  background-color: var(--accentColor);
+}
+
+.BlogPostDate {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--textColor);
+  position: relative;
+  padding: 0 var(--columnPaddingNormal) 0 0;
+  display: inline-block;
+}
+.BlogIndexPost:not(.BlogIndexPost--variantFeatured) .BlogPostDate {
+  padding-left: 16px;
+}
+.BlogPostDate::before {
+  content: "";
+  position: absolute;
+  top: 5px;
+  left: 0;
+  width: 2px;
+  height: 15px;
+  background-color: var(--accentColor);
+}
+
+/* Author block */
+.BlogAuthor {
+  display: flex;
+  align-items: center;
+  padding: 0 var(--columnPaddingNormal) 0 0;
+}
+.BlogIndexPost:not(.BlogIndexPost--variantFeatured) .BlogAuthor {
+  padding-left: 16px;
+}
+.BlogAuthor__avatar {
+  border-radius: 50%;
+  margin-right: 16px;
+  flex: none;
+  overflow: hidden;
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e6ecf2;
+}
+.BlogAuthor__avatarImage {
+  object-fit: cover;
+}
+.BlogAuthor__caption {
+  display: flex;
+  flex-direction: column;
+}
+.BlogAuthor__link {
+  font-weight: 600;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--titleColor);
+}
+.BlogAuthor__role {
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--textColor);
+}
+
+/* Hover Arrow */
+.HoverArrow {
+  margin-left: 5px;
+  stroke-width: 2px;
+  fill: none;
+  stroke: currentColor;
+  position: relative;
+  width: 14px;
+  height: 14px;
+}
+.HoverArrow__linePath {
+  opacity: 0;
+  transition: opacity 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.HoverArrow__tipPath {
+  transform: none;
+  transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+.BlogIndexPost__readMoreLink:hover .HoverArrow__linePath {
+  opacity: 1;
+}
+.BlogIndexPost__readMoreLink:hover .HoverArrow__tipPath {
+  transform: translateX(3px);
+}
+
+/* Subscribe Footer */
+.BlogFooterCta {
+  background-color: var(--hds-color-core-neutral-25);
+  padding: 80px 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  position: relative;
+  z-index: 1;
+}
+
+.BlogFooterCta__layout {
+  display: grid;
+  gap: 40px;
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.BlogFooterCta__title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--titleColor);
+  margin-bottom: 16px;
+}
+
+.BlogFooterCta__summary {
+  font-size: 18px;
+  color: var(--textColor);
+  margin-bottom: 24px;
+}
+
+.Form--inlineForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .Form--inlineForm {
+    flex-direction: row;
+    align-items: center;
+    background: var(--hds-color-core-neutral-100);
+    border-radius: 24px;
+    padding: 4px;
+  }
+}
+
+.TextInput__input {
+  background: var(--hds-color-core-neutral-100);
+  border-radius: 20px;
+  padding: 12px 16px;
+  font-size: 15px;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+@media (min-width: 600px) {
+  .TextInput__input {
+    background: transparent;
+    border-radius: 0;
+    flex: 1;
+  }
+}
+
+.TextInput__input:focus {
+  box-shadow: 0 0 0 2px #4d90fe;
+  background: var(--hds-color-core-neutral-0);
+  border-radius: 20px;
+}
+
+.FormSubmitButton {
+  background-color: var(--accentColor);
+  color: white;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: opacity 0.2s;
+}
+
+.FormSubmitButton:hover {
+  opacity: 0.8;
+}
+
+.PrivacyNotice {
+  font-size: 13px;
+  color: var(--textColor);
+  margin-top: 16px;
+}

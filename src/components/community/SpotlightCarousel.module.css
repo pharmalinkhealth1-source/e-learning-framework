@@ -1,0 +1,201 @@
+.section {
+  padding: 100px var(--hds-space-layout-content-margin, 20px);
+  background: var(--hds-color-surface-bg-base, #ffffff);
+  position: relative;
+  overflow: hidden;
+  --accentColor: var(--hds-color-core-primary-700);
+  --pinkAccent: var(--hds-color-core-secondary-500);
+  --titleColor: var(--hds-color-core-neutral-1000);
+  --textColor: var(--hds-color-text-secondary);
+}
+
+.container {
+  max-width: var(--hds-space-layout-content-maxWidth, 1264px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 64px;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .container {
+    grid-template-columns: 1.2fr 1fr;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+.eyebrow {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--accentColor);
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  color: var(--titleColor);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.description {
+  font-size: 18px;
+  color: var(--textColor);
+  line-height: 1.6;
+  margin-bottom: 40px;
+}
+
+.primaryBtn {
+  display: inline-block;
+  padding: 16px 32px;
+  background: var(--accentColor);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  width: fit-content;
+  transition: all 0.2s;
+}
+
+.primaryBtn:hover {
+  background: var(--hds-color-core-primary-900);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(108, 48, 192, 0.2);
+}
+
+/* Carousel */
+.carouselWrapper {
+  perspective: 1000px;
+  height: 480px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cardStack {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  background: var(--hds-color-surface-bg-base, #ffffff);
+  border: 1px solid var(--cardBorder, #e5edf5);
+  border-radius: 24px;
+  padding: 32px;
+  box-shadow: var(--hds-shadow-md, 0 20px 40px rgba(10, 37, 64, 0.08));
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  display: flex;
+  flex-direction: column;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.imageWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+  background: var(--hds-color-surface-bg-quiet, #f1f5f9);
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardName {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--titleColor);
+}
+
+.cardJob {
+  font-size: 14px;
+  color: var(--textColor);
+}
+
+.cardBody {
+  flex-grow: 1;
+}
+
+.quote {
+  font-size: 18px;
+  font-style: italic;
+  color: var(--titleColor);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.cardDesc {
+  font-size: 15px;
+  color: var(--textColor);
+  line-height: 1.6;
+}
+
+.cardFooter {
+  margin-top: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--pinkAccent);
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.navButtons {
+  display: flex;
+  gap: 12px;
+}
+
+.navBtn {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--cardBorder, #e5edf5);
+  background: var(--hds-color-surface-bg-base, #ffffff);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  color: var(--titleColor);
+  transition: all 0.2s;
+}
+
+.navBtn:hover {
+  background: var(--hds-color-core-neutral-15);
+  border-color: var(--accentColor);
+  color: var(--accentColor);
+}

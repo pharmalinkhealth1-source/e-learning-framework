@@ -1,0 +1,295 @@
+.partnersSection {
+  background-color: white;
+  overflow: hidden;
+  position: relative;
+  border-bottom: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.contentContainer {
+  z-index: 10;
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  padding: 128px var(--hds-space-layout-content-margin, 2rem);
+  margin-inline: auto;
+  position: relative;
+  border-inline: none;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--hds-space-core-200);
+}
+
+@media (min-width: 640px) {
+  .contentContainer {
+    border-inline: 1px solid var(--hds-color-core-neutral-40); /* Fallback for quiet border */
+    border-inline: 1px solid var(--hds-color-surface-border-quiet);
+  }
+}
+
+/* Hardened Tactical Button Style - Outline Secondary Pink */
+.tactileOverride {
+  background-color: transparent !important;
+  color: var(--hds-color-core-secondary-500, #E84AC7) !important;
+  border: 1px solid var(--hds-color-core-secondary-500, #E84AC7) !important;
+  white-space: nowrap !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  transition: all 0.2s ease !important;
+}
+
+.tactileOverride:hover {
+  background-color: var(--hds-color-core-secondary-50, #FFF4FD) !important;
+  border-color: var(--hds-color-core-secondary-600, #CC2DA8) !important;
+  color: var(--hds-color-core-secondary-600, #CC2DA8) !important;
+}
+
+.globeContainer {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: 700px; /* Pushed further right to clear content */
+  width: 100%;
+  max-width: 800px;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1; /* Move behind content */
+  transform: translateX(-50%);
+}
+
+@media (max-width: 1264px) {
+  .globeContainer {
+    left: auto;
+    right: 0;
+    margin-left: 0;
+    transform: translateX(50%);
+  }
+}
+
+.globeSticky {
+  position: sticky;
+  top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  mask-image: radial-gradient(circle at center, black 30%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 70%);
+}
+
+.header {
+  grid-column: 1 / -1;
+  max-width: 768px;
+  margin-bottom: 96px;
+}
+
+@media (min-width: 940px) {
+  .header {
+    grid-column: 1 / -1;
+  }
+}
+
+.eyebrow {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5em;
+  color: var(--hds-color-core-primary-600);
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--hds-color-core-neutral-900);
+  margin-bottom: 32px;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 60px;
+  }
+}
+
+.description {
+  font-family: var(--hds-font-family);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 38px;
+  color: rgb(36, 18, 74);
+  max-width: 65ch;
+  z-index: 2;
+  position: relative;
+  text-wrap: pretty;
+}
+
+.regionsGrid {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 80px 48px;
+  margin-bottom: 96px;
+}
+
+@media (min-width: 940px) {
+  .regionsGrid {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 640px) {
+  .regionsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .regionsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.region {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.regionName {
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: var(--hds-color-core-neutral-1000, var(--hds-color-core-neutral-1000));
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.regionName::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 32px;
+  background-color: var(--hds-color-core-primary-600, var(--hds-color-core-primary-900));
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.partnersGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.partnerLink {
+  aspect-ratio: 3 / 2;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  position: relative;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+  cursor: pointer;
+  box-shadow:
+    0 4px 12px rgba(0, 0, 0, 0.03),
+    0 1px 2px rgba(0, 0, 0, 0.02);
+}
+
+.partnerLink:hover {
+  border-color: rgba(79, 38, 131, 0.3);
+  box-shadow: var(--hds-shadow-md);
+}
+
+.partnerLogo {
+  object-fit: contain;
+  padding: 8px;
+  transition: all 0.5s ease;
+}
+
+.tooltip {
+  position: absolute;
+  bottom: -56px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  padding: 8px 16px;
+  background-color: white;
+  color: var(--hds-color-core-neutral-990);
+  font-size: 10px;
+  font-weight: 700;
+  border-radius: 999px;
+  white-space: nowrap;
+  box-shadow: var(--hds-shadow-xl);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltipArrow {
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background-color: white;
+  border-left: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.footer {
+  grid-column: 1 / -1;
+  padding-top: 80px;
+  border-top: 1px solid var(--hds-color-core-neutral-40);
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+}
+
+@media (min-width: 940px) {
+  .footer {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 768px) {
+  .footer {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.footerText {
+  max-width: 640px;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--hds-color-core-neutral-600);
+}
+
+.footerActions {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.learnMore {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--hds-color-core-primary-900, var(--hds-color-core-primary-900));
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.learnMore:hover span {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}

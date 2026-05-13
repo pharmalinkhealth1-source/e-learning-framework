@@ -1,57 +1,209 @@
 :root {
-  /* HDS Spacing Tokens */
-  --hds-space-core-100: 4px;
-  --hds-space-core-200: 8px;
-  --hds-space-core-300: 12px;
-  --hds-space-core-400: 16px;
-  --hds-space-core-500: 20px;
-  --hds-space-core-600: 24px;
-  --hds-space-core-700: 32px;
-  --hds-space-core-800: 48px;
-  --hds-space-core-900: 64px;
-  --hds-space-core-1000: 96px;
-  --hds-space-core-1100: 128px;
-  --hds-space-core-1200: 160px;
-
-  /* HDS Color Tokens - Light Mode */
-  --hds-color-bg: #ffffff;
-  --hds-color-fg: #0a2540;
-  --hds-color-primary: #635bff;
-  --hds-color-primary-hover: #7a73ff;
-  --hds-color-accent: #00d4ff;
-  --hds-color-border: rgba(0, 0, 0, 0.1);
-  --hds-color-glass-bg: rgba(255, 255, 255, 0.7);
-  --hds-color-nav-bg: rgba(255, 255, 255, 0.8);
-  
-  /* HDS Shadow Tokens */
-  --hds-shadow-sm: 0 1px 1px rgba(0,0,0,0.1);
-  --hds-shadow-md: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
-  --hds-shadow-lg: 0 10px 15px rgba(0,0,0,0.05), 0 4px 6px rgba(0,0,0,0.05);
+  /* HDS Spacing Tokens (Real Stripe Values) */
+  --hds-space-core-0: 0px;
+  --hds-space-core-25: 2px;
+  --hds-space-core-50: 4px;
+  --hds-space-core-100: 8px;
+  --hds-space-core-150: 12px;
+  --hds-space-core-200: 16px;
+  --hds-space-core-300: 24px;
+  --hds-space-core-400: 32px;
+  --hds-space-core-450: 36px;
+  --hds-space-core-500: 40px;
+  --hds-space-core-600: 48px;
+  --hds-space-core-700: 56px;
+  --hds-space-core-800: 64px;
+  --hds-space-core-900: 72px;
+  --hds-space-core-1000: 80px;
+  --hds-space-core-1100: 88px;
+  --hds-space-core-1200: 96px;
+  --hds-space-core-1400: 112px;
+  --hds-space-core-1500: 120px;
+  --hds-space-core-1600: 128px;
+  --hds-space-core-2100: 168px;
 
   /* HDS Typography Tokens */
-  --hds-font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --hds-font-weight-reg: 400;
-  --hds-font-weight-med: 500;
-  --hds-font-weight-bold: 600;
-  
-  --hds-size-text-xs: 0.75rem;
-  --hds-size-text-sm: 0.875rem;
-  --hds-size-text-md: 1rem;
-  --hds-size-text-lg: 1.125rem;
-  --hds-size-text-xl: 1.25rem;
-  --hds-size-text-xxl: 1.5rem;
-  
-  --hds-size-heading-sm: 1.25rem;
-  --hds-size-heading-md: 1.5rem;
-  --hds-size-heading-lg: 2rem;
-  --hds-size-heading-xl: 3rem;
-  --hds-size-heading-xxl: 4rem;
+  --hds-font-family-code: var(--font-ibm-plex-mono), "SourceCodePro", "SFMono-Regular", monospace;
+  --hds-font-weight-normal: 300;
+  --hds-font-weight-bold: 400;
+  --hds-font-text-xs-size: 0.875rem;
+
+  /* HDS Color Tokens - Global Utilities */
+  --hds-color-util-brand-500: #635bff;
+  --hds-color-util-brand-600: #5433ff;
+  --hds-color-util-brand-975: #0a2540;
+
+  /* HDS Layout */
+  --hds-space-layout-gap: var(--hds-space-core-400);
+  --hds-space-layout-page-margin: var(--hds-space-core-400);
+  --hds-space-layout-content-margin: var(--hds-space-core-200);
+  --hds-space-layout-content-maxWidth: 1264px;
+
+  /* HDS Radius */
+  --hds-space-core-radius-sm: 2px;
+  --hds-space-core-radius-md: 4px;
+  --hds-space-core-radius-lg: 8px;
+
+  /* HDS Neutral Scale (Stripe Production Values) */
+  --hds-color-core-neutral-0: #ffffff;
+  --hds-color-core-neutral-25: #f8fafd;
+  --hds-color-core-neutral-50: #e5edf5;
+  --hds-color-core-neutral-100: #e6ebf1;
+  --hds-color-core-neutral-200: #c1cedb;
+  --hds-color-core-neutral-300: #95a4ba;
+  --hds-color-core-neutral-400: #8898aa;
+  --hds-color-core-neutral-500: #64748d;
+  --hds-color-core-neutral-600: #4f566b;
+  --hds-color-core-neutral-700: #3c4257;
+  --hds-color-core-neutral-800: #2a2f45;
+  --hds-color-core-neutral-900: #1a2c44;
+  --hds-color-core-neutral-990: #061b31;
+  --hds-color-core-neutral-1000: #0a2540;
+
+  /* HDS Brand Scale */
+  --hds-color-core-brand-200: #b9b9f9;
+  --hds-color-core-brand-600: #533afd;
+  --hds-color-core-brand-700: #4032c8;
+  --hds-color-core-brand-800: #2e2b8c;
+
+  /* HDS Primary Purple Scale */
+  --hds-color-core-primary-50: #F9F6FE;
+  --hds-color-core-primary-100: #F1EAFD;
+  --hds-color-core-primary-200: #E5D8FC;
+  --hds-color-core-primary-300: #D1BAF8;
+  --hds-color-core-primary-400: #B48EF2;
+  --hds-color-core-primary-500: #9762EA;
+  --hds-color-core-primary-600: #8042DB;
+  --hds-color-core-primary-700: #6C30C0;
+  --hds-color-core-primary-800: #5C2C9D;
+  --hds-color-core-primary-900: #4F2683;
+  --hds-color-core-primary-950: #310F5C;
+
+  /* HDS Secondary Pink Scale */
+  --hds-color-core-secondary-50: #FFF4FD;
+  --hds-color-core-secondary-100: #FEE9FB;
+  --hds-color-core-secondary-200: #FCD2F6;
+  --hds-color-core-secondary-300: #F9AEEB;
+  --hds-color-core-secondary-400: #F47EDC;
+  --hds-color-core-secondary-500: #E84AC7;
+  --hds-color-core-secondary-600: #CC2DA8;
+  --hds-color-core-secondary-700: #A92287;
+  --hds-color-core-secondary-800: #8A1E6E;
+  --hds-color-core-secondary-900: #711E59;
+  --hds-color-core-secondary-950: #4B0738;
+
+  /* Semantic Mappings from Snippet */
+  --hds-color-heading-solid: var(--hds-color-core-neutral-990);
+  --hds-color-surface-bg-quiet: var(--hds-color-core-neutral-0);
+  --hds-color-surface-bg-subdued: var(--hds-color-core-neutral-25);
+  --hds-color-surface-border-quiet: var(--hds-color-core-neutral-50);
+
+  /* Button Tokens */
+  --hds-color-button-primary-bg: #6c30c0;
+  --hds-color-button-primary-bgHover: #4f2683;
+  --hds-color-button-primary-bgDisabled: var(--hds-color-core-neutral-50);
+  --hds-color-button-primary-text: var(--hds-color-core-neutral-0);
+  --hds-color-button-primary-textDisabled: var(--hds-color-core-neutral-300);
+
+  --hds-color-button-secondary-bg: transparent;
+  --hds-color-button-secondary-bgHover: transparent;
+  --hds-color-button-secondary-text: var(--hds-color-core-brand-600);
+  --hds-color-button-secondary-textHover: var(--hds-color-core-brand-800);
+  --hds-color-button-secondary-borderOnSubdued: var(--hds-color-core-brand-200);
+  --hds-color-button-secondary-borderHover: var(--hds-color-core-brand-700);
+
+  /* Global/Common */
+  --hds-color-global-transparent: rgba(255, 255, 255, 0);
+
+  /* HDS Teal Scale */
+  --hds-color-core-teal-50: #F0FDFA;
+  --hds-color-core-teal-100: #CCFBF1;
+  --hds-color-core-teal-200: #99F6E4;
+  --hds-color-core-teal-300: #5EEAD4;
+  --hds-color-core-teal-400: #2DD4BF;
+  --hds-color-core-teal-500: #14B8A6;
+  --hds-color-core-teal-600: #0D9488;
+  --hds-color-core-teal-700: #0F766E;
+  --hds-color-core-teal-800: #115E59;
+  --hds-color-core-teal-900: #134E4A;
+  --hds-color-core-teal-950: #042F2E;
+
+  /* HDS Typography (Global) */
+  --hds-font-family: var(--font-ibm-plex-sans), "SF Pro Display", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Extended Neutral Scale */
+  --hds-color-core-neutral-15: #f6f9fc;
+  --hds-color-core-neutral-40: #f1f5f9;
+  --hds-color-core-neutral-45: #e2e8f0;
+  --hds-color-core-neutral-850: #1a1f36;
+
+  /* Extended Primary Scale */
+  --hds-color-core-primary-250: #b8a9d1;
+
+  /* Extended Secondary Scale */
+  --hds-color-core-secondary-150: #f2c2e0;
+
+  /* Default Semantic Tokens (Light) */
+  --hds-color-nav-bg: var(--hds-color-surface-bg-quiet);
+  --hds-color-fg: var(--hds-color-text-primary);
+  --hds-color-text-primary: #0a2540;
+  --hds-color-text-secondary: #425466;
+  --hds-color-text-main: #25084a;
+  --hds-color-text-subdued: var(--hds-color-core-neutral-600);
+  --hds-color-border: var(--hds-color-core-neutral-100);
+  --hds-color-glass-bg: rgba(255, 255, 255, 0.7);
+  --hds-color-control-bg: rgba(0, 0, 0, 0.03);
+  --hds-color-control-border: rgba(0, 0, 0, 0.05);
+  --hds-color-surface-active: #ffffff;
+  --hds-color-hero-title-main: #145765;
+  --hds-color-hero-title-highlight: #09A5B6;
+  --hds-color-hero-title-gradient: linear-gradient(to right, #25084a, #4f2683, #cf1259);
+  --hds-color-hero-description: rgb(36, 18, 74);
+  --hds-color-surface-bg-fade: #ffffff;
+  --hds-color-logo-glow: radial-gradient(circle at center, #fff 50%, rgba(255, 255, 255, 0.9) 75%, transparent 100%);
+  --hds-color-hero-glow-1: rgba(99, 91, 255, 0.08);
+  --hds-color-hero-glow-2: rgba(151, 98, 234, 0.08);
 }
 
-[data-theme='dark'] {
-  --hds-color-bg: #0a2540;
-  --hds-color-fg: #ffffff;
+:root[data-theme='dark'] {
+  /* HDS Neutral Overrides */
+  --hds-color-core-neutral-0: #061b31;
+  --hds-color-core-neutral-25: #0a2540;
+  --hds-color-core-neutral-50: #1a2c44;
+  --hds-color-core-neutral-100: #2a2f45;
+  
+  /* Semantic Mappings Overrides */
+  --hds-color-heading-solid: #ffffff;
+  --hds-color-text-primary: #ffffff;
+  --hds-color-text-secondary: var(--hds-color-core-neutral-300);
+  --hds-color-text-main: #f8fafd;
+  --hds-color-text-subdued: var(--hds-color-core-neutral-300);
+  --hds-color-surface-bg-quiet: #061b31;
+  --hds-color-surface-bg-subdued: #0a2540;
+  --hds-color-surface-border-quiet: var(--hds-color-core-neutral-100);
   --hds-color-border: rgba(255, 255, 255, 0.1);
   --hds-color-glass-bg: rgba(10, 37, 64, 0.7);
-  --hds-color-nav-bg: rgba(10, 37, 64, 0.8);
+  --hds-color-control-bg: rgba(255, 255, 255, 0.05);
+  --hds-color-control-border: rgba(255, 255, 255, 0.1);
+  --hds-color-surface-active: var(--hds-color-core-neutral-100);
+  --hds-color-hero-title-main: #38bdf8;
+  --hds-color-hero-title-highlight: #2dd4bf;
+  --hds-color-hero-title-gradient: linear-gradient(to right, #b9b9f9, #d1baf8, #fcd2f6);
+  --hds-color-hero-description: var(--hds-color-core-neutral-300);
+  --hds-color-surface-bg-fade: #061b31;
+  --hds-color-logo-glow: radial-gradient(circle at center, #061b31 50%, rgba(6, 27, 49, 0.9) 75%, transparent 100%);
+  --hds-color-hero-glow-1: rgba(99, 91, 255, 0.15);
+  --hds-color-hero-glow-2: rgba(151, 98, 234, 0.15);
+
+  /* Extended Neutral Overrides */
+  --hds-color-core-neutral-15: #0a2540;
+  --hds-color-core-neutral-40: #0d1b2e;
+  --hds-color-core-neutral-45: #1a2c44;
+  --hds-color-core-neutral-850: #0a2540;
+
+  /* Button Overrides */
+  --hds-color-button-primary-text: #ffffff;
+  --hds-color-button-secondary-text: var(--hds-color-core-brand-200);
+  --hds-color-button-secondary-textHover: #ffffff;
 }
+

@@ -16,7 +16,7 @@
 
 .primary {
   background: var(--hds-color-primary);
-  color: #ffffff;
+  color: var(--hds-color-core-neutral-0);
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
@@ -48,7 +48,7 @@
   padding: var(--hds-space-core-200) var(--hds-space-core-300);
   border-radius: var(--hds-space-core-200);
   border: 1px solid var(--hds-color-border);
-  background: #ffffff;
+  background: var(--hds-color-core-neutral-0);
   font-family: var(--hds-font-sans);
   font-size: var(--hds-size-text-sm);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -72,10 +72,30 @@
   height: 16px;
   border: 2px solid rgba(255, 255, 255, 0.3);
   border-radius: 50%;
-  border-top-color: #fff;
+  border-top-color: var(--hds-color-core-neutral-0);
   animation: spin 0.8s linear infinite;
 }
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.selectContainer {
+  position: relative;
+  width: 100%;
+}
+
+.select {
+  appearance: none;
+  padding-right: 40px !important;
+}
+
+.selectIcon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: var(--hds-color-fg);
+  opacity: 0.5;
 }

@@ -1,0 +1,131 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modal {
+  background: var(--hds-color-core-neutral-0);
+  width: 100%;
+  max-width: 540px;
+  border-radius: 16px;
+  padding: 40px;
+  position: relative;
+  box-shadow: 0 50px 100px -20px rgba(50, 50, 93, 0.25), 0 30px 60px -30px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--hds-color-border);
+}
+
+.closeButton {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: var(--hds-color-text-subdued);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.closeButton:hover {
+  background: var(--hds-color-surface-bg-subdued);
+}
+
+.header {
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--hds-color-heading-solid);
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 15px;
+  color: var(--hds-color-text-subdued);
+  line-height: 1.5;
+}
+
+.form {
+  display: grid;
+  gap: 20px;
+}
+
+.formGroup {
+  display: grid;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hds-color-heading-solid);
+}
+
+.input, .textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--hds-color-border);
+  background: var(--hds-color-surface-bg-subdued);
+  font-size: 15px;
+  transition: all 0.2s;
+}
+
+.input:focus, .textarea:focus {
+  outline: none;
+  border-color: var(--hds-color-util-brand-500);
+  background: var(--hds-color-core-neutral-0);
+  box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.1);
+}
+
+.submitButton {
+  width: 100%;
+  background: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-neutral-0);
+  font-weight: 600;
+  font-size: 16px;
+  padding: 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+  margin-top: 12px;
+}
+
+.submitButton:hover {
+  background: #5449e5;
+  transform: translateY(-1px);
+}
+
+.submitButton:active {
+  transform: translateY(0);
+}
+
+.successView {
+  text-align: center;
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.successIcon {
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(99, 91, 255, 0.1);
+  padding: 20px;
+  border-radius: 50%;
+}
