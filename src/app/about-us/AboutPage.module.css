@@ -73,7 +73,7 @@
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   margin-bottom: 32px;
   margin-top: 24px;
 }
@@ -160,7 +160,7 @@
   bottom: auto;
   height: 80px;
   width: 2px;
-  background: var(--hds-color-util-brand-500);
+  background: var(--hds-color-core-primary-700);
   border-radius: 2px;
   z-index: 1;
 }
@@ -174,7 +174,7 @@
   display: block;
   font-size: 1.75rem;
   font-weight: 700;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   margin-bottom: 12px;
   line-height: 1.2;
 }
@@ -197,6 +197,18 @@
 
 .leadershipSection {
   background-color: var(--hds-color-core-neutral-0);
+}
+
+.leadershipSectionBorders {
+  position: absolute;
+  inset: 0;
+  max-width: calc(var(--hds-space-layout-content-maxWidth) + 2px);
+  margin: 0 auto;
+  border-inline: 1px solid var(--hds-color-surface-border-quiet);
+  display: flex;
+  justify-content: space-evenly;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .ctaBackgroundWrapper {
@@ -232,6 +244,8 @@
   color: var(--hds-color-core-neutral-800);
   margin-bottom: 48px !important;
   max-width: 600px;
+  border-left: 2px solid var(--hds-color-core-primary-700);
+  padding-left: 16px;
 }
 
 /* Comparison / Transformation Grid */
@@ -301,13 +315,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   position: relative;
   overflow: hidden;
 }
 
 .memberInfo {
-  border-left: 2px solid var(--hds-color-util-brand-500);
+  border-left: 2px solid var(--hds-color-core-primary-700);
   padding-left: 16px;
 }
 
@@ -334,7 +348,7 @@
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   text-transform: uppercase;
   letter-spacing: 0.025em;
 }
@@ -427,7 +441,7 @@
 
 .modalTagline {
   font-size: 1.125rem;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   font-weight: 500;
   line-height: 1.5;
   margin-bottom: 32px;
@@ -457,12 +471,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   transition: all 0.2s;
 }
 
 .socialLink:hover {
-  background: var(--hds-color-util-brand-500);
+  background: var(--hds-color-core-primary-700);
   color: white;
   transform: translateY(-2px);
 }
@@ -531,12 +545,12 @@
 }
 
 .customSelectTrigger:hover {
-  border-color: var(--hds-color-util-brand-500);
+  border-color: var(--hds-color-core-primary-700);
 }
 
 .customSelectTrigger.isOpen {
-  border-color: var(--hds-color-util-brand-500);
-  box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.1);
+  border-color: var(--hds-color-core-primary-700);
+  box-shadow: 0 0 0 4px rgba(108, 48, 192, 0.1);
 }
 
 .customSelectDropdown {
@@ -564,12 +578,12 @@
 
 .customSelectOption:hover {
   background: var(--hds-color-core-neutral-25);
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
 }
 
 .customSelectOption.isSelected {
   background: var(--hds-color-core-neutral-25);
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   font-weight: 600;
 }
 
@@ -577,8 +591,8 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: var(--hds-color-util-brand-500);
-  box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.1);
+  border-color: var(--hds-color-core-primary-700);
+  box-shadow: 0 0 0 4px rgba(108, 48, 192, 0.1);
 }
 
 .consentGroup {
@@ -595,7 +609,7 @@
 }
 
 .modalSubmit {
-  background: var(--hds-color-util-brand-500);
+  background: var(--hds-color-core-primary-700);
   color: white;
   padding: 14px;
   border-radius: 8px;
@@ -607,7 +621,7 @@
 }
 
 .modalSubmit:hover {
-  background: var(--hds-color-core-neutral-700);
+  background: var(--hds-color-core-primary-800);
   transform: translateY(-1px);
 }
 
@@ -630,7 +644,7 @@
 }
 
 .ctaCard {
-  background: var(--hds-color-util-brand-500);
+  background: var(--hds-color-core-primary-700);
   padding: 80px;
   border-radius: 16px;
   color: white;
@@ -656,7 +670,7 @@
 
 .primaryButton {
   background: white;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   padding: 14px 28px;
   border-radius: 8px;
   font-weight: 600;
