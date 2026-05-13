@@ -1,0 +1,408 @@
+version: "1.0"
+prd: elearning-framework
+generated: "2026-05-13"
+
+tasks:
+  - id: T00
+    title: "Dependency bootstrap"
+    wave: 1
+    complexity: 1
+    priority: critical
+    status: pending
+    model: sonnet
+    require_review: false
+    depends_on: []
+    files_affected:
+      - package.json
+      - package-lock.json
+    description: >
+      Install all new npm dependencies required by this PRD in a single atomic step
+      to prevent package.json race conditions during parallel Wave 2 execution.
+      Run: npm install scorm-again @vercel/blob jszip @react-pdf/renderer
+      Verify each package installs without peer dependency conflicts.
+      Do NOT install ltijs (incompatible with App Router — reserved for PRD-B).
+    acceptance_criteria:
+      - scorm-again present in package.json dependencies
+      - "@vercel/blob" present in package.json dependencies
+      - jszip present in package.json dependencies
+      - "@react-pdf/renderer" present in package.json dependencies
+      - npm install exits 0 with no unresolved peer warnings
+      - npx tsc --noEmit passes after install
+
+  - id: T01
+    title: "Sanity schemas + typegen"
+    wave: 1
+    complexity: 3
+    priority: critical
+    status: pending
+    model: sonnet
+    require_review: true
+    depends_on: []
+    files_affected:
+      - src/sanity/schemaTypes/course.ts
+      - src/sanity/schemaTypes/courseModule.ts
+      - src/sanity/schemaTypes/lesson.ts
+      - src/sanity/schemaTypes/lessonProgress.ts
+      - src/sanity/schemaTypes/surveyResponse.ts
+      - src/sanity/schemaTypes/certificate.ts
+      - src/sanity/schemaTypes/index.ts
+      - src/sanity/schemaTypes/quiz.ts
+      - src/sanity/lib/lms-fallbacks.ts
+      - src/types/lms.ts
+    description: >
+      Create six new Sanity v5 schemas using defineField/defineType (named exports):
+      course (title, slug, description, modules[], passingScore: number, country: string[]),
+      courseModule (title, slug, lessons[]),
+      lesson (title, slug, type enum [text|scorm|quiz], content portable text, scormPackage file,
+        scormEntryUrl string — hidden by type, questions[], quizRole enum [pre-test|post-test|self-assessment]),
+      lessonProgress (_id: lp_userId_lessonId, userId, lessonId, lessonShortId string (8-char),
+        courseId, completed boolean, preTestScore number, postTestScore number,
+        scormData object, timeSpent number, completedAt datetime,
+        gender string, ageGroup string, healthWorkerType string, country string),
+      surveyResponse (_id: sr_userId_courseId, userId, courseId, csatScore number 1-5,
+        npsScore number 0-10, completedAt datetime,
+        gender string, ageGroup string, healthWorkerType string, country string),
+      certificate (_id: cert_userId_courseId, userId, courseId, tier enum [participation|accomplishment],
+        score number, issuedAt datetime, blobUrl string).
+      Register all six in schemaTypes/index.ts.
+      Create src/sanity/schemaTypes/quiz.ts with question object type:
+        { questionText string, options string[], correctIndex number }.
+        Import and use in lesson.ts questions[] field and quizRole enum [pre-test|post-test|self-assessment].
+      Create src/types/lms.ts with shared TypeScript interfaces: LmsRole ('learner'|'program_manager'|'partner_donor'|'system_admin'),
+        CertificateTier ('participation'|'accomplishment'), DashboardFilters ({ country?, gender?, ageGroup?, learnerType? }),
+        QuizSubmission ({ courseId, lessonId, answers, quizRole }), DashboardMetrics (all 8 metric fields typed).
+      Create src/sanity/lib/lms-fallbacks.ts with mock data entries for course, lesson, lessonProgress
+        (for local dev without Sanity connection). Do NOT modify src/sanity/lib/client.ts.
+      Note: gender/ageGroup/healthWorkerType/country are denormalized from Clerk metadata at write time
+        for dashboard GROQ filtering.
+      Run `npx sanity typegen generate` after all schema additions and commit the generated sanity.types.ts.
+    acceptance_criteria:
+      - All six schemas defined with correct field types and validation
+      - All six registered in schemaTypes/index.ts
+      - lessonProgress schema includes preTestScore, postTestScore, lessonShortId, gender, ageGroup, healthWorkerType, country fields
+      - src/types/lms.ts created with LmsRole, CertificateTier, DashboardFilters, QuizSubmission, DashboardMetrics types
+      - src/sanity/lib/lms-fallbacks.ts created (no changes to src/sanity/lib/client.ts)
+      - npx sanity typegen generate runs without errors
+      - sanity.types.ts committed to repo
+      - npx tsc --noEmit passes after schema addition
+
+  - id: T02
+    title: "Clerk roles + registration flow"
+    wave: 1
+    complexity: 4
+    priority: critical
+    status: pending
+    model: sonnet
+    require_review: true
+    depends_on: []
+    files_affected:
+      - src/middleware.ts
+      - src/app/api/lms/register/route.ts
+    description: >
+      Extend src/middleware.ts: add /elearning/courses(.*) and /elearning/dashboard(.*)
+      to isProtectedRoute matcher. Extend sessionClaims metadata TypeScript type to include
+      role, country, completedLessons, lms_registered fields.
+      Create POST /api/lms/register route handler following the auth() -> clerkClient()
+      .users.updateUserMetadata pattern from onboarding route.
+      Handler accepts: firstName, lastName, dob (YYYY-MM-DD, validates >= 18),
+      gender, province, healthWorkerType (enum), pharmacy, email, phoneNumber, country, language.
+      Auto-generates username from phoneNumber (country code + number, no + or leading 0s).
+      Sets publicMetadata: { role: 'learner', country, lms_registered: true, completedLessons: [] }.
+      Returns 400 with field-level errors for validation failures.
+      Note: src/middleware.ts is require_review — must not break existing /forum(.*) protection
+      or onboarding redirect logic.
+    acceptance_criteria:
+      - /elearning/courses/* and /elearning/dashboard/* redirect unauthenticated users to Clerk sign-in
+      - POST /api/lms/register validates DOB >= 18, email format, required fields
+      - publicMetadata.role set correctly on registration
+      - Existing /forum protection and onboarding redirect unchanged
+      - npx tsc --noEmit passes
+
+  - id: T03
+    title: "Course journey + PlayerShell"
+    wave: 2a
+    complexity: 5
+    priority: critical
+    status: pending
+    model: sonnet
+    require_review: true
+    depends_on: [T00, T01, T02]
+    files_affected:
+      - src/app/elearning/page.tsx
+      - src/app/elearning/page.module.css
+      - src/app/elearning/courses/[slug]/page.tsx
+      - src/app/elearning/courses/[slug]/page.module.css
+      - src/app/elearning/courses/[slug]/layout.tsx
+      - src/app/elearning/courses/[slug]/layout.module.css
+      - src/app/elearning/courses/[slug]/[moduleSlug]/page.tsx
+      - src/app/elearning/courses/[slug]/[moduleSlug]/page.module.css
+      - src/components/lms/PlayerShell.tsx
+      - src/components/lms/PlayerShell.module.css
+      - src/app/api/lms/progress/route.ts
+    description: >
+      Replace the marketing stub at src/app/elearning/page.tsx with a Server Component
+      course catalogue. GROQ query: *[_type == "course" && $userCountry in country || "global" in country].
+      Preserve Navbar/Footer/FooterCTA wrappers and HDS token patterns from existing page.module.css.
+      Build course overview page at courses/[slug]/page.tsx: hero, module list, enrol CTA.
+      Build lesson renderer at courses/[slug]/[moduleSlug]/page.tsx: determines lesson type,
+      renders TextLesson (Portable Text via @portabletext/react) or ScormPlayerSlot/SurveyFormSlot stubs.
+      The PlayerShell should be implemented as a layout component at
+      src/app/elearning/courses/[slug]/layout.tsx (not a standalone component only) — this ensures
+      Next.js App Router persists it across lesson navigation natively.
+      Build PlayerShell component: persistent layout with sidebar navigation (module/lesson tree),
+      progress bar (completedLessons count / total), breadcrumb. CSS Module + --hds-* tokens.
+      WCAG 2.1 AA: keyboard navigation, aria-labels on sidebar items, focus management.
+      Export a typed <ScormPlayerSlot lessonId={string} entryUrl={string} scormVersion={'1.2'|'2004'} />
+      placeholder component (renders null) and a <SurveyFormSlot courseId={string} /> placeholder.
+      T05 and T06 will replace these with real implementations — the renderer page must not be
+      modified by T05 or T06.
+      Create POST /api/lms/progress route handler: auth guard, writes lessonProgress document
+      to Sanity via writeClient, updates publicMetadata.completedLessons (8-char short IDs).
+      When writing lessonProgress documents, include denormalized user fields from Clerk session:
+      gender, ageGroup (derived from DOB), healthWorkerType, country — these enable GROQ dashboard
+      filters without joining Clerk data.
+      Falls back to Sanity GROQ for completed state when completedLessons.length > 25.
+    acceptance_criteria:
+      - Course catalogue shows country-scoped + global courses from Sanity
+      - PlayerShell persists across lesson navigation without re-mount
+      - Sidebar shows correct completion state per lesson
+      - Progress bar updates on lesson completion
+      - POST /api/lms/progress writes lessonProgress document and updates publicMetadata
+      - TextLesson renders Portable Text with HDS typography tokens
+      - No 'use client' on Server Component pages
+      - npx tsc --noEmit passes
+
+  - id: T04
+    title: "Pre/post-test + self-assessment engine"
+    wave: 2b
+    complexity: 4
+    priority: critical
+    status: pending
+    model: sonnet
+    require_review: true
+    depends_on: [T01, T02, T03]
+    files_affected:
+      - src/components/lms/QuizEngine.tsx
+      - src/components/lms/QuizEngine.module.css
+      - src/components/lms/QuestionCard.tsx
+      - src/components/lms/QuestionCard.module.css
+      - src/app/api/lms/quiz-submit/route.ts
+    description: >
+      Quiz schema fields (questions[], quizRole, type: 'quiz') are defined in T01.
+      T04 consumes generated sanity.types.ts types for quiz rendering.
+      Build QuizEngine client component: renders questions sequentially, tracks answers,
+      calculates score on submission. Supports pre-test (no pass/fail gate), post-test
+      (score determines certificate tier), self-assessment (informational only).
+      Build QuestionCard component: single question + radio options, HDS token styling.
+      Create POST /api/lms/quiz-submit route handler: auth guard, records score on lessonProgress
+      document (preTestScore or postTestScore field), returns { score, passed, tier } where
+      tier is 'accomplishment' if score >= course.passingScore else 'participation'.
+      Wire QuizEngine into lesson renderer (Task T03) for quiz lesson type.
+    acceptance_criteria:
+      - Pre-test renders before first module, score recorded but no gate
+      - Post-test renders after last module, score compared to course.passingScore
+      - Self-assessment renders mid-course, informational result only
+      - POST /api/lms/quiz-submit writes scores to lessonProgress document
+      - Tier calculation correct: accomplishment if score >= passingScore
+      - npx tsc --noEmit passes
+
+  - id: T05
+    title: "SCORM upload + bridge + commit"
+    wave: 2b
+    complexity: 5
+    priority: must
+    status: pending
+    model: sonnet
+    require_review: true
+    depends_on: [T00, T01, T02, T03]
+    files_affected:
+      - src/components/lms/ScormPlayer.tsx
+      - src/components/lms/ScormPlayer.module.css
+      - src/app/api/lms/scorm-upload/route.ts
+      - src/app/api/lms/scorm-commit/route.ts
+    description: >
+      Create POST /api/lms/scorm-upload route handler: auth guard (System Admin role check),
+      receives multipart ZIP, uses jszip to extract files, uploads each file to @vercel/blob
+      (public access), returns { entryUrl: string } pointing to imsmanifest.xml directory.
+      Update lesson.scormEntryUrl field with returned entryUrl via Sanity mutation.
+      Build ScormPlayer client component ('use client'): receives scormVersion ('1.2'|'2004')
+      and entryUrl props. Inside useEffect (NOT render): instantiate CrossFrameLMS from
+      scorm-again (parent side). Render iframe with sandbox="allow-scripts allow-same-origin
+      allow-forms allow-popups" src={entryUrl}. CrossFrameAPI injected into iframe window.
+      On LMSSetValue / SetValue events: call POST /api/lms/scorm-commit.
+      Stage backdrop: dark neutral CSS Module container around iframe to minimize visual clash
+      with legacy SCORM content styling.
+      Create POST /api/lms/scorm-commit route handler: auth guard, writes/updates
+      lessonProgress.scormData (full CMI data object) and lessonProgress.completed flag
+      to Sanity via writeClient. Adds lesson short ID to publicMetadata.completedLessons.
+      When writing lessonProgress.scormData via POST /api/lms/scorm-commit, also write
+      denormalized user fields: gender, ageGroup, healthWorkerType, country (from Clerk session
+      claims) onto the lessonProgress document.
+      Note: React Compiler cannot optimize ScormPlayer due to window mutation — acceptable.
+      T05 only delivers the ScormPlayer component; it does not modify the lesson renderer page
+      (courses/[slug]/[moduleSlug]/page.tsx).
+    acceptance_criteria:
+      - SCORM ZIP uploaded, extracted, files stored in Vercel Blob
+      - ScormPlayer renders iframe with correct entryUrl
+      - SCORM 1.2 API (window.API) and SCORM 2004 API (window.API_1484_11) both work
+      - LMSSetValue/SetValue calls reach /api/lms/scorm-commit and write to Sanity
+      - lessonProgress.completed set to true on LMSFinish/Terminate
+      - Stage backdrop renders; iframe fills container
+      - All window.* assignments inside useEffect only
+      - npx tsc --noEmit passes
+
+  - id: T06
+    title: "End-of-course survey (CSAT + NPS)"
+    wave: 2b
+    complexity: 2
+    priority: must
+    status: pending
+    model: sonnet
+    require_review: false
+    depends_on: [T01, T02, T03]
+    files_affected:
+      - src/components/lms/SurveyForm.tsx
+      - src/components/lms/SurveyForm.module.css
+      - src/app/api/lms/survey/route.ts
+    description: >
+      Build SurveyForm client component: two questions rendered after final post-test submission.
+      Q1: CSAT — "How satisfied are you with this course?" 1–5 Likert scale (star or radio).
+      Q2: NPS — "How likely are you to recommend this platform to a colleague?" 0–10 scale.
+      Submission calls POST /api/lms/survey.
+      Create POST /api/lms/survey route handler: auth guard, writes surveyResponse document
+      to Sanity (_id: sr_userId_courseId) via writeClient. Returns 409 if already submitted.
+      When writing surveyResponse via POST /api/lms/survey, also write denormalized user fields:
+      gender, ageGroup, healthWorkerType, country (from Clerk session claims) onto the
+      surveyResponse document.
+      Wire SurveyForm into course completion flow in lesson renderer (after post-test, before
+      certificate display).
+      CSS Module + --hds-* tokens. WCAG 2.1 AA: labelled inputs, keyboard navigable scale.
+      T06 only delivers the SurveyForm component; it does not modify the lesson renderer page
+      (courses/[slug]/[moduleSlug]/page.tsx).
+    acceptance_criteria:
+      - SurveyForm renders after post-test completion
+      - Both CSAT (1-5) and NPS (0-10) inputs present and accessible
+      - POST /api/lms/survey writes surveyResponse to Sanity
+      - Duplicate submission returns 409
+      - Survey only renders once per course (idempotent)
+      - npx tsc --noEmit passes
+
+  - id: T07
+    title: "Certificate generation (2-tier PDF)"
+    wave: 3
+    complexity: 3
+    priority: must
+    status: pending
+    model: sonnet
+    require_review: false
+    depends_on: [T00, T01, T03, T04, T06]
+    files_affected:
+      - src/components/lms/CertificateViewer.tsx
+      - src/components/lms/CertificateViewer.module.css
+      - src/app/api/lms/certificate/route.ts
+    description: >
+      Create POST /api/lms/certificate route handler: auth guard. Receives { courseId }.
+      Reads lessonProgress for the course to get postTestScore. Compares to course.passingScore.
+      Determines tier: 'accomplishment' if score >= passingScore, else 'participation'.
+      Generates PDF using @react-pdf/renderer with:
+        - PharmaLink logo/branding
+        - Learner name (from Clerk user)
+        - Course name
+        - Tier label ("Certificate of Participation" or "Certificate of Accomplishment")
+        - Issue date
+        - Unique certificate ID (cert_userId_courseId)
+      Uploads PDF to @vercel/blob (private access). Writes certificate document to Sanity
+      (_id: cert_userId_courseId, tier, score, issuedAt, blobUrl). Returns { blobUrl, tier }.
+      Build CertificateViewer client component: renders certificate preview, download button,
+      and tier badge. Shown after survey completion.
+    acceptance_criteria:
+      - Participation certificate issued on course completion regardless of score
+      - Accomplishment certificate issued only when postTestScore >= course.passingScore
+      - PDF contains learner name, course name, tier, issue date, certificate ID
+      - certificate document written to Sanity with correct tier
+      - Download link works (Vercel Blob URL)
+      - npx tsc --noEmit passes
+
+  - id: T08
+    title: "Dashboard GROQ + analytics queries"
+    wave: 3
+    complexity: 4
+    priority: must
+    status: pending
+    model: sonnet
+    require_review: false
+    depends_on: [T00, T01, T03, T04, T05, T06]
+    files_affected:
+      - src/sanity/lib/dashboardQueries.ts
+      - src/app/api/lms/dashboard/route.ts
+    description: >
+      Create src/sanity/lib/dashboardQueries.ts with typed GROQ queries for each metric.
+      All queries accept { country?, gender?, ageGroup?, learnerType? } filter params.
+      Role scoping: Program Manager queries add `&& country == $userCountry` filter;
+      Program Director/System Admin queries are unrestricted.
+      Denormalized filter fields (gender, ageGroup, healthWorkerType, country) are written onto
+      lessonProgress and surveyResponse documents at creation time (by T03/T05/T06) — use these
+      fields directly in GROQ filter params. Do NOT query Clerk API for filter dimensions.
+      Queries:
+        - CSAT: avg(surveyResponse.csatScore) grouped by filters
+        - NPS: count(npsScore >= 9) / count(total) * 100 grouped by filters
+        - Knowledge gain: avg(postTestScore - preTestScore) across lessonProgress docs
+        - DAU: count(distinct userId where completedAt > now()-1d)
+        - Conversion rate: count(completed courses) / count(enrolled users) * 100
+        - Retention: count(userId active in last 12 months)
+        - New users by country: count(new lms_registered users) by country per month
+        - Knowledge base growth: count(courses) by month
+      Create GET /api/lms/dashboard route handler: auth guard + role check (block learner role),
+      calls dashboardQueries with user's role + country from sessionClaims, returns JSON.
+    acceptance_criteria:
+      - All 8 metrics return correct values from Sanity GROQ
+      - Program Manager queries restricted to own country
+      - Program Director/Admin queries unrestricted
+      - Learner role returns 403
+      - All queries are typed via sanity.types.ts
+      - npx tsc --noEmit passes
+
+  - id: T09
+    title: "Dashboard UI + role-gated views"
+    wave: 3
+    complexity: 5
+    priority: must
+    status: pending
+    model: sonnet
+    require_review: false
+    depends_on: [T07, T08]
+    files_affected:
+      - src/app/elearning/dashboard/page.tsx
+      - src/app/elearning/dashboard/page.module.css
+      - src/components/lms/dashboard/DashboardShell.tsx
+      - src/components/lms/dashboard/DashboardShell.module.css
+      - src/components/lms/dashboard/MetricCard.tsx
+      - src/components/lms/dashboard/MetricCard.module.css
+      - src/components/lms/dashboard/FilterBar.tsx
+      - src/components/lms/dashboard/FilterBar.module.css
+      - src/components/lms/dashboard/CertificateList.tsx
+    description: >
+      Build dashboard page at /elearning/dashboard. Server Component fetches initial
+      metrics via /api/lms/dashboard. Redirect to /elearning if role === 'learner'.
+      Build DashboardShell: header with role badge, FilterBar (country/gender/age/learner type
+      dropdowns — Program Manager has country pre-filled and disabled).
+      Build MetricCard: displays single metric with label, value, trend indicator.
+      CSS Module + --hds-* tokens. Reuse src/components/charts/CompletionsBar for
+      conversion rate and knowledge base growth visualisation where applicable.
+      Build FilterBar: filter state managed in URL search params (not useState) so filters
+      are shareable and SSR-compatible.
+      Build CertificateList: table of issued certificates (learner name, course, tier, date)
+      for admin/manager roles.
+      Metrics displayed: CSAT, NPS, Knowledge Gain, DAU, Conversion Rate, Retention Rate,
+      New Users by Country (bar chart), Knowledge Base Growth.
+      Breakdown dimensions: gender, age group, learner type, geography.
+    acceptance_criteria:
+      - Dashboard loads with correct role-scoped metrics
+      - Learner role redirected away from /elearning/dashboard
+      - Program Manager sees only own-country data
+      - FilterBar updates metrics without full page reload
+      - Filter state reflected in URL params
+      - CompletionsBar reused where applicable (no duplicate chart component)
+      - CertificateList renders for admin/manager roles
+      - CSS Modules + --hds-* tokens throughout; no Tailwind
+      - npx tsc --noEmit passes
