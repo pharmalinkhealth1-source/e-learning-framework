@@ -61,9 +61,75 @@ const LinkedInIcon = ({ size = 20 }: { size?: number }) => (
   </svg>
 );
 
+interface InsightPoint {
+  num: string;
+  heading: string;
+  body: string;
+  modal: {
+    title: string;
+    subtitle?: string;
+    paragraphs: string[];
+  };
+}
+
+const WHY_POINTS: InsightPoint[] = [
+  {
+    num: '01',
+    heading: 'Visibility is Credibility',
+    body: 'We turn clinical activity into verifiable impact. PharmaLink dashboards provide the transparent evidence needed to secure trust, accountability, and long-term investment.',
+    modal: {
+      title: 'Measuring what matters',
+      subtitle: 'Making impact visible',
+      paragraphs: [
+        `In global health, the programs that endure, and the providers that are <strong>trusted with greater responsibility</strong>, are those that can <strong>demonstrate their impact clearly, consistently, and honestly</strong>.`,
+        `PharmaLink's Data Insights dashboards were <strong>built on that conviction</strong>.`,
+      ],
+    },
+  },
+  {
+    num: '02',
+    heading: 'Real-time Evidence',
+    body: 'Every interaction builds proof. From course completions to vaccinations, we aggregate data across five dimensions to show precisely where programmes are succeeding.',
+    modal: {
+      title: 'What we measure and why it matters',
+      paragraphs: [
+        `Every interaction on the PharmaLink platform <strong>generates evidence</strong>. Evidence that a pharmacist <strong>completed a course and earned a credential</strong>. Evidence that a <strong>vaccine was delivered</strong> in a community that might otherwise have gone unserved. Evidence that a professional forum is alive with engagement, questions, and shared learning. Evidence that providers and patients are moving through a journey that didn't exist before.`,
+        `Our dashboards bring that evidence together across <strong>five dimensions</strong> – <strong>eLearning Outcomes, Learner Experience, Service Delivery Impact, Consumer Journey, and Community Engagement</strong> – giving programme leadership, partners, and funders a <strong>real-time, aggregated view</strong> of what is working, and where the greatest opportunities lie.`,
+      ],
+    },
+  },
+  {
+    num: '03',
+    heading: 'Built for Trust',
+    body: 'Our aggregated data model protects individual privacy while delivering a picture that funders and partners can cite, share, and stand behind.',
+    modal: {
+      title: 'Built for trust, not just reporting',
+      paragraphs: [
+        `Data is only as valuable as the <strong>confidence people have in it</strong>. That is why PharmaLink's data architecture was designed with <strong>rigour and transparency</strong> at its core.`,
+        `All data displayed in the dashboard is <strong>aggregated at programme level</strong>. There is no patient-level data, no country-level data, no facility-level data, and no individual provider records accessible through the platform. This is not a limitation – it is a <strong>deliberate design choice</strong> that protects the privacy of providers and communities while ensuring the programme-level picture remains <strong>clear, comparable, and credible</strong>.`,
+        `The result is a dashboard that <strong>funders can cite in reports</strong>, programme teams can act on in real time, and <strong>pharmacists can point to with pride</strong> – knowing that the numbers behind their profession's growing impact are being captured and counted.`,
+      ],
+    },
+  },
+  {
+    num: '04',
+    heading: 'Data to Decisions',
+    body: 'Measurement is a strategic asset. We move beyond reporting to enable the decisions that refine content, strengthen communities, and turn pharmacy investment into evidence that holds.',
+    modal: {
+      title: 'From data to decision',
+      paragraphs: [
+        `The purpose of measurement is <strong>not measurement itself</strong>. It is the <strong>decision it enables</strong> – the course content that gets refined, the community that gets additional support, the <strong>policy argument that gets made with confidence</strong>, the funder that renews their investment because the evidence is undeniable.`,
+        `PharmaLink's Data Insights dashboard is <strong>not a reporting tool</strong>. It is a <strong>strategic asset</strong>, one that grows more powerful with every pharmacist trained, every vaccine delivered, and every community reached.`,
+        `Because when the frontline is equipped and connected, and its impact is measurable, the case for investing in <strong>pharmacy-led primary healthcare</strong> stops being an argument. <strong>It becomes a fact.</strong>`,
+      ],
+    },
+  },
+];
+
 const DataInsightsPage = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [selectedMember, setSelectedMember] = useState<typeof researchTeamMembers[0] | null>(null);
+  const [selectedPoint, setSelectedPoint] = useState<InsightPoint | null>(null);
 
   const tabs = [
     {
@@ -247,54 +313,42 @@ const DataInsightsPage = () => {
       </section>
 
       {/* Why It Matters */}
-      <section className={styles.contentSection}>
+      <section className={styles.whySection}>
+        <div className={styles.whySectionBorders} aria-hidden="true" />
         <div className={styles.container}>
           <p className={styles.sectionEyebrow}>Why It Matters</p>
-          <div className={styles.sectionGrid}>
-            <div className={styles.sectionHeader}>
-              <h2>Visibility is<br/>Credibility</h2>
+          <div className={styles.whyGrid}>
+            <div className={styles.whyStatement}>
+              <h2 className={styles.whyHeadline}>Evidence<br/>is not<br/>optional.</h2>
+              <p className={styles.whyLead}>For frontline pharmacy to be funded, trusted, and scaled, it has to be visible. Here is how we make that happen.</p>
             </div>
-            <div className={styles.sectionBody}>
-              <p>We turn clinical activity into verifiable impact. PharmaLink dashboards provide the transparent evidence needed to secure trust, responsibility, and long-term funding.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.contentSection}>
-        <div className={styles.container}>
-          <div className={styles.sectionGrid}>
-            <div className={styles.sectionHeader}>
-              <h2>Real-time<br/>Evidence</h2>
-            </div>
-            <div className={styles.sectionBody}>
-              <p>Every interaction builds proof. From course completions to life-saving vaccinations, we aggregate data across five dimensions to show exactly where your program is succeeding.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.contentSection}>
-        <div className={styles.container}>
-          <div className={styles.sectionGrid}>
-            <div className={styles.sectionHeader}>
-              <h2>Built for<br/>Trust</h2>
-            </div>
-            <div className={styles.sectionBody}>
-              <p>Our aggregated data model protects privacy while delivering a clear, credible picture that funders and partners can rely on with absolute confidence.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className={styles.contentSection}>
-        <div className={styles.container}>
-          <div className={styles.sectionGrid}>
-            <div className={styles.sectionHeader}>
-              <h2>Data to<br/>Decisions</h2>
-            </div>
-            <div className={styles.sectionBody}>
-              <p>Measurement is a strategic asset. We move beyond reporting to enable the decisions that refine content, support communities, and turn pharmacy investment into undeniable fact.</p>
+            <div className={styles.whyPoints}>
+              {WHY_POINTS.map((point, i) => (
+                <motion.div
+                  key={point.num}
+                  className={styles.whyPoint}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: i * 0.12, ease: [0.25, 1, 0.5, 1] }}
+                >
+                  <span className={styles.whyNumber}>{point.num}</span>
+                  <div>
+                    <h3 className={styles.whyPointHeading}>{point.heading}</h3>
+                    <p className={styles.whyPointBody}>{point.body}</p>
+                    <button
+                      className={styles.whyReadMore}
+                      onClick={() => setSelectedPoint(point)}
+                    >
+                      Read more
+                      <svg className={styles.expandIcon} width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <g className={styles.expandTR}><path d="M5 2L10 2L10 7" /></g>
+                        <g className={styles.expandBL}><path d="M7 10L2 10L2 5" /></g>
+                      </svg>
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
@@ -354,10 +408,48 @@ const DataInsightsPage = () => {
         )}
       </AnimatePresence>
 
+      <AnimatePresence>
+        {selectedPoint && (
+          <InsightModal point={selectedPoint} onClose={() => setSelectedPoint(null)} />
+        )}
+      </AnimatePresence>
+
       <Footer />
     </main>
   );
 };
+
+const InsightModal = ({ point, onClose }: { point: InsightPoint; onClose: () => void }) => (
+  <div className={styles.modalOverlay} onClick={onClose}>
+    <motion.div
+      className={styles.insightModal}
+      onClick={(e) => e.stopPropagation()}
+      initial={{ opacity: 0, scale: 0.97, y: 16 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.97, y: 16 }}
+      transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+    >
+      <button className={styles.modalClose} onClick={onClose} aria-label="Close">
+        <X size={20} />
+      </button>
+      <div className={styles.insightModalInner}>
+        <span className={styles.insightModalNum}>{point.num}</span>
+        {point.modal.subtitle && (
+          <p className={styles.insightModalSubtitle}>{point.modal.subtitle}</p>
+        )}
+        <h2 className={styles.insightModalTitle}>{point.modal.title}</h2>
+        <div className={styles.insightModalBody}>
+          {point.modal.paragraphs.map((para, i) => (
+            <p key={i} dangerouslySetInnerHTML={{ __html: para }} />
+          ))}
+        </div>
+      </div>
+    </motion.div>
+  </div>
+);
+
+const HONORIFICS = /^(Dr\.|Mr\.|Ms\.|Mrs\.|Prof\.)\s+/i;
+const getFirstName = (name: string) => name.replace(HONORIFICS, '').split(' ')[0];
 
 const TeamMemberModal = ({ member, onClose }: { member: typeof researchTeamMembers[0], onClose: () => void }) => {
   return (
@@ -398,7 +490,7 @@ const TeamMemberModal = ({ member, onClose }: { member: typeof researchTeamMembe
           </div>
 
           <div className={styles.modalFormSection}>
-            <h3 className={styles.formTitle}>Message {member.name.split(' ')[0]}</h3>
+            <h3 className={styles.formTitle}>Message {getFirstName(member.name)}</h3>
             <form className={styles.modalForm} onSubmit={(e) => e.preventDefault()}>
               <div className={styles.formRow}>
                 <div className={styles.formGroup}>
@@ -443,7 +535,7 @@ const TeamMemberModal = ({ member, onClose }: { member: typeof researchTeamMembe
                 <span>I consent to receiving communication from PharmaLink</span>
               </label>
               <button type="submit" className={styles.modalSubmit}>
-                Message {member.name.split(' ')[0]}
+                Message {getFirstName(member.name)}
               </button>
             </form>
           </div>
@@ -490,7 +582,7 @@ const researchTeamMembers = [
     role: "Senior Research Advisor",
     location: "Global",
     image: "/images/data-and-research-team/pharmalink-dr-kirsten-little.webp",
-    bio: "<strong>Dr. Kristen Little</strong> is a veteran <strong>PhD Epidemiologist</strong> and <strong>Senior Research Advisor</strong> at <strong>Population Services International (PSI)</strong>, bringing over <strong>15 years of experience</strong> in global public health research across more than 40 countries.\n\nFor over a decade at PSI, she has specialized in leading <strong>mixed-methods research</strong>, including <strong>implementation science</strong> and <strong>market access studies</strong> (consumer preference, willingness-to-pay). Dr. Little’s influential work spans critical public health areas, from contraceptive product innovations (Nexus Platform) to emerging self-care diagnostics (HPV self-collection, malaria self-tests) and vaccine journey mapping (Immunization at Scale Project).\n\nPassionate about embedding evidence-based learning, she maintains a strong record of research utilization with <strong>more than 50 peer-reviewed publications</strong>. Dr. Little holds a <strong>PhD in Public Health</strong> from the Johns Hopkins Bloomberg School of Public Health.",
+    bio: "<strong>Dr. Kristen Little</strong> is a veteran <strong>PhD Epidemiologist</strong> and <strong>Senior Research Advisor</strong> at <strong>Population Services International (PSI)</strong>, bringing over <strong>15 years of experience</strong> in global public health research across more than 40 countries.\n\nFor over a decade at PSI, she has specialized in leading <strong>mixed-methods research</strong>, including <strong>implementation science</strong> and <strong>market access studies</strong> (consumer preference, willingness-to-pay). Dr. Little's influential work spans critical public health areas, from contraceptive product innovations (Nexus Platform) to emerging self-care diagnostics (HPV self-collection, malaria self-tests) and vaccine journey mapping (Immunization at Scale Project).\n\nPassionate about embedding evidence-based learning, she maintains a strong record of research utilization with <strong>more than 50 peer-reviewed publications</strong>. Dr. Little holds a <strong>PhD in Public Health</strong> from the Johns Hopkins Bloomberg School of Public Health.",
     linkedin: "https://www.linkedin.com/in/kristen-little-60720115/",
     email: "info@pharmalinkhealth.com"
   },
@@ -499,7 +591,7 @@ const researchTeamMembers = [
     role: "Research Advisor, PSI",
     location: "Global",
     image: "/images/data-and-research-team/PharmaLink-Eden-Demise.webp",
-    bio: "<strong>Eden</strong> is a <strong>Research Advisor</strong> at <strong>Population Services International (PSI)</strong>, where she is a key contributor to <strong>implementation science</strong> research across a diverse portfolio of health areas.\n\nHer work focuses on generating evidence to improve the delivery of critical public health services, including <strong>pharmacy-based immunization</strong>, <strong>cervical cancer</strong>, <strong>self-care</strong> products, and <strong>sexual and reproductive health (SRH)</strong>.\n\nWith field experience spanning multiple contexts in <strong>Sub-Saharan Africa and South Asia</strong>, Eden is proficient in the full research lifecycle. Her expertise covers research design, field implementation, rigorous data analysis, and effective stakeholder engagement, resulting in successful program learning and the production of peer-reviewed publications.\n\nEden holds a Master’s degree in <strong>Global Health</strong> from Georgetown University.",
+    bio: "<strong>Eden</strong> is a <strong>Research Advisor</strong> at <strong>Population Services International (PSI)</strong>, where she is a key contributor to <strong>implementation science</strong> research across a diverse portfolio of health areas.\n\nHer work focuses on generating evidence to improve the delivery of critical public health services, including <strong>pharmacy-based immunization</strong>, <strong>cervical cancer</strong>, <strong>self-care</strong> products, and <strong>sexual and reproductive health (SRH)</strong>.\n\nWith field experience spanning multiple contexts in <strong>Sub-Saharan Africa and South Asia</strong>, Eden is proficient in the full research lifecycle. Her expertise covers research design, field implementation, rigorous data analysis, and effective stakeholder engagement, resulting in successful program learning and the production of peer-reviewed publications.\n\nEden holds a Master's degree in <strong>Global Health</strong> from Georgetown University.",
     linkedin: "https://www.linkedin.com/in/eden-demise/",
     email: "info@pharmalinkhealth.com"
   },
@@ -517,7 +609,7 @@ const researchTeamMembers = [
     role: "Monitoring & Evaluation Manager, PSI Nigeria",
     location: "Nigeria",
     image: "/images/data-and-research-team/grace-ayo.webp",
-    bio: "<strong>Grace (Oiza) Ayo‑Jatto</strong> is an accomplished <strong>Public Health Professional</strong> and <strong>Monitoring and Evaluation (M&E) Specialist</strong> with extensive experience in <strong>data analytics, visualization, and strategic information management</strong> within Nigeria’s health sector.\n\nAs <strong>Monitoring and Evaluation Manager at Population Services International (PSI) Nigeria</strong>, she leads efforts to strengthen data systems and enhance the use of timely, high‑quality analytics for program improvement and decision‑making. Grace also contributes to the <strong>Data.FI Project</strong>, where she applies her expertise in public health data analytics and visualization to support evidence‑based programming and system performance monitoring.\n\nHer experience spans roles in <strong>epidemiology, research and surveys, health informatics, TPM (Third‑Party Monitoring),</strong> and <strong>program evaluation</strong>. A <strong>microbiologist by training</strong>, Grace holds a <strong>Master of Public Health (MPH) in Epidemiology</strong> from <strong>Ahmadu Bello University</strong> and a <strong>B.Sc. in Microbiology</strong> from the <strong>University of Ilorin</strong>.",
+    bio: "<strong>Grace (Oiza) Ayo‑Jatto</strong> is an accomplished <strong>Public Health Professional</strong> and <strong>Monitoring and Evaluation (M&E) Specialist</strong> with extensive experience in <strong>data analytics, visualization, and strategic information management</strong> within Nigeria's health sector.\n\nAs <strong>Monitoring and Evaluation Manager at Population Services International (PSI) Nigeria</strong>, she leads efforts to strengthen data systems and enhance the use of timely, high‑quality analytics for program improvement and decision‑making. Grace also contributes to the <strong>Data.FI Project</strong>, where she applies her expertise in public health data analytics and visualization to support evidence‑based programming and system performance monitoring.\n\nHer experience spans roles in <strong>epidemiology, research and surveys, health informatics, TPM (Third‑Party Monitoring),</strong> and <strong>program evaluation</strong>. A <strong>microbiologist by training</strong>, Grace holds a <strong>Master of Public Health (MPH) in Epidemiology</strong> from <strong>Ahmadu Bello University</strong> and a <strong>B.Sc. in Microbiology</strong> from the <strong>University of Ilorin</strong>.",
     linkedin: "https://www.linkedin.com/in/grace-ayo-jatto-31b246a2/",
     email: "info@pharmalinkhealth.com"
   },
@@ -526,7 +618,7 @@ const researchTeamMembers = [
     role: "Evidence & Learning Advisor",
     location: "Kenya",
     image: "/images/data-and-research-team/PharmaLink-Julius-Njogu-Team-Member-Modal-Profile-Picture.webp",
-    bio: "<strong>Julius Njogu</strong> is a distinguished Scholar, Epidemiologist, and health research veteran with over <strong>two decades of expertise</strong> spanning tropical medicine and public health across Kenya and the African region.\n\nHe currently leads the research and learning agenda for the <strong>Accelerate Project</strong>, which focuses on integrating Sexual and Reproductive Health and Rights (SRHR) and Gender-Based Violence (GBV) interventions across 13 underserved counties in Kenya. Concurrently, he is advancing evidence for <strong>pharmacy-based immunization approaches</strong> and pioneering research for <strong>self-care contraception solutions</strong>.\n\nThrough his extensive research portfolio, Mr. Njogu has contributed significantly to national and global health policy discourse. His scholarly articles focus specifically on high-impact areas such as Malaria, SRHR, and GBV. He holds a Bachelor’s degree in Nursing Sciences, a Master’s in Public Health (Epidemiology), and is currently earning a doctorate degree.",
+    bio: "<strong>Julius Njogu</strong> is a distinguished Scholar, Epidemiologist, and health research veteran with over <strong>two decades of expertise</strong> spanning tropical medicine and public health across Kenya and the African region.\n\nHe currently leads the research and learning agenda for the <strong>Accelerate Project</strong>, which focuses on integrating Sexual and Reproductive Health and Rights (SRHR) and Gender-Based Violence (GBV) interventions across 13 underserved counties in Kenya. Concurrently, he is advancing evidence for <strong>pharmacy-based immunization approaches</strong> and pioneering research for <strong>self-care contraception solutions</strong>.\n\nThrough his extensive research portfolio, Mr. Njogu has contributed significantly to national and global health policy discourse. His scholarly articles focus specifically on high-impact areas such as Malaria, SRHR, and GBV. He holds a Bachelor's degree in Nursing Sciences, a Master's in Public Health (Epidemiology), and is currently earning a doctorate degree.",
     email: "info@pharmalinkhealth.com"
   },
   {
@@ -534,7 +626,7 @@ const researchTeamMembers = [
     role: "Senior Regional Advisor (M&E), PSI",
     location: "Kenya",
     image: "/images/data-and-research-team/Judy-Mwangi.webp",
-    bio: "<strong>Judy Mwangi</strong> is a <strong>Senior Regional Advisor (M&E)</strong> at <strong>Population Services International (PSI) Nairobi</strong>, with over <strong>18 years’ experience</strong> strengthening <strong>M&E systems</strong> across <strong>15+ countries</strong>. She provides <strong>technical leadership</strong> in <strong>M&E planning, budgeting, data management, quality assurance,</strong> and <strong>data use for decision-making,</strong> leveraging <strong>digital tools</strong> including <strong>DHIS2, ODK, and Power BI.</strong>\n\nJudy has been instrumental in <strong>designing digital data systems</strong> and promoting <strong>routine data review and learning</strong> with <strong>Ministries of Health, PSI country platforms,</strong> and <strong>implementing partners.</strong> Her expertise spans <strong>data quality assurance, performance monitoring,</strong> and <strong>strategic oversight,</strong> ensuring evidence-based decision-making.\n\nWithin the <strong>PBID Project,</strong> she oversees <strong>data management, data quality,</strong> and <strong>performance monitoring</strong> across <strong>Kenya, Nigeria, and Ethiopia</strong> to enhance <strong>service quality</strong> and <strong>health outcomes.</strong> She holds an <strong>MSc in Public Health Promotion</strong> from the <strong>London School of Hygiene and Tropical Medicine</strong> and a <strong>Postgraduate Diploma in Monitoring and Evaluation Studies</strong> from <strong>Stellenbosch University.</strong>",
+    bio: "<strong>Judy Mwangi</strong> is a <strong>Senior Regional Advisor (M&E)</strong> at <strong>Population Services International (PSI) Nairobi</strong>, with over <strong>18 years' experience</strong> strengthening <strong>M&E systems</strong> across <strong>15+ countries</strong>. She provides <strong>technical leadership</strong> in <strong>M&E planning, budgeting, data management, quality assurance,</strong> and <strong>data use for decision-making,</strong> leveraging <strong>digital tools</strong> including <strong>DHIS2, ODK, and Power BI.</strong>\n\nJudy has been instrumental in <strong>designing digital data systems</strong> and promoting <strong>routine data review and learning</strong> with <strong>Ministries of Health, PSI country platforms,</strong> and <strong>implementing partners.</strong> Her expertise spans <strong>data quality assurance, performance monitoring,</strong> and <strong>strategic oversight,</strong> ensuring evidence-based decision-making.\n\nWithin the <strong>PBID Project,</strong> she oversees <strong>data management, data quality,</strong> and <strong>performance monitoring</strong> across <strong>Kenya, Nigeria, and Ethiopia</strong> to enhance <strong>service quality</strong> and <strong>health outcomes.</strong> She holds an <strong>MSc in Public Health Promotion</strong> from the <strong>London School of Hygiene and Tropical Medicine</strong> and a <strong>Postgraduate Diploma in Monitoring and Evaluation Studies</strong> from <strong>Stellenbosch University.</strong>",
     linkedin: "https://www.linkedin.com/in/betty-abera-0b7b4b59/",
     email: "jmwangi@psi.org"
   },

@@ -62,7 +62,7 @@
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   margin-bottom: 32px;
   margin-top: 24px;
 }
@@ -209,7 +209,6 @@
   position: relative;
   overflow: hidden;
   border-top: 1px solid var(--hds-color-surface-border-quiet);
-  border-bottom: 1px solid var(--hds-color-surface-border-quiet);
 }
 
 .chartsSection::before {
@@ -319,6 +318,92 @@
   margin-bottom: 24px;
 }
 
+/* Why It Matters — editorial 2-col layout */
+.whySection {
+  padding: 100px 0;
+  z-index: 1;
+  position: relative;
+  border-top: 1px solid var(--hds-color-surface-border-quiet);
+  background: var(--hds-color-surface-bg-quiet);
+}
+
+.whySectionBorders {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth) + 2px);
+  margin: 0 auto;
+  pointer-events: none;
+  z-index: 0;
+  border-inline: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.whyGrid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 0 var(--hds-space-layout-content-margin);
+}
+
+.whyStatement {
+  padding-right: 64px;
+  padding-top: 8px;
+}
+
+.whyHeadline {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--hds-color-text-main);
+  letter-spacing: -0.02em;
+  margin-bottom: 24px;
+}
+
+.whyLead {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--hds-color-text-subdued);
+  max-width: 260px;
+}
+
+.whyPoints {
+  border-left: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.whyPoint {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  padding: 32px 0 32px 40px;
+  border-bottom: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.whyPoint:last-child {
+  border-bottom: none;
+}
+
+.whyNumber {
+  font-family: var(--hds-font-family-code);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--hds-color-core-primary-700);
+  letter-spacing: 0.05em;
+  padding-top: 3px;
+}
+
+.whyPointHeading {
+  font-size: 1.0625rem;
+  font-weight: 400;
+  color: var(--hds-color-text-main);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+
+.whyPointBody {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--hds-color-text-subdued);
+  max-width: 560px;
+}
+
 /* Synchronized Section Grid (Matches About Us) */
 .contentSection {
   padding: 100px 0;
@@ -362,6 +447,8 @@
   color: var(--hds-color-core-neutral-850);
   margin-bottom: 48px !important;
   max-width: 600px;
+  border-left: 2px solid var(--hds-color-core-primary-700);
+  padding-left: 16px;
 }
 
 /* Team Grid (Matches About Us) */
@@ -386,13 +473,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   position: relative;
   overflow: hidden;
 }
 
 .memberInfo {
-  border-left: 2px solid var(--hds-color-util-brand-500);
+  border-left: 2px solid var(--hds-color-core-primary-700);
   padding-left: 16px;
 }
 
@@ -419,7 +506,7 @@
   border-radius: 4px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   text-transform: uppercase;
   letter-spacing: 0.025em;
 }
@@ -430,6 +517,99 @@
   border-radius: 50%;
   overflow: hidden;
   display: block;
+}
+
+/* Why It Matters — read more trigger */
+.whyReadMore {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0.8125rem;
+  font-weight: 400;
+  font-family: var(--hds-font-family-code);
+  letter-spacing: 0.04em;
+  color: var(--hds-color-core-primary-700);
+  transition: opacity 0.2s ease;
+}
+
+.whyReadMore:hover {
+  opacity: 0.65;
+}
+
+.expandIcon {
+  flex-shrink: 0;
+}
+
+.expandTR,
+.expandBL {
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.whyReadMore:hover .expandTR {
+  transform: translate(2px, -2px);
+}
+
+.whyReadMore:hover .expandBL {
+  transform: translate(-2px, 2px);
+}
+
+/* Insight Modal */
+.insightModal {
+  background: white;
+  width: 100%;
+  max-width: 640px;
+  border-radius: 8px;
+  box-shadow: 0 30px 80px -10px rgba(10, 37, 64, 0.18);
+  position: relative;
+  overflow: hidden;
+}
+
+.insightModalInner {
+  padding: 56px 60px 60px;
+}
+
+.insightModalNum {
+  display: block;
+  font-family: var(--hds-font-family-code);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--hds-color-core-primary-700);
+  letter-spacing: 0.08em;
+  margin-bottom: 20px;
+}
+
+.insightModalSubtitle {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: var(--hds-color-text-subdued);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-family: var(--hds-font-family-code);
+}
+
+.insightModalTitle {
+  font-size: 1.75rem;
+  font-weight: 300;
+  line-height: 1.15;
+  color: var(--hds-color-text-main);
+  letter-spacing: -0.02em;
+  margin-bottom: 32px;
+}
+
+.insightModalBody {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: var(--hds-color-text-subdued);
+  max-width: 520px;
 }
 
 /* Modal Styles - Reused and adapted from About Us */
@@ -506,7 +686,7 @@
 
 .modalTagline {
   font-size: 1.125rem;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   font-weight: 500;
   line-height: 1.5;
   margin-bottom: 32px;
@@ -536,12 +716,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
   transition: all 0.2s;
 }
 
 .socialLink:hover {
-  background: var(--hds-color-util-brand-500);
+  background: var(--hds-color-core-primary-700);
   color: white;
   transform: translateY(-2px);
 }
@@ -589,8 +769,8 @@
 .formGroup input:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: var(--hds-color-util-brand-500);
-  box-shadow: 0 0 0 4px rgba(99, 91, 255, 0.1);
+  border-color: var(--hds-color-core-primary-700);
+  box-shadow: 0 0 0 4px rgba(108, 48, 192, 0.1);
 }
 
 .consentGroup {
@@ -607,7 +787,7 @@
 }
 
 .modalSubmit {
-  background: var(--hds-color-util-brand-500);
+  background: var(--hds-color-core-primary-700);
   color: white;
   padding: 14px;
   border-radius: 8px;
@@ -619,7 +799,7 @@
 }
 
 .modalSubmit:hover {
-  background: var(--hds-color-core-neutral-700);
+  background: var(--hds-color-core-primary-800);
   transform: translateY(-1px);
 }
 
@@ -664,7 +844,7 @@
 
 .customSelectOption:hover {
   background: var(--hds-color-core-neutral-15);
-  color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-core-primary-700);
 }
 
 @media (max-width: 1024px) {
