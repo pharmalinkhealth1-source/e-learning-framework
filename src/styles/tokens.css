@@ -44,6 +44,12 @@
   --hds-space-core-radius-md: 4px;
   --hds-space-core-radius-lg: 8px;
 
+  /* HDS Shadow Tokens */
+  --hds-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+  --hds-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.06);
+  --hds-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.08), 0 4px 6px rgba(0, 0, 0, 0.05);
+  --hds-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.10), 0 10px 10px rgba(0, 0, 0, 0.04);
+
   /* HDS Neutral Scale (Stripe Production Values) */
   --hds-color-core-neutral-0: #ffffff;
   --hds-color-core-neutral-25: #f8fafd;
@@ -205,5 +211,11 @@
   --hds-color-button-primary-text: #ffffff;
   --hds-color-button-secondary-text: var(--hds-color-core-brand-200);
   --hds-color-button-secondary-textHover: #ffffff;
+
+  /* Shadow Overrides (dark) */
+  --hds-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.25);
+  --hds-shadow-md: 0 4px 6px rgba(0, 0, 0, 0.28), 0 2px 4px rgba(0, 0, 0, 0.25);
+  --hds-shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.32), 0 4px 6px rgba(0, 0, 0, 0.22);
+  --hds-shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.38), 0 10px 10px rgba(0, 0, 0, 0.20);
 }
 
