@@ -1,0 +1,14 @@
+{
+  "status": "ready",
+  "prd": "careers-job-board",
+  "generated": "2026-05-13",
+  "tasks_total": 8,
+  "tasks_complete": 8,
+  "complexity_total": 23,
+  "waves": 4,
+  "open_questions": [
+    "Where does ApplyForm submit to — email service, new API route, or external endpoint?",
+    "Should unauthenticated users be redirected to /login or allowed to apply as guests?",
+    "Is useMemo in CareersClient.tsx intentional given React Compiler is active?"
+  ]
+}

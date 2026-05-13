@@ -1,0 +1,56 @@
+project:
+  name: pharmalink
+  runtime: node
+  runtime_version: ">=20"
+  framework: next.js
+  framework_version: 16.2.4
+  router: App Router
+  package_manager: npm
+
+commands:
+  dev: npm run dev
+  build: npm run build
+  lint: npm run lint
+  test: null
+  typecheck: npx tsc --noEmit
+
+boundaries:
+  never_touch:
+    - package-lock.json
+    - .env
+    - ".env*"
+    - .env.local
+    - .clerk/
+    - node_modules/
+    - .next/
+    - sanity.config.ts
+    - src/sanity/env.ts
+    - src/sanity/lib/write-client.ts
+    - src/sanity/lib/client.ts
+    - next-env.d.ts
+    - "*.tsbuildinfo"
+    - .vercel/
+
+  require_review:
+    - src/middleware.ts
+    - src/app/api/webhooks/clerk/route.ts
+    - src/app/api/auth/onboarding/route.ts
+    - src/app/api/forum/post/route.ts
+    - src/app/api/forum/comment/route.ts
+    - src/sanity/schemaTypes/
+    - src/styles/tokens.css
+    - src/styles/globals.css
+    - next.config.ts
+
+architecture:
+  auth: "Clerk (@clerk/nextjs ^7.3.0)"
+  cms: "Sanity v5 (sanity ^5.23.0)"
+  styling: "CSS Modules + HDS Design Tokens (--hds-* custom properties, no Tailwind)"
+  path_alias: "@/* -> ./src/*"
+  react_compiler: true
+  notes:
+    - "React Compiler active — avoid manual useMemo/useCallback unless necessary"
+    - "No Tailwind — CSS Modules only with --hds-* tokens from src/styles/tokens.css"
+    - "Clerk onboarded flag in sessionClaims gates post-signup routing"
+    - "Sanity schema changes are high-risk — existing dataset documents affected"
+    - "No test runner configured — tests need toolchain setup first"

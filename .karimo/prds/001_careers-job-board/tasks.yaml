@@ -1,0 +1,196 @@
+version: "1.0"
+prd: careers-job-board
+generated: "2026-05-13"
+
+tasks:
+  - id: T01
+    title: "Update jobOpening Sanity schema"
+    wave: 1
+    complexity: 3
+    priority: critical
+    status: complete
+    model: sonnet
+    require_review: true
+    depends_on: []
+    files_affected:
+      - src/sanity/schemaTypes/jobOpening.ts
+      - src/sanity/schemaTypes/index.ts
+    description: >
+      Extend the existing jobOpening schema with slug, category (Clinical/Technical/
+      Operations/Research), excerpt, publishedAt, responsibilities[], requirements[],
+      and optional applyUrl fields. Schema is in require_review boundary.
+    acceptance_criteria:
+      - jobOpening schema includes slug (source: title), category, excerpt, publishedAt, responsibilities[], requirements[], applyUrl
+      - category field has list options: Clinical, Technical, Operations, Research
+      - applyUrl is optional url type with descriptive label
+      - Sanity Studio builds without errors
+      - No existing document fields are removed or renamed
+
+  - id: T02
+    title: "Seed sample job openings"
+    wave: 1
+    complexity: 2
+    priority: high
+    status: complete
+    model: sonnet
+    depends_on: [T01]
+    files_affected:
+      - scripts/seed-jobs.ts
+    description: >
+      Create a TypeScript seed script that populates Sanity with at least 4 diverse
+      job openings (one per category). Uses createOrReplace with deterministic _id
+      for idempotent re-runs. Requires SANITY_API_WRITE_TOKEN in environment.
+    acceptance_criteria:
+      - Script creates/updates 4 jobs across Clinical, Technical, Operations, Research categories
+      - Each job has title, slug, category, location, type, excerpt, description, responsibilities[], requirements[], publishedAt
+      - createOrReplace with _id 'job-{slug}' for idempotency
+      - Script exits with error if SANITY_API_WRITE_TOKEN is missing
+      - Running script twice does not duplicate documents
+
+  - id: T03
+    title: "Build JobCard component"
+    wave: 2
+    complexity: 3
+    priority: high
+    status: complete
+    model: sonnet
+    depends_on: [T01]
+    files_affected:
+      - src/components/careers/JobCard.tsx
+      - src/components/careers/JobCard.module.css
+    description: >
+      HDS-styled bento card displaying title, category badge, location and type metadata
+      with icons, excerpt text, and a TactileButton linking to /careers/[slug].
+      Exports JobOpening TypeScript interface for reuse across the feature.
+    acceptance_criteria:
+      - Card renders title, category badge, location, job type, and excerpt
+      - Location and type show SVG icons matching HDS icon style
+      - TactileButton variant="secondary" links to /careers/[slug]
+      - JobOpening interface exported from JobCard.tsx
+      - Styling uses CSS Modules with --hds-* tokens exclusively
+      - No inline Tailwind classes
+
+  - id: T04
+    title: "Build /careers listing page"
+    wave: 2
+    complexity: 4
+    priority: critical
+    status: complete
+    model: sonnet
+    depends_on: [T01, T03]
+    files_affected:
+      - src/app/careers/page.tsx
+      - src/app/careers/CareersClient.tsx
+      - src/app/careers/Careers.module.css
+    description: >
+      Server component fetches jobOpening documents from Sanity with ISR (revalidate 60s)
+      and passes them to CareersClient. Hero section uses MeshGradient and grid lines.
+      CareersClient provides segmented category filter with AnimatePresence transitions.
+    acceptance_criteria:
+      - page.tsx is an async Server Component fetching all jobOpenings ordered by publishedAt desc
+      - Metadata title and description set for SEO
+      - MeshGradient hero with cool blue palette renders above fold
+      - Grid line overlay decorative elements present
+      - CareersClient receives initialJobs prop
+      - Category segmented control filters: All / Clinical / Technical / Operations / Research
+      - Filtered grid animates with AnimatePresence exit/enter
+      - Empty state message shown when no jobs match filter
+      - FooterCTA with "Don't see a perfect fit?" copy renders before Footer
+
+  - id: T05
+    title: "Add Careers link to Navbar"
+    wave: 2
+    complexity: 1
+    priority: medium
+    status: complete
+    model: sonnet
+    depends_on: []
+    files_affected:
+      - src/components/stripe/Navbar.tsx
+    description: >
+      Add "Careers" to the navigation link list. The Navbar currently uses an array-mapped
+      list of strings — adding "Careers" in the correct position is sufficient.
+    acceptance_criteria:
+      - "Careers" appears in the horizontal nav link list
+      - Link resolves to /careers
+      - Navbar builds and renders without errors
+      - No other nav items are removed or reordered unintentionally
+
+  - id: T06
+    title: "Build /careers/[slug] detail page"
+    wave: 3
+    complexity: 4
+    priority: critical
+    status: complete
+    model: sonnet
+    depends_on: [T01, T03]
+    files_affected:
+      - "src/app/careers/[slug]/page.tsx"
+      - "src/app/careers/[slug]/JobDetailClient.tsx"
+      - "src/app/careers/[slug]/JobDetail.module.css"
+    description: >
+      Dynamic server component for individual job detail. Fetches by slug, calls notFound()
+      for invalid slugs, implements generateMetadata for per-job SEO. Renders description,
+      responsibilities, and requirements sections. JobDetailClient provides sticky Apply CTA
+      that opens ApplyModal or redirects to applyUrl.
+    acceptance_criteria:
+      - Page fetches job by slug.current from Sanity
+      - notFound() called when slug returns no document
+      - generateMetadata returns job title and excerpt-derived description
+      - Page renders category badge, h1 title, location/type/publishedAt metadata grid
+      - About the Role, Responsibilities, and Requirements sections rendered
+      - Responsibilities and Requirements sections hidden when arrays are empty
+      - Back link to /careers present above article
+      - Sticky Apply CTA present (via JobDetailClient)
+      - PageTransition wrapper applied
+
+  - id: T07
+    title: "Build ApplyModal with Clerk integration"
+    wave: 3
+    complexity: 4
+    priority: high
+    status: complete
+    model: sonnet
+    depends_on: [T06]
+    files_affected:
+      - src/components/careers/ApplyModal.tsx
+      - src/components/careers/ApplyModal.module.css
+      - src/components/careers/ApplyForm.tsx
+    description: >
+      Glassmorphism modal triggered from the detail page sticky CTA. Uses Clerk useUser()
+      to pre-fill authenticated user's name and email. ApplyForm handles field collection
+      and submission. Success state shown after submission. Modal dismissable via overlay
+      click or close button.
+    acceptance_criteria:
+      - Modal renders with glassmorphism panel on dark overlay
+      - Opening animation uses framer-motion (scale + opacity + y)
+      - Clerk useUser() pre-fills first+last name and email when user is authenticated
+      - Form includes name, email, and cover note fields at minimum
+      - Submission triggers success state with confirmation message
+      - Close button (X) and overlay click both dismiss modal
+      - Styling uses CSS Modules with --hds-* tokens
+      - No Tailwind classes used
+
+  - id: T08
+    title: "SEO metadata and page transitions"
+    wave: 4
+    complexity: 2
+    priority: medium
+    status: complete
+    model: sonnet
+    depends_on: [T04, T07]
+    files_affected:
+      - src/app/careers/page.tsx
+      - "src/app/careers/[slug]/page.tsx"
+      - src/components/animations/PageTransition.tsx
+    description: >
+      Ensure both careers pages have complete Next.js Metadata objects with title,
+      description, and openGraph fields. Apply PageTransition component wrapper for
+      consistent page entry animations with framer-motion.
+    acceptance_criteria:
+      - /careers page has Metadata: title "Careers | PharmaLink", description referencing mission
+      - /careers/[slug] has dynamic Metadata with job title and excerpt
+      - PageTransition applied to both page content areas
+      - framer-motion not imported directly in Server Components
+      - npm run build produces no metadata warnings
+      - npm run lint passes clean

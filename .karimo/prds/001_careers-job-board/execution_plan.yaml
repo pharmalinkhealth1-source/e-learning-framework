@@ -1,0 +1,82 @@
+version: "1.0"
+prd: careers-job-board
+generated: "2026-05-13"
+
+summary:
+  total_tasks: 8
+  total_complexity: 23
+  wave_count: 4
+  model_distribution:
+    sonnet: 8
+    opus: 0
+  status: all_tasks_complete
+
+orchestration:
+  integration_cadence: wave
+  review_cadence:
+    trigger: per-wave
+    scope: wave-diff
+  gates: []
+
+waves:
+  - id: wave-1
+    label: "Schema Evolution & Content"
+    tasks: [T01, T02]
+    rationale: >
+      Schema must be established before any UI can query Sanity. Seed script populates
+      the dataset so Wave 2 work can render real content immediately.
+    gate: none
+    verification:
+      - Sanity Studio opens without schema errors
+      - All 4 seeded job documents visible in Studio
+      - Each document has slug, category, responsibilities, requirements populated
+
+  - id: wave-2
+    label: "Careers Listing Page"
+    tasks: [T03, T04, T05]
+    rationale: >
+      JobCard component is a dependency for the listing page. Navbar link is independent
+      and low-risk, batched here to minimise PR churn on Navbar.tsx.
+    gate: none
+    verification:
+      - /careers renders with MeshGradient hero and job grid
+      - Category filter works and animates correctly
+      - "Careers" link visible and functional in Navbar
+      - npm run build passes
+
+  - id: wave-3
+    label: "Job Detail Pages"
+    tasks: [T06, T07]
+    rationale: >
+      Detail page and apply modal form a single user journey. Both are verified
+      together. Clerk integration tested with authenticated session.
+    gate: none
+    verification:
+      - /careers/senior-clinical-pharmacist renders correctly
+      - Invalid slug triggers 404 page
+      - Apply Now opens modal with pre-filled Clerk data
+      - Success state shown after form submission
+      - npm run build passes
+
+  - id: wave-4
+    label: "SEO & Polish"
+    tasks: [T08]
+    rationale: >
+      SEO and transitions are final layer; verified after all page content is stable.
+    gate: none
+    verification:
+      - generateMetadata produces correct title/description in page source
+      - PageTransition animates on route entry
+      - npm run build and npm run lint both pass clean
+      - Mobile layout verified at 375px, 768px, 1280px breakpoints
+
+post_completion:
+  manual_uat:
+    - Browse /careers with seeded content visible
+    - Filter by each category — verify grid updates with animation
+    - Select a job card — verify routing to /careers/[slug]
+    - Verify detail page content matches Sanity document
+    - Open Apply modal as authenticated user — verify name/email pre-fill
+    - Submit form — verify success state
+    - Check /careers/invalid-slug returns 404
+    - Verify Careers link in desktop and mobile Navbar
