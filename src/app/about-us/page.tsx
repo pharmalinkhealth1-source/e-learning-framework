@@ -6,9 +6,25 @@ import Footer from '@/components/stripe/Footer';
 import MeshGradient from '@/components/stripe/MeshGradient';
 import styles from './AboutPage.module.css';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
-import { Users, ShieldCheck, Heart, Globe, Target, Zap, X, Mail, ChevronDown } from 'lucide-react';
+import { Users, ShieldCheck, Heart, Globe, Target, Zap, X, Mail, ChevronDown, CheckCircle, MinusCircle, ArrowRight } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useRef } from 'react';
+import dynamic from 'next/dynamic';
+import PartnerDialog from '@/components/stripe/PartnerDialog';
+
+const DotLottieReact = dynamic(
+  () => import('@lottiefiles/dotlottie-react').then((m) => m.DotLottieReact),
+  { ssr: false }
+);
+
+const ListCheckIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+    <g fill="#6C30C0" fillRule="evenodd">
+      <circle opacity={0.15} cx="8" cy="8" r="8" />
+      <path d="M11.41 4.93L6.64 9.54 5.38 8.18a.7.7 0 0 0-.87-.04.61.61 0 0 0-.18.8l1.5 2.45c.15.22.41.36.69.36.28 0 .53-.14.68-.36.24-.31 4.82-5.78 4.82-5.78.6-.6-.13-1.15-.6-.68z" />
+    </g>
+  </svg>
+);
 
 const CustomSelect = ({ options, placeholder }: { options: string[], placeholder: string }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,6 +76,8 @@ const LinkedInIcon = ({ size = 20 }: { size?: number }) => (
 
 const AboutPage = () => {
   const [selectedMember, setSelectedMember] = useState<typeof teamMembers[0] | null>(null);
+  const [purposeModalOpen, setPurposeModalOpen] = useState(false);
+  const [partnerDialogOpen, setPartnerDialogOpen] = useState(false);
   const scrollTargetRef = useRef<HTMLDivElement>(null);
   
   const { scrollYProgress } = useScroll({
@@ -118,9 +136,9 @@ const AboutPage = () => {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className={styles.heroImageContainer}
                 >
-                  <Image 
-                    src="/pharmalink_hero_about_1778015424289.png" 
-                    alt="Modern Pharmacy Environment" 
+                  <Image
+                    src="/images/about/partner-with-pharmalink-hero.webp"
+                    alt="Partner with PharmaLink"
                     fill
                     className={styles.heroImage}
                     priority
@@ -168,6 +186,70 @@ const AboutPage = () => {
         </div>
       </div>
 
+      {/* Pillars Section */}
+      <section className={styles.pillarsSection}>
+        <div className={styles.heroContainer}>
+          <div className={styles.pillarsGrid}>
+            <motion.div
+              className={styles.pillarCard}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, ease: [0.25, 1, 0.5, 1] }}
+            >
+              <div className={styles.pillarLottie}>
+                <DotLottieReact
+                  src="https://lottie.host/c4d7327f-89e3-44b9-889e-272f717b3729/yf0YJXaUGP.lottie"
+                  style={{ width: 64, height: 64 }}
+                  autoplay
+                  loop
+                />
+              </div>
+              <h3 className={styles.pillarTitle}>Seamless Integration</h3>
+              <p className={styles.pillarBody}>We bring pharmacists, other healthcare providers, and partners together within a connected data-driven ecosystem, breaking down silos to enable more coordinated and effective care.</p>
+            </motion.div>
+
+            <motion.div
+              className={styles.pillarCard}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.1, ease: [0.25, 1, 0.5, 1] }}
+            >
+              <div className={styles.pillarLottie}>
+                <DotLottieReact
+                  src="https://lottie.host/7d2eed59-5d61-44b6-865e-570c2225a74b/NbDxWpZkjg.lottie"
+                  style={{ width: 64, height: 64 }}
+                  autoplay
+                  loop
+                />
+              </div>
+              <h3 className={styles.pillarTitle}>Enhanced Convenience</h3>
+              <p className={styles.pillarBody}>By leveraging the accessibility of local pharmacies, we make it easier for patients to receive essential health services close to home. This improves the patient experience and fosters stronger continuity of care.</p>
+            </motion.div>
+
+            <motion.div
+              className={styles.pillarCard}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.55, delay: 0.2, ease: [0.25, 1, 0.5, 1] }}
+            >
+              <div className={styles.pillarLottie}>
+                <DotLottieReact
+                  src="https://lottie.host/13c01992-d2d5-4d7a-b414-7f038a88a37c/u5FEZuz2X9.lottie"
+                  style={{ width: 64, height: 64 }}
+                  autoplay
+                  loop
+                />
+              </div>
+              <h3 className={styles.pillarTitle}>Better Health Outcomes</h3>
+              <p className={styles.pillarBody}>With timely interventions and coordinated care, we build healthier communities, reduce healthcare system strain, and boost readiness for public health challenges—including future pandemics.</p>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
       {/* About Section */}
       <section className={styles.contentSection}>
         <div className={styles.heroContainer}>
@@ -191,20 +273,71 @@ const AboutPage = () => {
                 <div className={`${styles.comparisonColumn} ${styles.comparisonWithout}`}>
                   <h3>Without PharmaLink</h3>
                   <ul>
-                    <li>Isolated providers in silos</li>
-                    <li>Gaps in clinical training</li>
-                    <li>Invisible patient impact</li>
+                    <li className={styles.comparisonItem}>
+                      <span className={`${styles.comparisonIcon} ${styles.iconWithout}`}><MinusCircle size={15} /></span>
+                      Isolated providers in silos
+                    </li>
+                    <li className={styles.comparisonItem}>
+                      <span className={`${styles.comparisonIcon} ${styles.iconWithout}`}><MinusCircle size={15} /></span>
+                      Gaps in clinical training
+                    </li>
+                    <li className={styles.comparisonItem}>
+                      <span className={`${styles.comparisonIcon} ${styles.iconWithout}`}><MinusCircle size={15} /></span>
+                      Invisible patient impact
+                    </li>
                   </ul>
+                </div>
+                <div className={styles.comparisonArrow} aria-hidden="true">
+                  <ArrowRight size={22} />
                 </div>
                 <div className={`${styles.comparisonColumn} ${styles.comparisonActive}`}>
                   <h3>With PharmaLink</h3>
                   <ul>
-                    <li>Coordinated data ecosystem</li>
-                    <li>World-class eLearning</li>
-                    <li>Verifiable impact dashboards</li>
+                    <li className={styles.comparisonItem}>
+                      <span className={styles.comparisonIcon}><ListCheckIcon /></span>
+                      Coordinated data ecosystem
+                    </li>
+                    <li className={styles.comparisonItem}>
+                      <span className={styles.comparisonIcon}><ListCheckIcon /></span>
+                      World-class eLearning
+                    </li>
+                    <li className={styles.comparisonItem}>
+                      <span className={styles.comparisonIcon}><ListCheckIcon /></span>
+                      Verifiable impact dashboards
+                    </li>
                   </ul>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Our Purpose Section */}
+      <section className={styles.contentSection}>
+        <div className={styles.heroContainer}>
+          <div className={styles.sectionGrid}>
+            <div className={styles.sectionHeader}>
+              <h2>Our Purpose</h2>
+            </div>
+            <div className={styles.sectionBody}>
+              <p className={styles.purposeSubtitle}>Fully Integrating Pharmacies into Primary Care</p>
+              <p>
+                We believe that where you receive healthcare should never determine the quality of care you receive.
+              </p>
+              <p>
+                Across Africa, the private sector touches more patients more often than any other part of the health system. Pharmacists open their doors before clinics do, stay open after hospitals close, and serve communities that formal health infrastructure has yet to reach.
+              </p>
+              <button
+                className={styles.purposeReadMore}
+                onClick={() => setPurposeModalOpen(true)}
+              >
+                Read more
+                <svg className={styles.expandIcon} width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <g className={styles.expandTR}><path d="M5 2L10 2L10 7" /></g>
+                  <g className={styles.expandBL}><path d="M7 10L2 10L2 5" /></g>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -285,7 +418,7 @@ const AboutPage = () => {
                 <p className={styles.ctaText}>Drive access, education, and innovation across Africa’s pharmacy network. Together, we build resilient health systems.</p>
               </div>
               <div className={styles.ctaButtons}>
-                <button className={styles.primaryButton}>Join the Network</button>
+                <button className={styles.primaryButton} onClick={() => setPartnerDialogOpen(true)}>Join the Network</button>
                 <button className={styles.secondaryButton}>Explore Courses</button>
               </div>
             </div>
@@ -293,10 +426,49 @@ const AboutPage = () => {
         </section>
       </div>
 
+      <AnimatePresence>
+        {purposeModalOpen && (
+          <PurposeModal onClose={() => setPurposeModalOpen(false)} />
+        )}
+      </AnimatePresence>
+
+      <PartnerDialog 
+        isOpen={partnerDialogOpen} 
+        onClose={() => setPartnerDialogOpen(false)} 
+      />
+
       <Footer />
     </motion.main>
   );
 };
+
+const PurposeModal = ({ onClose }: { onClose: () => void }) => (
+  <div className={styles.modalOverlay} onClick={onClose}>
+    <motion.div
+      className={styles.purposeModal}
+      onClick={(e) => e.stopPropagation()}
+      initial={{ opacity: 0, scale: 0.97, y: 16 }}
+      animate={{ opacity: 1, scale: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.97, y: 16 }}
+      transition={{ type: 'spring', damping: 28, stiffness: 320 }}
+    >
+      <button className={styles.modalClose} onClick={onClose} aria-label="Close">
+        <X size={20} />
+      </button>
+      <div className={styles.purposeModalInner}>
+        <p className={styles.purposeModalEyebrow}>Our Purpose</p>
+        <h2 className={styles.purposeModalTitle}>Fully Integrating Pharmacies into Primary Care</h2>
+        <div className={styles.purposeModalBody}>
+          <p>We believe that where you receive healthcare should never determine the quality of care you receive.</p>
+          <p>Across Africa, the private sector touches more patients more often than any other part of the health system. Pharmacists open their doors before clinics do, stay open after hospitals close, and serve communities that formal health infrastructure has yet to reach. Community health workers cross the last mile. Private providers fill gaps that public systems cannot.</p>
+          <p>And yet, for too long, these providers have operated at the margins of health policy – underestimated, under-resourced, and under-connected. Their impact has been real but largely invisible, their potential constrained not by lack of commitment, but by lack of support.</p>
+          <p>PharmaLink exists to change that. Our purpose is to make the private sector's contribution to health in Africa impossible to ignore – by building tools that elevate individual practice, the networks that turn isolated providers into a connected profession, and the evidence base that makes the case for pharmacy-led care where it matters most: in policy, in funding, and in the communities that depend on it.</p>
+          <p>When pharmacists and private sector providers are properly equipped, genuinely connected, and visibly valued, health systems don't just improve at the edges. <strong>They transform from the inside out.</strong></p>
+        </div>
+      </div>
+    </motion.div>
+  </div>
+);
 
 const TeamMemberModal = ({ member, onClose }: { member: typeof teamMembers[0], onClose: () => void }) => {
   return (

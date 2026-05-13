@@ -45,8 +45,7 @@ export default function PodcastPage() {
           <span className={styles.eyebrow}>Podcast</span>
           <h1 className={styles.title}>PharmaLink Podcast</h1>
           <p className={styles.subtitle}>
-            Industry conversations with the leading voices shaping pharmaceutical
-            practice across Africa and beyond.
+            Hosted by Project Director <strong>Betty Abera</strong> and co-hosted by Program Manager <strong>Alexandra Miller</strong>, this podcast dives into stories of innovation, digital integration, and the evolving role of pharmacists and other private-sector healthcare providers in delivering community-centered care, featuring perspectives from Country Program Managers <strong>Adebayo Adebisi</strong>, <strong>Belete Ayalneh</strong>, and <strong>Florence Wachera</strong>.
           </p>
         </div>
       </section>

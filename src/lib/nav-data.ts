@@ -88,6 +88,29 @@ export const NAV_DATA: NavItem[] = [
     },
   },
   {
+    id: "elearning",
+    label: "E-learning",
+    href: "/elearning",
+    columns: [
+      {
+        heading: "E-learning",
+        links: [
+          {
+            label: "All Courses",
+            href: "/elearning",
+            descriptor: "Browse the full course catalogue",
+          },
+        ],
+      },
+    ],
+    featuredCard: {
+      title: "Advance Your Practice",
+      description: "World-class clinical training for pharmacists across Africa",
+      ctaLabel: "Browse Courses",
+      ctaHref: "/elearning",
+    },
+  },
+  {
     id: "data-insights",
     label: "Data Insights",
     href: "/data-insights",

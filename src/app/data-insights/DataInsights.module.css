@@ -367,17 +367,26 @@
 
 .whyPoints {
   border-left: 1px solid var(--hds-color-surface-border-quiet);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
 .whyPoint {
   display: grid;
   grid-template-columns: 48px 1fr;
-  padding: 32px 0 32px 40px;
+  padding: 32px 40px;
+  border-bottom: none;
+  border-right: none;
+}
+
+/* top row */
+.whyPoint:nth-child(-n+2) {
   border-bottom: 1px solid var(--hds-color-surface-border-quiet);
 }
 
-.whyPoint:last-child {
-  border-bottom: none;
+/* left column */
+.whyPoint:nth-child(odd) {
+  border-right: 1px solid var(--hds-color-surface-border-quiet);
 }
 
 .whyNumber {
