@@ -9,9 +9,11 @@ import styles from './Megamenu.module.css';
 interface MegamenuProps {
   activeTab: string | null;
   tabs: { id: string; label: string; content: React.ReactNode }[];
+  contentOffset?: number;
+  arrowLeft?: number;
 }
 
-const Megamenu: React.FC<MegamenuProps> = ({ activeTab, tabs }) => {
+const Megamenu: React.FC<MegamenuProps> = ({ activeTab, tabs, contentOffset, arrowLeft }) => {
   const activeContent = tabs.find(t => t.id === activeTab)?.content;
 
   return (
@@ -24,7 +26,10 @@ const Megamenu: React.FC<MegamenuProps> = ({ activeTab, tabs }) => {
           exit={{ opacity: 0, y: -8, scale: 0.98 }}
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
         >
-          <div className={styles.dropdownContent}>
+          <div
+            className={styles.dropdownContent}
+            style={contentOffset != null ? { paddingInlineStart: contentOffset } : undefined}
+          >
             <AnimatePresence mode="wait">
               <motion.div
                 key={activeTab}
@@ -37,7 +42,12 @@ const Megamenu: React.FC<MegamenuProps> = ({ activeTab, tabs }) => {
               </motion.div>
             </AnimatePresence>
           </div>
-          <div className={styles.arrow} />
+          {arrowLeft != null && (
+            <div
+              className={styles.arrow}
+              style={{ left: arrowLeft, transform: 'translateX(-50%) rotate(45deg)' }}
+            />
+          )}
         </motion.div>
       )}
     </AnimatePresence>

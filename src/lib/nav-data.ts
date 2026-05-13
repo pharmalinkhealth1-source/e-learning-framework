@@ -20,6 +20,7 @@ export interface FeaturedCard {
 export interface NavItem {
   id: string;
   label: string;
+  href: string;
   columns: NavColumn[];
   featuredCard: FeaturedCard;
 }
@@ -28,6 +29,7 @@ export const NAV_DATA: NavItem[] = [
   {
     id: "about-us",
     label: "About Us",
+    href: "/about-us",
     columns: [
       {
         heading: "About Us",
@@ -50,6 +52,7 @@ export const NAV_DATA: NavItem[] = [
   {
     id: "community",
     label: "Community",
+    href: "/community",
     columns: [
       {
         heading: "Community",
@@ -87,6 +90,7 @@ export const NAV_DATA: NavItem[] = [
   {
     id: "data-insights",
     label: "Data Insights",
+    href: "/data-insights",
     columns: [
       {
         heading: "Data Insights",
@@ -124,6 +128,7 @@ export const NAV_DATA: NavItem[] = [
   {
     id: "podcast",
     label: "Podcast",
+    href: "/podcast",
     columns: [
       {
         heading: "Podcast",
@@ -146,10 +151,11 @@ export const NAV_DATA: NavItem[] = [
   {
     id: "contact-us",
     label: "Contact Us",
+    href: "/contact-us",
     columns: [],
     featuredCard: {
       title: "Get in Touch",
-      description: "Lagos · London · New York\ncontact@pharmalink.io",
+      description: "Washington · Addis Ababa · Lagos · Nairobi\ninfo@pharmalinkhealth.com",
       ctaLabel: "Send a Message",
       ctaHref: "/contact-us",
     },

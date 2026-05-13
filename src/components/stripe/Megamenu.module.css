@@ -20,7 +20,6 @@
 .arrow {
   position: absolute;
   top: -6px;
-  left: 50%;
   transform: translateX(-50%) rotate(45deg);
   width: 12px;
   height: 12px;

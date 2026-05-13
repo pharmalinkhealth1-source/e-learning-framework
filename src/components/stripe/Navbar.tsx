@@ -80,7 +80,11 @@ const RotatingAuthButton = () => {
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [contentOffset, setContentOffset] = useState<number | null>(null);
+  const [arrowOffsets, setArrowOffsets] = useState<Record<string, number>>({});
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const navButtonRefs = useRef<Record<string, HTMLAnchorElement | null>>({});
 
   const handleMouseEnter = (id: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current);
@@ -90,6 +94,28 @@ const Navbar = () => {
   const handleMouseLeave = () => {
     closeTimer.current = setTimeout(() => setActiveTab(null), 150);
   };
+
+  useEffect(() => {
+    const measure = () => {
+      if (!containerRef.current) return;
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const firstBtn = navButtonRefs.current[NAV_DATA[0].id];
+      if (firstBtn) {
+        setContentOffset(firstBtn.getBoundingClientRect().left - containerRect.left);
+      }
+      const offsets: Record<string, number> = {};
+      for (const [id, btn] of Object.entries(navButtonRefs.current)) {
+        if (btn) {
+          const r = btn.getBoundingClientRect();
+          offsets[id] = r.left - containerRect.left + r.width / 2;
+        }
+      }
+      setArrowOffsets(offsets);
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
+  }, []);
 
   const PANEL_MAP: Record<string, React.ReactNode> = {
     'about-us': <AboutUsPanel />,
@@ -119,7 +145,7 @@ const Navbar = () => {
   return (
     <>
       <header className={`${styles.navigation} ${styles.section}`}>
-        <div className={`${styles.sectionContainer} ${styles.navigationLayout}`}>
+        <div ref={containerRef} className={`${styles.sectionContainer} ${styles.navigationLayout}`}>
           <nav className={styles.hdsNavigationMenu} id="navigation-menu">
             <Link href="/" className={styles.navigationMenuHomeLink} aria-label="PharmaLink homepage">
               <div className={styles.logoWrapper}>
@@ -138,24 +164,18 @@ const Navbar = () => {
               <ul className={`${styles.hdsNavigationMenuList} ${styles.hdsNavigationMenuListHorizontal}`}>
                 {NAV_DATA.map((item) => (
                   <li key={item.id} className={styles.navigationItem}>
-                    <button
+                    <Link
+                      ref={el => { navButtonRefs.current[item.id] = el; }}
+                      href={item.href}
                       className={`${styles.hdsButton} ${styles.hdsNavigationMenuTrigger} ${styles.hdsButtonTransparent}`}
                       onMouseEnter={() => handleMouseEnter(item.id)}
                       onMouseLeave={handleMouseLeave}
                     >
                       {item.label}
-                    </button>
+                    </Link>
                   </li>
                 ))}
               </ul>
-            </div>
-
-            <div
-              className={styles.megamenuWrapper}
-              onMouseEnter={() => { if (closeTimer.current) clearTimeout(closeTimer.current); }}
-              onMouseLeave={handleMouseLeave}
-            >
-              <Megamenu activeTab={activeTab} tabs={tabs} />
             </div>
 
             <ul className={styles.navigationButtons}>
@@ -189,6 +209,18 @@ const Navbar = () => {
               </li>
             </ul>
           </nav>
+          <div
+            className={styles.megamenuWrapper}
+            onMouseEnter={() => { if (closeTimer.current) clearTimeout(closeTimer.current); }}
+            onMouseLeave={handleMouseLeave}
+          >
+            <Megamenu
+              activeTab={activeTab}
+              tabs={tabs}
+              contentOffset={contentOffset ?? undefined}
+              arrowLeft={activeTab ? arrowOffsets[activeTab] : undefined}
+            />
+          </div>
         </div>
       </header>
       <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />

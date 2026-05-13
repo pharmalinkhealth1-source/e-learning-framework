@@ -92,24 +92,27 @@
 }
 
 .sectionHeading {
-  font-size: 1.5rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  color: var(--hds-color-core-neutral-850);
-  margin-bottom: 40px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--hds-color-button-primary-bg);
+  margin-bottom: 24px;
   padding-left: var(--hds-space-layout-content-margin);
 }
 
 .tabsContainer {
-  padding: 0 var(--hds-space-layout-content-margin);
+  /* no horizontal padding — heading+tabs get their own, iframe fills full width */
 }
 
 .tabsHeader {
   display: flex;
-  gap: 32px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  margin-bottom: 40px;
+  gap: 0;
+  border-bottom: 1px solid var(--hds-color-surface-border-quiet);
+  margin-bottom: 0;
   overflow-x: auto;
   scrollbar-width: none;
+  padding: 0 var(--hds-space-layout-content-margin);
 }
 
 .tabsHeader::-webkit-scrollbar {
@@ -117,39 +120,51 @@
 }
 
 .tabButton {
-  padding: 16px 0;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--hds-color-core-neutral-600);
+  padding: 14px 20px;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: var(--hds-color-text-subdued);
   background: none;
   border: none;
   border-bottom: 2px solid transparent;
   cursor: pointer;
   white-space: nowrap;
-  transition: all 0.2s;
+  transition: color 0.2s, border-color 0.2s;
+  position: relative;
 }
 
 .tabButton:hover {
-  color: var(--hds-color-core-neutral-850);
+  color: var(--hds-color-text-main);
 }
 
 .tabButton.active {
-  color: var(--hds-color-util-brand-500);
-  border-bottom-color: var(--hds-color-util-brand-500);
+  color: var(--hds-color-button-primary-bg);
+  font-weight: 600;
+  border-bottom-color: transparent;
+}
+
+.tabButton.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--hds-color-core-secondary-600),
+    var(--hds-color-core-primary-500)
+  );
 }
 
 .tabContent {
-  background: white;
-  border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-  border: 1px solid rgba(0, 0, 0, 0.05);
   min-height: 600px;
+  border-top: none;
 }
 
 .iframeContainer {
   width: 100%;
-  height: 800px;
   background: var(--hds-color-core-neutral-15);
 }
 
@@ -192,13 +207,46 @@
   padding: 100px 0;
   z-index: 1;
   position: relative;
+  overflow: hidden;
+  border-top: 1px solid var(--hds-color-surface-border-quiet);
+  border-bottom: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.chartsSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: linear-gradient(to bottom, var(--hds-color-core-neutral-15) 0%, var(--hds-color-core-neutral-0) 100%);
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Grid lines scoped to this section */
+.chartsSectionLines {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth) + 2px);
+  margin: 0 auto;
+  pointer-events: none;
+  z-index: 1;
+  display: flex;
+  justify-content: space-evenly;
+  border-inline: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.chartsSectionLine {
+  width: 1px;
+  height: 100%;
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.08) 50%, transparent 50%);
+  background-size: 1px 8px;
 }
 
 .chartsHeader {
   text-align: center;
   margin-bottom: 60px;
+  position: relative;
+  z-index: 2;
 }
 
 .chartEyebrow {
@@ -219,9 +267,11 @@
 
 .chartsGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 32px;
   padding: 0 var(--hds-space-layout-content-margin);
+  position: relative;
+  z-index: 2;
 }
 
 .chartCard {
@@ -233,6 +283,8 @@
   flex-direction: column;
   transition: all 0.3s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+  min-width: 0;
+  overflow: hidden;
 }
 
 .chartCard:hover {
@@ -273,6 +325,16 @@
   z-index: 1;
   position: relative;
   border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.sectionEyebrow {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--hds-color-button-primary-bg);
+  padding-left: var(--hds-space-layout-content-margin);
+  margin-bottom: 48px;
 }
 
 .sectionGrid {
