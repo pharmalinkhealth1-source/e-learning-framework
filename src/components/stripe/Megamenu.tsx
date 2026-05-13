@@ -2,6 +2,8 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { NAV_DATA } from '@/lib/nav-data';
 import styles from './Megamenu.module.css';
 
 interface MegamenuProps {
@@ -31,7 +33,6 @@ const Megamenu: React.FC<MegamenuProps> = ({ activeTab, tabs }) => {
       <AnimatePresence>
         {activeTab && (
           <motion.div
-            layoutId="dropdown-container"
             className={styles.dropdownContainer}
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -63,51 +64,161 @@ const Megamenu: React.FC<MegamenuProps> = ({ activeTab, tabs }) => {
   );
 };
 
-export const ProductsContent = () => (
-  <div className={styles.pane}>
-    <div className={styles.section}>
-      <h4 className={styles.sectionTitle}>Payments</h4>
-      <ul className={styles.list}>
-        <li>Online Payments</li>
-        <li>Checkout</li>
-        <li>Elements</li>
-      </ul>
-    </div>
-    <div className={styles.section}>
-      <h4 className={styles.sectionTitle}>Financial Services</h4>
-      <ul className={styles.list}>
-        <li>Issuing</li>
-        <li>Treasury</li>
-        <li>Capital</li>
-      </ul>
-    </div>
-  </div>
-);
+export const AboutUsPanel = () => {
+  const item = NAV_DATA.find(n => n.id === 'about-us')!;
+  const { featuredCard } = item;
 
-export const SolutionsContent = () => (
-  <div className={styles.pane}>
+  return (
     <div className={styles.section}>
-      <h4 className={styles.sectionTitle}>By Industry</h4>
-      <ul className={styles.list}>
-        <li>E-commerce</li>
-        <li>SaaS</li>
-        <li>Marketplaces</li>
-      </ul>
-    </div>
-  </div>
-);
+      <div className={styles.columnGrid}>
+        {item.columns.map(col => (
+          <div key={col.heading} className={styles.column}>
+            <p className={styles.columnHeader}>{col.heading}</p>
+            <hr className={styles.columnSeparator} />
+            {col.links.map(link => (
+              <Link key={link.href} href={link.href} className={styles.navLink}>
+                <span className={styles.navLinkTitle}>{link.label}</span>
+                <span className={styles.navLinkDescriptor}>{link.descriptor}</span>
+              </Link>
+            ))}
+          </div>
+        ))}
 
-export const DevelopersContent = () => (
-  <div className={styles.pane}>
-    <div className={styles.section}>
-      <h4 className={styles.sectionTitle}>Documentation</h4>
-      <ul className={styles.list}>
-        <li>Quickstart</li>
-        <li>Libraries</li>
-        <li>API Reference</li>
-      </ul>
+        <div className={styles.featuredCard}>
+          <div className={styles.featuredCardBody}>
+            <p className={styles.featuredCardTitle}>{featuredCard.title}</p>
+            <p className={styles.featuredCardDescription}>{featuredCard.description}</p>
+          </div>
+          <Link href={featuredCard.ctaHref} className={styles.featuredCardCta}>
+            {featuredCard.ctaLabel} →
+          </Link>
+        </div>
+      </div>
     </div>
-  </div>
-);
+  );
+};
+
+export const CommunityPanel = () => {
+  const item = NAV_DATA.find(n => n.id === 'community')!;
+  const { featuredCard } = item;
+
+  return (
+    <div className={styles.section}>
+      <div className={styles.columnGrid}>
+        {item.columns.map(col => (
+          <div key={col.heading} className={styles.column}>
+            <p className={styles.columnHeader}>{col.heading}</p>
+            <hr className={styles.columnSeparator} />
+            {col.links.map(link => (
+              <Link key={link.href} href={link.href} className={styles.navLink}>
+                <span className={styles.navLinkTitle}>{link.label}</span>
+                <span className={styles.navLinkDescriptor}>{link.descriptor}</span>
+              </Link>
+            ))}
+          </div>
+        ))}
+
+        <div className={styles.featuredCard}>
+          <div className={styles.featuredCardBody}>
+            <p className={styles.featuredCardTitle}>{featuredCard.title}</p>
+            <p className={styles.featuredCardDescription}>{featuredCard.description}</p>
+          </div>
+          <Link href={featuredCard.ctaHref} className={styles.featuredCardCta}>
+            {featuredCard.ctaLabel} →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const DataInsightsPanel = () => {
+  const item = NAV_DATA.find(n => n.id === 'data-insights')!;
+  const { featuredCard } = item;
+
+  return (
+    <div className={styles.section}>
+      <div className={styles.columnGrid}>
+        {item.columns.map(col => (
+          <div key={col.heading} className={styles.column}>
+            <p className={styles.columnHeader}>{col.heading}</p>
+            <hr className={styles.columnSeparator} />
+            {col.links.map(link => (
+              <Link key={link.href} href={link.href} className={styles.navLink}>
+                <span className={styles.navLinkTitle}>{link.label}</span>
+                <span className={styles.navLinkDescriptor}>{link.descriptor}</span>
+              </Link>
+            ))}
+          </div>
+        ))}
+
+        <div className={styles.featuredCard}>
+          <div className={styles.featuredCardBody}>
+            <p className={styles.featuredCardTitle}>{featuredCard.title}</p>
+            <p className={styles.featuredCardDescription}>{featuredCard.description}</p>
+          </div>
+          <Link href={featuredCard.ctaHref} className={styles.featuredCardCta}>
+            {featuredCard.ctaLabel} →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const PodcastPanel = () => {
+  const item = NAV_DATA.find(n => n.id === 'podcast')!;
+  const { featuredCard } = item;
+
+  return (
+    <div className={styles.section}>
+      <div className={styles.columnGrid}>
+        {item.columns.map(col => (
+          <div key={col.heading} className={styles.column}>
+            <p className={styles.columnHeader}>{col.heading}</p>
+            <hr className={styles.columnSeparator} />
+            {col.links.map(link => (
+              <Link key={link.href} href={link.href} className={styles.navLink}>
+                <span className={styles.navLinkTitle}>{link.label}</span>
+                <span className={styles.navLinkDescriptor}>{link.descriptor}</span>
+              </Link>
+            ))}
+          </div>
+        ))}
+
+        <div className={styles.featuredCard}>
+          <div className={styles.featuredCardBody}>
+            <p className={styles.featuredCardTitle}>{featuredCard.title}</p>
+            <p className={styles.featuredCardDescription}>{featuredCard.description}</p>
+          </div>
+          <Link href={featuredCard.ctaHref} className={styles.featuredCardCta}>
+            {featuredCard.ctaLabel} →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export const ContactUsPanel = () => {
+  const item = NAV_DATA.find(n => n.id === 'contact-us')!;
+  const { featuredCard } = item;
+
+  return (
+    <div className={styles.section}>
+      <div className={styles.columnGrid}>
+        <div className={styles.featuredCard}>
+          <div className={styles.featuredCardBody}>
+            <p className={styles.featuredCardTitle}>{featuredCard.title}</p>
+            <p className={styles.featuredCardDescription}>{featuredCard.description}</p>
+          </div>
+          <Link href={featuredCard.ctaHref} className={styles.featuredCardCta}>
+            {featuredCard.ctaLabel} →
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Megamenu;

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import styles from './Navbar.module.css';
 import { ThemeToggle } from './ThemeToggle';
 import SearchModal from '../search/SearchModal';
-import Megamenu from './Megamenu';
+import Megamenu, { AboutUsPanel, CommunityPanel, DataInsightsPanel, PodcastPanel, ContactUsPanel } from './Megamenu';
 import { NAV_DATA } from '@/lib/nav-data';
 
 const PLATFORMS = [
@@ -91,10 +91,18 @@ const Navbar = () => {
     closeTimer.current = setTimeout(() => setActiveTab(null), 150);
   };
 
+  const PANEL_MAP: Record<string, React.ReactNode> = {
+    'about-us': <AboutUsPanel />,
+    'community': <CommunityPanel />,
+    'data-insights': <DataInsightsPanel />,
+    'podcast': <PodcastPanel />,
+    'contact-us': <ContactUsPanel />,
+  };
+
   const tabs = NAV_DATA.map(item => ({
     id: item.id,
     label: item.label,
-    content: <div>{item.label} panel — coming in T03</div>,
+    content: PANEL_MAP[item.id],
   }));
 
   useEffect(() => {
