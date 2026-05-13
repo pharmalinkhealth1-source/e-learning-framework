@@ -96,6 +96,7 @@ tasks:
     depends_on: [T01, T04]
     files_affected:
       - src/components/stripe/Megamenu.tsx
+      - src/components/stripe/Navbar.tsx
     description: >
       Replace the placeholder ProductsContent/SolutionsContent/DevelopersContent
       exports with PharmaLink panel components: AboutUsPanel, CommunityPanel,

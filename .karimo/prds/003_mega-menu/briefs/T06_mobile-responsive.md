@@ -36,11 +36,12 @@ From `Navbar.module.css`:
 
 The `SearchModal` (if it has a z-index) likely sits around 1100–1200. **Check `src/components/search/SearchModal.module.css` or inline styles in `SearchModal.tsx` before assigning z-index to the mobile overlay.** The mobile overlay must have a lower z-index than SearchModal so the search overlay appears above it when both could theoretically be open.
 
-Recommended z-index values:
-- Mobile overlay: `z-index: 1050` (above nav, below SearchModal)
-- Hamburger button: `z-index: 1002` (just above nav home link)
+Correct z-index values (verified against `src/components/search/SearchModal.module.css` line 9 where `.overlay { z-index: 1000 }`):
+- Mobile overlay: `z-index: 999` (below SearchModal's 1000)
+- Mobile backdrop: `z-index: 998`
+- Hamburger button: `z-index: 1001` (safe within navbar context, which is already z-index: 1000)
 
-Verify `SearchModal`'s z-index before finalising these values.
+The mobile overlay must sit BELOW SearchModal so the search overlay appears above the mobile menu when both are open.
 
 ---
 
@@ -158,6 +159,18 @@ const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 ### Navbar.module.css Additions
 
 ```css
+/* Hamburger list item — hides the <li> wrapper on desktop, shows on mobile */
+.hamburgerItem {
+  display: none;
+}
+
+@media (max-width: 940px) {
+  .hamburgerItem {
+    display: flex;
+    align-items: center;
+  }
+}
+
 /* Hamburger button — visible only on mobile */
 .hamburger {
   display: none;
@@ -355,7 +368,7 @@ All colours via HDS tokens. Key rules:
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.4);
-  z-index: 1049;
+  z-index: 998; /* Below SearchModal (1000) and below overlay */
 }
 
 .overlay {
@@ -365,7 +378,7 @@ All colours via HDS tokens. Key rules:
   right: 0;
   bottom: 0;
   background-color: var(--hds-color-surface-bg-quiet);
-  z-index: 1050;
+  z-index: 999; /* Below SearchModal's z-index: 1000 */
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -499,8 +512,7 @@ Before writing CSS, check SearchModal's z-index:
 grep -n 'z-index' src/components/search/SearchModal.module.css 2>/dev/null || grep -n 'z-index' src/components/search/SearchModal.tsx 2>/dev/null
 ```
 
-If SearchModal uses z-index ≥ 1100: use 1050 for overlay, 1049 for backdrop (safe).
-If SearchModal uses z-index < 1050: adjust the mobile overlay to stay below it.
+SearchModal's z-index is confirmed as 1000 (`SearchModal.module.css` line 9). Use 999 for overlay, 998 for backdrop — these are already the correct values in the CSS snippet above.
 
 ### Body Scroll Lock
 

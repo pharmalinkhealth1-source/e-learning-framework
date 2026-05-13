@@ -87,6 +87,7 @@ Complete ALL criteria before marking task done:
 - [ ] `ProductsContent`, `SolutionsContent`, `DevelopersContent` exports removed
 - [ ] `layoutId="dropdown-container"` removed from the `motion.div` in `Megamenu` component
 - [ ] No browser console warnings about duplicate keys or undefined props on panel open/close
+- [ ] All 5 panel components imported in `Navbar.tsx` and passed to `Megamenu` `tabs` prop (no placeholder content remains)
 - [ ] `npx tsc --noEmit` passes
 
 **All criteria must pass before task is complete.**
@@ -98,6 +99,7 @@ Complete ALL criteria before marking task done:
 | File | Action | Purpose |
 |------|--------|---------|
 | `src/components/stripe/Megamenu.tsx` | modify | Replace placeholder exports with 5 real panel components; fix layoutId |
+| `src/components/stripe/Navbar.tsx` | modify | Import real panel components and replace placeholder tabs content |
 
 ### File Ownership Notes
 
@@ -171,6 +173,40 @@ export const CommunityPanel = () => {
 
 Apply the same pattern for `AboutUsPanel`, `DataInsightsPanel`, `PodcastPanel`.
 
+### Wire into Navbar.tsx
+
+After exporting the 5 panel components from `Megamenu.tsx`, open `Navbar.tsx` and replace the placeholder `tabs` array with real panel components.
+
+Add the following imports at the top of `Navbar.tsx`:
+
+```tsx
+import { AboutUsPanel, CommunityPanel, DataInsightsPanel, PodcastPanel, ContactUsPanel } from '@/components/stripe/Megamenu';
+```
+
+Then define a panel map before the component return (or inline in the `tabs` build):
+
+```tsx
+const PANEL_MAP: Record<string, React.ReactNode> = {
+  'about-us': <AboutUsPanel />,
+  'community': <CommunityPanel />,
+  'data-insights': <DataInsightsPanel />,
+  'podcast': <PodcastPanel />,
+  'contact-us': <ContactUsPanel />,
+};
+```
+
+Replace the placeholder `tabs` array (the one with `content: <div>{item.label} panel — coming in T03</div>`) with:
+
+```tsx
+const tabs = NAV_DATA.map(item => ({
+  id: item.id,
+  label: item.label,
+  content: PANEL_MAP[item.id],
+}));
+```
+
+Do not touch any other part of `Navbar.tsx` — preserve hover state, close timer, event handlers, ThemeToggle, SearchModal, RotatingAuthButton, and "Get Started" CTA exactly as T02 left them.
+
 ### ContactUsPanel (no columns)
 
 ```tsx
@@ -219,7 +255,7 @@ Panel components are pure functions — no hooks needed. Do not add `useState`, 
 - `src/sanity/lib/client.ts`
 - `src/middleware.ts`
 - `src/styles/tokens.css`
-- `src/components/stripe/Navbar.tsx` — T02's responsibility (already done)
+- `src/components/stripe/Navbar.tsx` — modify only the `tabs` array to import and pass the real panel components; do not touch hover state, event handlers, or any other logic
 - `src/components/stripe/Megamenu.module.css` — T04's responsibility (already done)
 - `src/lib/nav-data.ts` — T01's responsibility (read-only for T03)
 

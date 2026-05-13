@@ -78,7 +78,7 @@ Complete ALL criteria before marking task done:
 - [ ] ThemeToggle still renders
 - [ ] SearchModal trigger still renders (search icon button + Cmd+K listener)
 - [ ] RotatingAuthButton still renders
-- [ ] "Get Started" CTA button still renders
+- [ ] "Get Started" CTA button still renders and links to `/contact-us` (not `/contact`)
 - [ ] `npm run lint` passes
 - [ ] `npx tsc --noEmit` passes
 
@@ -231,6 +231,12 @@ If the Megamenu panel visually overflows outside the nav container, add to `Navb
 ```
 
 And wrap `<Megamenu>` with `<div className={styles.megamenuWrapper}>`.
+
+### "Get Started" CTA — Broken Link Fix
+
+The existing `Navbar.tsx` line 147 has the "Get Started" CTA linking to `href="/contact"`. There is no `src/app/contact/` route directory — this is a 404. The correct route is `src/app/contact-us/`.
+
+When preserving the "Get Started" button, change its `href` from `/contact` to `/contact-us`.
 
 ### React Compiler Constraint
 
