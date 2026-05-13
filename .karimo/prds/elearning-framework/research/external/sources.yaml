@@ -1,0 +1,110 @@
+sources:
+  - url: https://github.com/jcputney/scorm-again
+    title: scorm-again GitHub Repository
+    accessed: 2026-05-13
+    relevance: High — SCORM 1.2/2004 window API bridge library, cross-frame communication
+
+  - url: https://jcputney.github.io/scorm-again/docs/getting-started/introduction/
+    title: scorm-again Documentation
+    accessed: 2026-05-13
+    relevance: High — installation and initialization patterns
+
+  - url: https://scorm.com/scorm-explained/technical-scorm/scorm-12-overview-for-developers/
+    title: SCORM 1.2 Developer Overview — scorm.com
+    accessed: 2026-05-13
+    relevance: High — API specification, CMI data model
+
+  - url: https://scorm.com/scorm-explained/technical-scorm/scorm-2004-overview-for-developers/
+    title: SCORM 2004 Developer Overview — scorm.com
+    accessed: 2026-05-13
+    relevance: High — API_1484_11 specification
+
+  - url: https://scorm.com/scorm-explained/technical-scorm/run-time/
+    title: SCORM Run-Time Environment
+    accessed: 2026-05-13
+    relevance: Medium — window API search algorithm
+
+  - url: https://github.com/Cvmcosta/ltijs
+    title: ltijs GitHub Repository
+    accessed: 2026-05-13
+    relevance: High — LTI 1.3 Tool Provider library; incompatibility with Next.js documented
+
+  - url: https://github.com/Cvmcosta/ltijs/blob/master/docs/provider.md
+    title: ltijs Provider Documentation
+    accessed: 2026-05-13
+    relevance: High — serverless mode, endpoint structure
+
+  - url: https://github.com/kulla/2024-07-05-using-lti-in-nextjs
+    title: LTI in Next.js Example (kulla)
+    accessed: 2026-05-13
+    relevance: High — documents ltijs/Next.js incompatibility and workarounds
+
+  - url: https://blackboard.github.io/lti/tutorials/implementation-guide
+    title: LTI 1.3 Tool Implementation Guide — Blackboard
+    accessed: 2026-05-13
+    relevance: High — OIDC flow steps, JWT structure
+
+  - url: https://clerk.com/docs/guides/users/extending
+    title: Clerk User Metadata Documentation
+    accessed: 2026-05-13
+    relevance: High — 8KB limit, publicMetadata vs privateMetadata
+
+  - url: https://clerk.com/docs/reference/backend/user/update-user-metadata
+    title: Clerk updateUserMetadata Backend SDK
+    accessed: 2026-05-13
+    relevance: High — progress metadata write pattern
+
+  - url: https://clerk.com/docs/guides/development/webhooks/syncing
+    title: Clerk Webhook Data Sync Docs
+    accessed: 2026-05-13
+    relevance: Medium — webhook pattern for progress sync
+
+  - url: https://www.mux.com/docs/integrations/next-js
+    title: Mux + Next.js Integration Guide
+    accessed: 2026-05-13
+    relevance: High — @mux/mux-player-react App Router pattern
+
+  - url: https://github.com/muxinc/next-video
+    title: next-video GitHub Repository
+    accessed: 2026-05-13
+    relevance: Medium — alternative to direct Mux player
+
+  - url: https://www.sanity.io/docs/apis-and-sdks/sanity-typegen
+    title: Sanity TypeGen Documentation
+    accessed: 2026-05-13
+    relevance: High — official TypeScript codegen replacing sanity-codegen
+
+  - url: https://www.sanity.io/docs/studio/file-type
+    title: Sanity File Type Schema Docs
+    accessed: 2026-05-13
+    relevance: High — type: file field for SCORM ZIP storage in Sanity
+
+  - url: https://www.sanity.io/docs/content-lake/manage-assets
+    title: Sanity Asset Management Docs
+    accessed: 2026-05-13
+    relevance: Medium — GROQ asset->url dereference pattern
+
+  - url: https://vercel.com/docs/vercel-blob
+    title: Vercel Blob Documentation
+    accessed: 2026-05-13
+    relevance: High — SCORM package storage and serving
+
+  - url: https://vercel.com/docs/vercel-blob/server-upload
+    title: Vercel Blob Server Upload Guide
+    accessed: 2026-05-13
+    relevance: High — Route Handler upload pattern for SCORM ZIPs
+
+  - url: https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts
+    title: Next.js App Router Layouts Documentation
+    accessed: 2026-05-13
+    relevance: High — persistent layout shell for player
+
+  - url: https://react.dev/blog/2025/10/07/react-compiler-1
+    title: React Compiler v1.0 Release
+    accessed: 2026-05-13
+    relevance: Medium — incompatible patterns, memoization behaviour
+
+  - url: https://www.sanity.io/blog/sanity-typegen-ga
+    title: Sanity TypeGen GA Blog Post
+    accessed: 2026-05-13
+    relevance: Medium — migration guidance from sanity-codegen
