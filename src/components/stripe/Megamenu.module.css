@@ -1,33 +1,19 @@
-/* ── Dropdown wrapper ─────────────────────────────────── */
-.dropdownWrapper {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  perspective: 1000px;
-  z-index: 999;
-}
-
 /* ── Dropdown container ───────────────────────────────── */
+/* Positioned by .megamenuWrapper in Navbar — no absolute here */
 .dropdownContainer {
-  position: relative;
   width: 100%;
-  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
   background-color: var(--hds-color-surface-bg-quiet);
   border: 1px solid var(--hds-color-surface-border-quiet);
-  border-radius: var(--hds-space-core-radius-lg);
+  border-top: none;
   box-shadow: var(--hds-shadow-lg);
-  overflow: hidden;
   transform-origin: top center;
-  transition: width 0.3s ease, height 0.3s ease;
-  margin-top: var(--hds-space-core-300);
 }
 
 /* ── Dropdown content ─────────────────────────────────── */
 .dropdownContent {
-  padding: var(--hds-space-core-600);
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  margin-inline: auto;
+  padding: var(--hds-space-core-400) var(--hds-space-layout-content-margin, 20px);
 }
 
 /* ── Arrow pointer ────────────────────────────────────── */
@@ -56,10 +42,11 @@
 }
 
 /* ── Column grid ─────────────────────────────────────── */
+/* Content columns + 1 fixed-width featured card column */
 .columnGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: var(--hds-space-core-400);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) 240px;
+  gap: var(--hds-space-core-500);
   align-items: start;
 }
 

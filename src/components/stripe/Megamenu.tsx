@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
 import { NAV_DATA } from '@/lib/nav-data';
@@ -12,55 +12,35 @@ interface MegamenuProps {
 }
 
 const Megamenu: React.FC<MegamenuProps> = ({ activeTab, tabs }) => {
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0, left: 0 });
-  const activeContentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (activeContentRef.current) {
-      const { offsetWidth, offsetHeight } = activeContentRef.current;
-      setDimensions({
-        width: offsetWidth,
-        height: offsetHeight,
-        left: 0, // Left is handled by the parent relative to the link
-      });
-    }
-  }, [activeTab]);
-
   const activeContent = tabs.find(t => t.id === activeTab)?.content;
 
   return (
-    <div className={styles.dropdownWrapper}>
-      <AnimatePresence>
-        {activeTab && (
-          <motion.div
-            className={styles.dropdownContainer}
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            style={{
-              width: dimensions.width || 'auto',
-              height: dimensions.height || 'auto',
-            }}
-          >
-            <div className={styles.dropdownContent} ref={activeContentRef}>
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0, x: 10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -10 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  {activeContent}
-                </motion.div>
-              </AnimatePresence>
-            </div>
-            <div className={styles.arrow} />
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <AnimatePresence>
+      {activeTab && (
+        <motion.div
+          className={styles.dropdownContainer}
+          initial={{ opacity: 0, y: -8, scale: 0.98 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -8, scale: 0.98 }}
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        >
+          <div className={styles.dropdownContent}>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeTab}
+                initial={{ opacity: 0, x: 10 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -10 }}
+                transition={{ duration: 0.15 }}
+              >
+                {activeContent}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+          <div className={styles.arrow} />
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
