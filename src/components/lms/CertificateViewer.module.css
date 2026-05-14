@@ -1,0 +1,86 @@
+.viewer {
+  margin-top: 2rem;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  border: 2px solid;
+  max-width: 480px;
+}
+
+.accomplishment {
+  border-color: var(--hds-color-success, #2e7d32);
+  background: var(--hds-color-success-subtle, #f0faf0);
+}
+
+.participation {
+  border-color: var(--hds-color-border, #d0d0d0);
+  background: var(--hds-color-surface-secondary, #f5f5f5);
+}
+
+.badge {
+  font-size: var(--hds-font-size-lg, 1.125rem);
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--hds-color-text-primary, #1a1a1a);
+}
+
+.accomplishment .badge {
+  color: var(--hds-color-success, #2e7d32);
+}
+
+.congratsText {
+  font-size: var(--hds-font-size-base, 1rem);
+  color: var(--hds-color-text-secondary, #555);
+  margin-bottom: 1.25rem;
+}
+
+.downloadBtn {
+  display: inline-block;
+  padding: 0.625rem 1.25rem;
+  background: var(--hds-color-brand, #0066cc);
+  color: #fff;
+  border-radius: 8px;
+  font-size: var(--hds-font-size-sm, 0.875rem);
+  font-weight: 600;
+  text-decoration: none;
+  transition: opacity 0.15s;
+}
+
+.downloadBtn:hover {
+  opacity: 0.85;
+}
+
+.skeleton {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border-radius: 12px;
+  background: var(--hds-color-surface-secondary, #f5f5f5);
+  max-width: 480px;
+}
+
+.skeletonBar {
+  height: 20px;
+  background: var(--hds-color-border, #d0d0d0);
+  border-radius: 4px;
+  margin-bottom: 12px;
+  width: 70%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonBarShort {
+  height: 14px;
+  background: var(--hds-color-border, #d0d0d0);
+  border-radius: 4px;
+  width: 40%;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.error {
+  color: var(--hds-color-danger, #c0392b);
+  font-size: var(--hds-font-size-sm, 0.875rem);
+  margin-top: 1rem;
+}
