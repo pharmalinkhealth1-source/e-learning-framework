@@ -31,14 +31,14 @@ const TotalContainer = styled.div`
 const TotalValue = styled.div`
   font-size: 2rem;
   font-weight: 700;
-  color: #0a2540;
+  color: var(--hds-color-text-primary);
   line-height: 1;
 `;
 
 const TotalLabel = styled.div`
   font-size: 0.75rem;
   font-weight: 600;
-  color: #425466;
+  color: var(--hds-color-text-secondary);
   text-transform: uppercase;
   letter-spacing: 0.05em;
   margin-top: 4px;
@@ -57,7 +57,7 @@ const LegendItem = styled.div`
   align-items: center;
   gap: 8px;
   font-size: 0.8125rem;
-  color: #425466;
+  color: var(--hds-color-text-secondary);
   font-weight: 500;
 `;
 

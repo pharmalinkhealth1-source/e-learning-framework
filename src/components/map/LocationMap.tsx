@@ -56,7 +56,7 @@ const PopupTitle = styled.h3`
   font-size: 0.875rem;
   font-weight: 700;
   margin-bottom: 4px;
-  color: #0a2540;
+  color: var(--hds-color-text-primary);
 `;
 
 const PopupCategory = styled.span`
@@ -71,7 +71,7 @@ const PopupCategory = styled.span`
 
 const PopupAddress = styled.p`
   font-size: 0.75rem;
-  color: #425466;
+  color: var(--hds-color-text-secondary);
   line-height: 1.4;
 `;
 

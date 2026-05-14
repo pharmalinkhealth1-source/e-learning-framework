@@ -39,7 +39,7 @@ const Title = styled.h3`
 
 const Excerpt = styled.p`
   font-size: 14px;
-  color: #425466;
+  color: var(--hds-color-text-secondary);
   line-height: 1.6;
   margin-bottom: 16px;
 `;
@@ -49,7 +49,7 @@ const Meta = styled.div`
   align-items: center;
   gap: 12px;
   font-size: 12px;
-  color: #707070;
+  color: var(--hds-color-text-subdued);
 `;
 
 const AuthorBadge = styled.span`

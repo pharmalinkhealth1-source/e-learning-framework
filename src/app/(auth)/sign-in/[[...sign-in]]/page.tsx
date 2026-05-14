@@ -54,7 +54,7 @@ export default function SignInPage() {
         <h1 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--hds-color-fg)', marginBottom: '8px' }}>
           Sign in to your account
         </h1>
-        <p style={{ fontSize: '14px', color: '#425466' }}>
+        <p style={{ fontSize: '14px', color: 'var(--hds-color-text-secondary)' }}>
           Welcome back! Please enter your details.
         </p>
       </div>
@@ -89,7 +89,7 @@ export default function SignInPage() {
         </StripeButton>
       </form>
 
-      <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '14px', color: '#425466' }}>
+      <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '14px', color: 'var(--hds-color-text-secondary)' }}>
         Don't have an account?{' '}
         <Link href="/sign-up" style={{ color: 'var(--hds-color-primary)', fontWeight: 600, textDecoration: 'none' }}>
           Sign up

@@ -94,7 +94,7 @@ export default async function ForumPostPage({ params }: { params: Promise<{ slug
           <CommentThread comments={rootComments} postId={post._id} />
           
           <div style={{ marginTop: '64px' }}>
-            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '24px', color: '#0a2540' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '24px', color: 'var(--hds-color-text-primary)' }}>
               Add to the conversation
             </h3>
             <CommentForm postId={post._id} />

@@ -120,6 +120,10 @@
   --hds-color-button-secondary-borderOnSubdued: var(--hds-color-core-brand-200);
   --hds-color-button-secondary-borderHover: var(--hds-color-core-brand-700);
 
+  /* Shorthand aliases */
+  --hds-color-primary: var(--hds-color-core-primary-700);
+  --hds-color-primary-hover: var(--hds-color-core-primary-900);
+
   /* Global/Common */
   --hds-color-global-transparent: rgba(255, 255, 255, 0);
 
@@ -154,10 +158,12 @@
   /* Default Semantic Tokens (Light) */
   --hds-color-nav-bg: var(--hds-color-surface-bg-quiet);
   --hds-color-fg: var(--hds-color-text-primary);
-  --hds-color-text-primary: #0a2540;
-  --hds-color-text-secondary: #425466;
-  --hds-color-text-main: #25084a;
-  --hds-color-text-subdued: var(--hds-color-core-neutral-600);
+  --hds-color-text-primary: #24124a;
+  --hds-color-text-secondary: rgba(36, 18, 74, 0.72);
+  --hds-color-text-main: #24124a;
+  --hds-color-text-subdued: rgba(36, 18, 74, 0.52);
+  --hds-color-foreground-highContrast: #24124a;
+  --hds-color-foreground-lowContrast: rgba(36, 18, 74, 0.65);
   --hds-color-border: var(--hds-color-core-neutral-100);
   --hds-color-glass-bg: rgba(255, 255, 255, 0.7);
   --hds-color-control-bg: rgba(0, 0, 0, 0.03);

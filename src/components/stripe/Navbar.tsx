@@ -224,7 +224,7 @@ const Navbar = () => {
                 <RotatingAuthButton />
               </li>
               <li className={styles.navigationItem}>
-                <Link href="/contact-us" className={`${styles.hdsButton} ${styles.navigationCtaButton} ${styles.hdsButtonPrimary}`}>
+                <Link href="/sign-up" className={`${styles.hdsButton} ${styles.navigationCtaButton} ${styles.hdsButtonPrimary}`}>
                   Get Started
                   <svg className={styles.hdsIconHoverArrow} width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2">
                     <path d="M0.5 5.5h7" />

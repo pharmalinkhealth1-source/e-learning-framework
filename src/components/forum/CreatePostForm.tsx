@@ -15,7 +15,7 @@ const FormContainer = styled.div`
 const Title = styled.h2`
   font-size: 2rem;
   font-weight: 700;
-  color: #0a2540;
+  color: var(--hds-color-text-primary);
   margin-bottom: 32px;
   letter-spacing: -0.02em;
 `;
@@ -28,7 +28,7 @@ const Label = styled.label`
   display: block;
   font-size: 0.875rem;
   font-weight: 600;
-  color: #425466;
+  color: var(--hds-color-text-secondary);
   margin-bottom: 8px;
 `;
 

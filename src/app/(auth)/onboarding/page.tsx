@@ -54,7 +54,7 @@ export default function OnboardingPage() {
         <h1 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--hds-color-fg)', marginBottom: '8px' }}>
           Welcome to Stripe
         </h1>
-        <p style={{ fontSize: '14px', color: '#425466' }}>
+        <p style={{ fontSize: '14px', color: 'var(--hds-color-text-secondary)' }}>
           Tell us a bit about yourself to customize your experience.
         </p>
       </div>

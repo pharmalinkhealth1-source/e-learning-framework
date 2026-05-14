@@ -33,7 +33,7 @@ const Tooltip = styled.div<{ $visible: boolean; $x: number; $y: number }>`
 const TooltipDate = styled.div`
   font-size: 0.75rem;
   font-weight: 700;
-  color: #0a2540;
+  color: var(--hds-color-text-primary);
   margin-bottom: 4px;
 `;
 

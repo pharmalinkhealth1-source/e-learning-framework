@@ -80,7 +80,7 @@ export default async function ForumListingPage() {
                 borderRadius: '24px',
                 border: '1px dashed #E6EBF1'
               }}>
-                <p style={{ color: '#425466', fontSize: '1.125rem' }}>No discussions found. Be the first to start a conversation!</p>
+                <p style={{ color: 'var(--hds-color-text-secondary)', fontSize: '1.125rem' }}>No discussions found. Be the first to start a conversation!</p>
               </div>
             )}
           </div>
