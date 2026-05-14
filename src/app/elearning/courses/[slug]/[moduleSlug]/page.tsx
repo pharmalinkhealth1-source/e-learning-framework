@@ -3,6 +3,7 @@ import { PortableText } from '@portabletext/react'
 import { notFound } from 'next/navigation'
 import { ScormPlayerSlot, SurveyFormSlot } from '@/components/lms/slots'
 import { QuizEngine } from '@/components/lms/QuizEngine'
+import { CertificateViewer } from '@/components/lms/CertificateViewer'
 import styles from './page.module.css'
 
 interface Lesson {
@@ -71,6 +72,7 @@ export default async function LessonRendererPage({
       </div>
 
       <SurveyFormSlot courseId={course._id} />
+      <CertificateViewer courseId={course._id} />
     </article>
   )
 }
