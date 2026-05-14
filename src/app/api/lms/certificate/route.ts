@@ -179,7 +179,7 @@ export async function POST(req: NextRequest) {
       issuedAt: issuedAt.toISOString(),
       expiresAt: expiresAt.toISOString(),
       certId,
-    })
+    }) as React.ReactElement<import('@react-pdf/renderer').DocumentProps>
   )
 
   const { url } = await put(
