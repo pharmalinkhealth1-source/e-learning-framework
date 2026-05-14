@@ -1,0 +1,54 @@
+.card {
+  background: var(--hds-color-surface-primary, #fff);
+  border: 1px solid var(--hds-color-border, #d0d0d0);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.label {
+  font-size: var(--hds-font-size-sm, 0.875rem);
+  color: var(--hds-color-text-secondary, #555);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.375rem;
+}
+
+.value {
+  font-size: var(--hds-font-size-3xl, 2rem);
+  font-weight: 700;
+  color: var(--hds-color-text-primary, #1a1a1a);
+  line-height: 1;
+}
+
+.unit {
+  font-size: var(--hds-font-size-base, 1rem);
+  color: var(--hds-color-text-secondary, #555);
+}
+
+.trend {
+  font-size: var(--hds-font-size-lg, 1.125rem);
+  font-weight: 700;
+}
+
+.up {
+  color: var(--hds-color-success, #2e7d32);
+}
+
+.down {
+  color: var(--hds-color-danger, #c0392b);
+}
+
+.description {
+  font-size: var(--hds-font-size-xs, 0.75rem);
+  color: var(--hds-color-text-tertiary, #888);
+  margin: 0;
+}
