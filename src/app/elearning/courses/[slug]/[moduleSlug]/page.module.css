@@ -1,0 +1,62 @@
+.lesson {
+  max-width: 720px;
+}
+
+.lessonTitle {
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 700;
+  color: var(--hds-color-foreground-highContrast);
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--hds-space-core-600, 24px);
+}
+
+.lessonContent {
+  font-size: 1rem;
+  line-height: 1.8;
+  color: var(--hds-color-foreground-highContrast);
+}
+
+.portableText h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--hds-color-foreground-highContrast);
+  margin-top: var(--hds-space-core-800, 48px);
+  margin-bottom: var(--hds-space-core-400, 12px);
+}
+
+.portableText h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--hds-color-foreground-highContrast);
+  margin-top: var(--hds-space-core-600, 24px);
+  margin-bottom: var(--hds-space-core-300, 8px);
+}
+
+.portableText p {
+  margin-bottom: var(--hds-space-core-500, 16px);
+}
+
+.portableText a {
+  color: var(--hds-color-core-primary-700, #6c30c0);
+  text-decoration: underline;
+}
+
+.portableText ul,
+.portableText ol {
+  padding-left: var(--hds-space-core-600, 24px);
+  margin-bottom: var(--hds-space-core-500, 16px);
+}
+
+.portableText li {
+  margin-bottom: var(--hds-space-core-200, 4px);
+}
+
+.quizPlaceholder {
+  padding: var(--hds-space-core-800, 48px);
+  background: var(--hds-color-core-neutral-40, #f6f9fc);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--hds-color-foreground-lowContrast);
+  border: 1px dashed var(--hds-color-surface-border-quiet);
+}

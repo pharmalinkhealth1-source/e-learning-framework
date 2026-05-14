@@ -89,20 +89,7 @@ export async function POST(req: Request) {
 
     await clerk.users.updateUser(userId, { username })
 
-    try {
-      const user = await clerk.users.getUser(userId)
-      const primaryEmailId = user.primaryEmailAddressId
-      if (primaryEmailId) {
-        await clerk.emails.createEmail({
-          fromEmailName: 'welcome',
-          subject: 'Welcome to PharmaLink Learning',
-          body: `Hi ${firstName}, your account is ready. Visit /elearning/my-learning to start learning.`,
-          emailAddressId: primaryEmailId,
-        })
-      }
-    } catch {
-      // Email send failure is non-fatal
-    }
+    // Welcome email: clerk.emails API not available in this Clerk version — handled by T10 notification system
 
     const courses = await client.fetch<Array<{ _id: string }>>(
       `*[_type == "course" && ($country in country || "global" in country)] { _id }`,
