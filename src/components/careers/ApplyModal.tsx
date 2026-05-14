@@ -2,9 +2,8 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import styles from './ApplyModal.module.css';
-import { useUser } from '@clerk/nextjs';
 import { ApplyForm } from './ApplyForm';
+import styles from './ApplyModal.module.css';
 
 interface ApplyModalProps {
   isOpen: boolean;
@@ -13,65 +12,64 @@ interface ApplyModalProps {
 }
 
 export const ApplyModal: React.FC<ApplyModalProps> = ({ isOpen, onClose, jobTitle }) => {
-  const { user, isLoaded } = useUser();
+  const [submitted, setSubmitted] = useState(false);
 
-  const [isSuccess, setIsSuccess] = useState(false);
+  const handleSuccess = () => setSubmitted(true);
 
-  if (!isOpen) return null;
+  const handleClose = () => {
+    onClose();
+    setTimeout(() => setSubmitted(false), 300);
+  };
 
   return (
     <AnimatePresence>
-      <div className={styles.overlay} onClick={onClose}>
-        <motion.div 
-          className={styles.modal}
-          initial={{ opacity: 0, scale: 0.9, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          onClick={(e) => e.stopPropagation()}
+      {isOpen && (
+        <motion.div
+          className={styles.overlay}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) handleClose();
+          }}
         >
-          <button className={styles.closeButton} onClick={onClose}>
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <line x1="18" y1="6" x2="6" y2="18"></line>
-              <line x1="6" y1="6" x2="18" y2="18"></line>
-            </svg>
-          </button>
+          <motion.div
+            className={styles.modal}
+            initial={{ opacity: 0, y: 20, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.97 }}
+            transition={{ duration: 0.2 }}
+          >
+            <button className={styles.closeButton} onClick={handleClose} aria-label="Close">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
+              </svg>
+            </button>
 
-          {!isSuccess ? (
-            <>
-              <div className={styles.header}>
-                <h2 className={styles.title}>Apply for {jobTitle}</h2>
-                <p className={styles.subtitle}>Complete the form below to submit your application.</p>
+            {submitted ? (
+              <div className={styles.successView}>
+                <div className={styles.successIcon}>
+                  <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <path d="M6 16l7 7L26 9" stroke="var(--hds-color-util-brand-500)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+                <h3 className={styles.title}>Application sent!</h3>
+                <p className={styles.subtitle}>
+                  Thank you for applying for <strong>{jobTitle}</strong>. We&apos;ll be in touch soon.
+                </p>
               </div>
-
-              <ApplyForm 
-                jobTitle={jobTitle} 
-                onSuccess={() => setIsSuccess(true)} 
-              />
-            </>
-          ) : (
-            <motion.div 
-              className={styles.successView}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-            >
-              <div className={styles.successIcon}>
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#635bff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                </svg>
-              </div>
-              <h2 className={styles.title}>Application Sent!</h2>
-              <p className={styles.subtitle}>
-                Thank you for applying for the <strong>{jobTitle}</strong> position. 
-                Our team will review your application and get back to you soon.
-              </p>
-              <button className={styles.submitButton} onClick={onClose}>
-                Close
-              </button>
-            </motion.div>
-          )}
+            ) : (
+              <>
+                <div className={styles.header}>
+                  <h2 className={styles.title}>Apply for {jobTitle}</h2>
+                  <p className={styles.subtitle}>Complete the form below and we&apos;ll review your application.</p>
+                </div>
+                <ApplyForm jobTitle={jobTitle} onSuccess={handleSuccess} />
+              </>
+            )}
+          </motion.div>
         </motion.div>
-      </div>
+      )}
     </AnimatePresence>
   );
 };

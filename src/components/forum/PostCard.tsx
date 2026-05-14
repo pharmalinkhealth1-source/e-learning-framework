@@ -1,9 +1,8 @@
-"use client";
+'use client';
 
-import * as React from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
 import { motion } from 'framer-motion';
+import styled from 'styled-components';
 
 interface PostCardProps {
   title: string;
@@ -63,7 +62,7 @@ const AuthorBadge = styled.span`
 
 export default function PostCard({ title, excerpt, author, date, slug, index }: PostCardProps) {
   return (
-    <Card 
+    <Card
       href={`/forum/${slug}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
