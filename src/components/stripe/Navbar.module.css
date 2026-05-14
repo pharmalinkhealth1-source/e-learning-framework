@@ -251,3 +251,56 @@
     display: none;
   }
 }
+
+/* ── Hamburger ────────────────────────────────────────── */
+.hamburgerItem {
+  display: none;
+}
+
+@media (max-width: 940px) {
+  .hamburgerItem {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--hds-space-core-radius-md);
+  color: var(--hds-color-text-main);
+}
+
+.hamburger:hover {
+  background-color: var(--hds-color-surface-bg-subdued);
+}
+
+.hamburgerBar {
+  display: block;
+  width: 20px;
+  height: 2px;
+  background-color: currentColor;
+  border-radius: 1px;
+  transition: opacity 0.2s ease;
+}
+
+@media (max-width: 940px) {
+  .hamburger {
+    display: flex;
+  }
+}
+
+@media (min-width: 941px) {
+  .hamburger {
+    display: none;
+  }
+}

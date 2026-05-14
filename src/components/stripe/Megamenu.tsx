@@ -29,6 +29,9 @@ const Megamenu: React.FC<MegamenuProps> = ({ activeTab, tabs, contentOffset, arr
           <div
             className={styles.dropdownContent}
             style={contentOffset != null ? { paddingInlineStart: contentOffset } : undefined}
+            role="region"
+            aria-label={activeTab ? `${activeTab} navigation panel` : undefined}
+            id={activeTab ? `panel-${activeTab}` : undefined}
           >
             <AnimatePresence mode="wait">
               <motion.div

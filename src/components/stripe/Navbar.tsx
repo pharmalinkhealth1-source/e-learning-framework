@@ -7,6 +7,7 @@ import styles from './Navbar.module.css';
 import { ThemeToggle } from './ThemeToggle';
 import SearchModal from '../search/SearchModal';
 import Megamenu, { AboutUsPanel, CommunityPanel, DataInsightsPanel, PodcastPanel, ContactUsPanel } from './Megamenu';
+import MobileMenu from './MobileMenu';
 import { NAV_DATA } from '@/lib/nav-data';
 
 const PLATFORMS = [
@@ -80,6 +81,8 @@ const RotatingAuthButton = () => {
 const Navbar = () => {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
   const [contentOffset, setContentOffset] = useState<number | null>(null);
   const [arrowOffsets, setArrowOffsets] = useState<Record<string, number>>({});
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -142,11 +145,20 @@ const Navbar = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
+  useEffect(() => {
+    if (!activeTab) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setActiveTab(null);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [activeTab]);
+
   return (
     <>
       <header className={`${styles.navigation} ${styles.section}`}>
         <div ref={containerRef} className={`${styles.sectionContainer} ${styles.navigationLayout}`}>
-          <nav className={styles.hdsNavigationMenu} id="navigation-menu">
+          <nav className={styles.hdsNavigationMenu} id="navigation-menu" role="navigation">
             <Link href="/" className={styles.navigationMenuHomeLink} aria-label="PharmaLink homepage">
               <div className={styles.logoWrapper}>
                 <Image 
@@ -170,6 +182,19 @@ const Navbar = () => {
                       className={`${styles.hdsButton} ${styles.hdsNavigationMenuTrigger} ${styles.hdsButtonTransparent}`}
                       onMouseEnter={() => handleMouseEnter(item.id)}
                       onMouseLeave={handleMouseLeave}
+                      aria-haspopup="true"
+                      aria-expanded={activeTab === item.id}
+                      aria-controls={`panel-${item.id}`}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setActiveTab(item.id);
+                        }
+                        if (e.key === 'Escape') {
+                          setActiveTab(null);
+                          e.currentTarget.focus();
+                        }
+                      }}
                     >
                       {item.label}
                     </Link>
@@ -207,7 +232,25 @@ const Navbar = () => {
                   </svg>
                 </Link>
               </li>
+              <li className={`${styles.navigationItem} ${styles.hamburgerItem}`}>
+                <button
+                  ref={hamburgerRef}
+                  className={styles.hamburger}
+                  onClick={() => setIsMobileMenuOpen(true)}
+                  aria-label="Open navigation menu"
+                  aria-expanded={isMobileMenuOpen}
+                >
+                  <span className={styles.hamburgerBar} />
+                  <span className={styles.hamburgerBar} />
+                  <span className={styles.hamburgerBar} />
+                </button>
+              </li>
             </ul>
+            <MobileMenu
+              isOpen={isMobileMenuOpen}
+              onClose={() => setIsMobileMenuOpen(false)}
+              triggerRef={hamburgerRef}
+            />
           </nav>
           <div
             className={styles.megamenuWrapper}

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, TrendingUp } from 'lucide-react';
@@ -125,7 +125,7 @@ export function SpotlightCarousel({ spotlights: initialSpotlights }: SpotlightCa
   const visibleItems = items.slice(0, 3);
 
   // Animation Variants
-  const cardVariants = {
+  const cardVariants: Variants = {
     initial: (index: number) => ({
       opacity: index === 0 ? 0 : 1,
       scale: 0.9,
@@ -147,7 +147,7 @@ export function SpotlightCarousel({ spotlights: initialSpotlights }: SpotlightCa
         y: y,
         zIndex: 10 - index,
         transition: {
-          type: 'spring',
+          type: 'spring' as const,
           stiffness: 300,
           damping: 30,
         }
