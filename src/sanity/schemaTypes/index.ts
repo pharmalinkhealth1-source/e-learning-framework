@@ -6,7 +6,20 @@ import { jobOpening } from './jobOpening'
 import { dataInsight } from './dataInsight'
 import { author } from './author'
 import { comment } from './comment'
+import { course } from './course'
+import { courseModule } from './courseModule'
+import { lesson } from './lesson'
+import { quiz } from './quiz'
+import { lessonProgress } from './lessonProgress'
+import { surveyResponse } from './surveyResponse'
+import { certificate } from './certificate'
+import { enrollment } from './enrollment'
+import { notification } from './notification'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [forumPost, directoryItem, jobOpening, dataInsight, author, comment],
+  types: [
+    forumPost, directoryItem, jobOpening, dataInsight, author, comment,
+    course, courseModule, lesson, quiz,
+    lessonProgress, surveyResponse, certificate, enrollment, notification,
+  ],
 }
