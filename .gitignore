@@ -39,3 +39,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Generated / machine-specific
+graphify-out/
+.claude/settings.local.json
+.claude/worktrees/
+.clerk/
