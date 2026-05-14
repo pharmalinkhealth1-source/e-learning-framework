@@ -46,7 +46,7 @@ export async function POST(req: Request) {
     { id: progressId }
   )
 
-  const progressPatch: Record<string, unknown> = {
+  const progressPatch: { _type: string; [key: string]: unknown } = {
     _type: 'lessonProgress',
     _id: progressId,
     userId,

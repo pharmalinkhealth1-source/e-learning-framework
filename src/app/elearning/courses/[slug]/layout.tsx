@@ -1,11 +1,12 @@
 import PlayerShell from '@/components/lms/PlayerShell'
 
-export default function PlayerShellLayout({
+export default async function PlayerShellLayout({
   children,
   params,
 }: {
   children: React.ReactNode
-  params: { slug: string }
+  params: Promise<{ slug: string }>
 }) {
-  return <PlayerShell slug={params.slug}>{children}</PlayerShell>
+  const { slug } = await params
+  return <PlayerShell slug={slug}>{children}</PlayerShell>
 }
