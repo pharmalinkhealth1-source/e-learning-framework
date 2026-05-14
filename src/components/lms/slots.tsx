@@ -1,10 +1,11 @@
-// Replaced by T05
-export function ScormPlayerSlot(_props: {
+import { ScormPlayer } from './ScormPlayer'
+
+export function ScormPlayerSlot(props: {
   lessonId: string
   entryUrl: string
   scormVersion: '1.2' | '2004'
-}): null {
-  return null
+}) {
+  return <ScormPlayer {...props} />
 }
 
 // Replaced by T06
