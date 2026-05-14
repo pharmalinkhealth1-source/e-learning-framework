@@ -8,7 +8,8 @@ export function ScormPlayerSlot(props: {
   return <ScormPlayer {...props} />
 }
 
-// Replaced by T06
-export function SurveyFormSlot(_props: { courseId: string }): null {
-  return null
+import { SurveyForm } from './SurveyForm'
+
+export function SurveyFormSlot({ courseId }: { courseId: string }) {
+  return <SurveyForm courseId={courseId} />
 }
