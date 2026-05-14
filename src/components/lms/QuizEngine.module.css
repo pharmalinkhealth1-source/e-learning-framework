@@ -1,0 +1,136 @@
+.engine {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-600, 24px);
+  max-width: 720px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--hds-space-core-400, 12px);
+}
+
+.roleBadge {
+  display: inline-flex;
+  background: var(--hds-color-core-primary-100, #ede9fe);
+  color: var(--hds-color-core-primary-700, #6c30c0);
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid var(--hds-color-core-primary-200, #ddd6fe);
+}
+
+.progress {
+  font-size: 0.875rem;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.questions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-400, 12px);
+}
+
+.submitArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-300, 8px);
+  align-items: flex-start;
+}
+
+.submitBtn {
+  background-color: var(--hds-color-core-primary-700, #6c30c0);
+  color: var(--hds-color-core-neutral-0, #fff);
+  padding: 14px 28px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  min-height: 44px;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background-color: var(--hds-color-core-primary-900, #4f2683);
+}
+
+.submitBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.error {
+  font-size: 0.875rem;
+  color: var(--hds-color-core-error-600, #dc2626);
+  font-weight: 600;
+}
+
+.resultPanel {
+  padding: var(--hds-space-core-800, 48px);
+  background: var(--hds-color-core-neutral-40, #f6f9fc);
+  border-radius: 16px;
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--hds-space-core-500, 16px);
+  text-align: center;
+}
+
+.scoreDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--hds-space-core-100, 2px);
+}
+
+.scoreNumber {
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--hds-color-core-primary-700, #6c30c0);
+  line-height: 1;
+}
+
+.scoreLabel {
+  font-size: 0.875rem;
+  color: var(--hds-color-foreground-lowContrast);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.resultMessage {
+  font-size: 1rem;
+  color: var(--hds-color-foreground-highContrast);
+  line-height: 1.5;
+  max-width: 480px;
+}
+
+.tierBadge {
+  display: inline-flex;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.tierBadge.accomplishment {
+  background: var(--hds-color-core-primary-100, #ede9fe);
+  color: var(--hds-color-core-primary-700, #6c30c0);
+  border: 1px solid var(--hds-color-core-primary-200, #ddd6fe);
+}
+
+.tierBadge.participation {
+  background: var(--hds-color-core-neutral-40, #f6f9fc);
+  color: var(--hds-color-foreground-lowContrast);
+  border: 1px solid var(--hds-color-surface-border-quiet);
+}

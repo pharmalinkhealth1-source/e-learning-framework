@@ -1,0 +1,93 @@
+.card {
+  background: var(--hds-color-core-neutral-0);
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  border-radius: 12px;
+  padding: var(--hds-space-core-600, 24px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-500, 16px);
+}
+
+.questionText {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--hds-color-foreground-highContrast);
+  line-height: 1.5;
+}
+
+.questionNumber {
+  color: var(--hds-color-core-primary-700, #6c30c0);
+  font-weight: 700;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-300, 8px);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: var(--hds-space-core-300, 8px);
+  padding: var(--hds-space-core-400, 12px) var(--hds-space-core-500, 16px);
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+  min-height: 44px;
+}
+
+.option:hover:not(.correct):not(.wrong) {
+  background-color: var(--hds-color-core-neutral-40, #f6f9fc);
+  border-color: var(--hds-color-core-primary-300, #c4b5fd);
+}
+
+.option.selected {
+  background-color: var(--hds-color-core-primary-50, #f5f3ff);
+  border-color: var(--hds-color-core-primary-700, #6c30c0);
+}
+
+.option.correct {
+  background-color: var(--hds-color-core-success-50, #f0fdf4);
+  border-color: var(--hds-color-core-success-600, #16a34a);
+  cursor: default;
+}
+
+.option.wrong {
+  background-color: var(--hds-color-core-error-50, #fef2f2);
+  border-color: var(--hds-color-core-error-600, #dc2626);
+  cursor: default;
+}
+
+.radioInput {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--hds-color-core-primary-700, #6c30c0);
+  cursor: pointer;
+}
+
+.radioInput:disabled {
+  cursor: default;
+}
+
+.optionText {
+  flex: 1;
+  font-size: 0.9375rem;
+  color: var(--hds-color-foreground-highContrast);
+}
+
+.indicator {
+  font-size: 0.875rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.correct .indicator {
+  color: var(--hds-color-core-success-600, #16a34a);
+}
+
+.wrong .indicator {
+  color: var(--hds-color-core-error-600, #dc2626);
+}

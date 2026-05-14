@@ -2,6 +2,7 @@ import { client } from '@/sanity/lib/client'
 import { PortableText } from '@portabletext/react'
 import { notFound } from 'next/navigation'
 import { ScormPlayerSlot, SurveyFormSlot } from '@/components/lms/slots'
+import { QuizEngine } from '@/components/lms/QuizEngine'
 import styles from './page.module.css'
 
 interface Lesson {
@@ -59,9 +60,13 @@ export default async function LessonRendererPage({
         )}
 
         {lesson.type === 'quiz' && (
-          <div className={styles.quizPlaceholder}>
-            <p>Quiz content — coming in T04.</p>
-          </div>
+          <QuizEngine
+            questions={(lesson.questions as Array<{ questionText: string; options: string[]; correctIndex: number }>) ?? []}
+            quizRole={(lesson.quizRole as 'pre-test' | 'post-test' | 'self-assessment') ?? 'self-assessment'}
+            lessonId={lesson._id}
+            courseId={course._id}
+            onComplete={() => {}}
+          />
         )}
       </div>
 
