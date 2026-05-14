@@ -1,0 +1,9 @@
+{
+  "slug": "elearning-framework",
+  "research_date": "2026-05-13",
+  "phases_completed": ["internal", "external"],
+  "internal_files": ["patterns.md", "errors.md", "dependencies.md", "structure.md", "findings.md"],
+  "external_files": ["best-practices.md", "libraries.md", "references.md", "sources.yaml", "findings.md"],
+  "imported_files": ["user-prd.md"],
+  "summary": "summary.md"
+}
