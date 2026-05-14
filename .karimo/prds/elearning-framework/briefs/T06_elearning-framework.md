@@ -17,7 +17,7 @@ Build the end-of-course CSAT + NPS survey: a `SurveyForm` client component and i
 
 ## Context
 
-**T06 does not modify `[moduleSlug]/page.tsx`.** The lesson renderer exports `SurveyFormSlot` as a typed null stub (from T03). T06 creates `SurveyForm.tsx` with the real implementation. The wiring (replacing the null slot with the real component) follows the same pattern as T05 for `ScormPlayerSlot` — T06 may only update `[moduleSlug]/page.tsx` to replace the `SurveyFormSlot` null body with a real render of `SurveyForm`, without touching any other part of the file.
+**T06 does not modify `[moduleSlug]/page.tsx`.** The slot stubs live in `src/components/lms/slots.tsx` (created by T03). T06 replaces the `SurveyFormSlot` stub in that file with the real `SurveyForm` component. The lesson renderer page is not changed — T06 modifies `src/components/lms/slots.tsx` only.
 
 **Survey questions:**
 - Q1 CSAT: "How satisfied are you with this course?" — 1–5 Likert scale (render as star rating or 5 radio buttons)
@@ -45,6 +45,7 @@ Build the end-of-course CSAT + NPS survey: a `SurveyForm` client component and i
 |------|--------|-------|
 | `src/components/lms/SurveyForm.tsx` | create | `'use client'` — CSAT + NPS survey form |
 | `src/components/lms/SurveyForm.module.css` | create | Survey form styles using `--hds-*` tokens |
+| `src/components/lms/slots.tsx` | modify | Replace `SurveyFormSlot` stub with real `SurveyForm` |
 | `src/app/api/lms/survey/route.ts` | create | POST Route Handler for survey submission |
 
 ---
@@ -120,12 +121,19 @@ CSS Module using `--hds-*` tokens. Key styles:
    ```
 7. Return `200 { success: true }`.
 
-### Step 4 — Update survey rendering in the lesson renderer (minimal change only)
-The lesson renderer page (`[moduleSlug]/page.tsx`) exports `SurveyFormSlot`. To wire up the real component:
-- On the server side of the lesson renderer, check if a `surveyResponse` already exists for this user + course (GROQ query).
-- Pass `alreadySubmitted` boolean and `courseId` as props.
-- Replace the `SurveyFormSlot` null body with: `return <SurveyForm courseId={props.courseId} alreadySubmitted={props.alreadySubmitted} />`.
-- Touch NO other part of `[moduleSlug]/page.tsx`.
+### Step 4 — Wire `SurveyForm` into `src/components/lms/slots.tsx`
+
+In `src/components/lms/slots.tsx`, replace the `SurveyFormSlot` stub with the real `SurveyForm` component import. The function signature must remain identical to the stub:
+```typescript
+import { SurveyForm } from './SurveyForm'
+
+// Signature unchanged — T03 contract preserved
+export function SurveyFormSlot(props: { courseId: string }) {
+  // alreadySubmitted is checked server-side by the page before rendering this slot
+  return <SurveyForm courseId={props.courseId} alreadySubmitted={false} />
+}
+```
+Do NOT modify `src/app/elearning/courses/[slug]/[moduleSlug]/page.tsx`.
 
 ---
 
@@ -141,6 +149,7 @@ The lesson renderer page (`[moduleSlug]/page.tsx`) exports `SurveyFormSlot`. To 
 - [ ] Survey only renders once per course (idempotent)
 - [ ] CSS Modules + `--hds-*` tokens throughout; no Tailwind
 - [ ] No `useMemo` or `useCallback`
+- [ ] `src/components/lms/slots.tsx` updated — `SurveyFormSlot` now renders real `SurveyForm`; `[moduleSlug]/page.tsx` not modified
 - [ ] `npx tsc --noEmit` passes
 
 ---
@@ -149,12 +158,13 @@ The lesson renderer page (`[moduleSlug]/page.tsx`) exports `SurveyFormSlot`. To 
 Before starting, verify:
 - T01 complete: `surveyResponse` schema defined in `sanity.types.ts` with `csatScore`, `npsScore`, denormalized fields.
 - T02 complete: auth pattern and `sessionClaims.metadata` shape available.
-- T03 complete: `SurveyFormSlot` exported from `[moduleSlug]/page.tsx`.
+- T03 complete: `SurveyFormSlot` stub exported from `src/components/lms/slots.tsx`; `[moduleSlug]/page.tsx` imports from that module.
 
 ---
 
 ## Do Not
-- Do NOT modify `[moduleSlug]/page.tsx` beyond replacing the `SurveyFormSlot` null body — do not touch `ScormPlayerSlot` or any other export.
+- Do NOT modify `src/app/elearning/courses/[slug]/[moduleSlug]/page.tsx` — slot wiring happens in `src/components/lms/slots.tsx` only.
+- Do NOT touch `ScormPlayerSlot` in `src/components/lms/slots.tsx` — that is T05's responsibility.
 - Do NOT add NPS promoter logic in this task — NPS calculation (`npsScore >= 9`) is T08's responsibility.
 - Do NOT render the survey for non-learner roles — survey is a learner-only interaction.
 - Do NOT use `useMemo` or `useCallback` — React Compiler is active.

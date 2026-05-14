@@ -23,10 +23,10 @@ Extend the Clerk middleware to protect LMS routes and create the learner registr
 
 - `isProtectedRoute` in middleware uses `createRouteMatcher` from `@clerk/nextjs/server`. Add new LMS paths to the existing array — do NOT replace or restructure the matcher.
 - The existing protected paths include `/forum(.*)` — the new paths to add are `/elearning/courses(.*)` and `/elearning/dashboard(.*)`.
-- The onboarding redirect logic (checking `sessionClaims?.metadata?.onboardingComplete`) must not be touched.
+- The onboarding redirect logic (checking `sessionClaims?.metadata?.onboarded`) must not be touched.
 - The registration Route Handler pattern is established at `src/app/api/auth/onboarding/route.ts` — use `auth()` then `clerkClient().users.updateUserMetadata(userId, { publicMetadata: {...} })`. This is the direct template.
 - Auth guard in every Route Handler: `import { auth } from '@clerk/nextjs/server'`, destructure `userId`, return `Response.json({ error: 'Unauthorized' }, { status: 401 })` if `!userId`. See `src/app/api/forum/post/route.ts` and `src/app/api/forum/comment/route.ts`.
-- TypeScript: extend the `sessionClaims` metadata type (likely in a `clerk.d.ts` or similar global type file) to include the new LMS fields so downstream tasks can destructure them without type errors.
+- TypeScript: extend the `sessionClaims` metadata type by adding an augmentation of Clerk's `CustomSessionClaims` interface to `src/types/clerk.d.ts`. The Clerk session claims type extension should be added to `src/types/clerk.d.ts` as an augmentation of Clerk's `CustomSessionClaims` interface — not inline in middleware — so all files (`src/middleware.ts`, Route Handlers) share the same extended type definition.
 
 **Username generation rule:**
 - Input: `phoneNumber` field (e.g., `+254712345678` for Kenya or `0712345678` local format)
@@ -50,7 +50,8 @@ Extend the Clerk middleware to protect LMS routes and create the learner registr
 ## Files to Create / Modify
 | Path | Action | Notes |
 |------|--------|-------|
-| `src/middleware.ts` | modify | Add LMS routes to `isProtectedRoute` array; extend sessionClaims type |
+| `src/middleware.ts` | modify | Add LMS routes to `isProtectedRoute` array |
+| `src/types/clerk.d.ts` | create | Augment `CustomSessionClaims` with LMS metadata fields |
 | `src/app/api/lms/register/route.ts` | create | POST handler for learner registration |
 
 ---
@@ -69,15 +70,23 @@ const isProtectedRoute = createRouteMatcher([
 ])
 ```
 
-Extend the TypeScript type for `sessionClaims.metadata` (or wherever the Clerk session claims type is declared in this project) to include:
+Create (or update) `src/types/clerk.d.ts` with an augmentation of Clerk's `CustomSessionClaims` interface:
 ```typescript
-role?: 'learner' | 'program_manager' | 'partner_donor' | 'system_admin'
-country?: string
-completedLessons?: string[]
-lms_registered?: boolean
-```
+export {}
 
-Do NOT modify the onboarding redirect block. Do NOT reorder or restructure any existing middleware logic.
+declare global {
+  interface CustomSessionClaims {
+    metadata?: {
+      onboarded?: boolean
+      role?: 'learner' | 'program_manager' | 'partner_donor' | 'system_admin'
+      country?: string
+      completedLessons?: string[]
+      lms_registered?: boolean
+    }
+  }
+}
+```
+Do NOT add the type extension inline in `src/middleware.ts`. Do NOT modify the onboarding redirect block. Do NOT reorder or restructure any existing middleware logic.
 
 ### Step 2 — Create `src/app/api/lms/register/route.ts`
 
@@ -110,9 +119,17 @@ The handler:
    - Remove leading `0`s from the portion after the country code (or simply trim all leading zeros if the number starts with `0`)
    - Example: `+254712345678` → `254712345678`
 
-5. Call `await clerkClient().users.updateUserMetadata(userId, { publicMetadata: { role: 'learner', country, lms_registered: true, completedLessons: [] } })`
+5. Call the Clerk client using the two-step pattern matching `src/app/api/auth/onboarding/route.ts`:
+   ```typescript
+   const clerk = await clerkClient()
+   await clerk.users.updateUserMetadata(userId, { publicMetadata: { role: 'learner', country, lms_registered: true, completedLessons: [] } })
+   ```
 
-6. Optionally update the Clerk user's `username` field to the generated username via `clerkClient().users.updateUser(userId, { username: generatedUsername })`.
+6. Optionally update the Clerk user's `username` field to the generated username:
+   ```typescript
+   const clerk = await clerkClient()
+   await clerk.users.updateUser(userId, { username: generatedUsername })
+   ```
 
 7. Return `200` with `{ success: true }`.
 
@@ -132,7 +149,7 @@ The handler:
 - [ ] `POST /api/lms/register` sets `publicMetadata.lms_registered = true` on success
 - [ ] `POST /api/lms/register` sets `publicMetadata.completedLessons = []` on success
 - [ ] Username generated correctly: strip `+` and leading `0`s from phone number
-- [ ] `sessionClaims` TypeScript type includes `role`, `country`, `completedLessons`, `lms_registered`
+- [ ] `src/types/clerk.d.ts` augments `CustomSessionClaims` with `onboarded`, `role`, `country`, `completedLessons`, `lms_registered`
 - [ ] `npx tsc --noEmit` passes
 
 ---
@@ -145,7 +162,7 @@ The handler:
 
 ## Do Not
 - Do NOT change or reorder existing `isProtectedRoute` paths — only add to the array.
-- Do NOT touch onboarding redirect logic in `src/middleware.ts`.
+- Do NOT touch the onboarding redirect logic in `src/middleware.ts` (the block checking `sessionClaims?.metadata?.onboarded`).
 - Do NOT add `/elearning` (root path, without trailing wildcard) as a protected route — the marketing/catalogue page is public.
 - Do NOT install `ltijs` — not needed for this task.
 - Do NOT touch `src/sanity/lib/client.ts`, `src/sanity/lib/write-client.ts`, `sanity.config.ts`, or `.env*` files.

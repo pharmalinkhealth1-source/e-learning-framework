@@ -29,11 +29,7 @@ Vercel Blob serves SCORM package files from a cross-origin domain (e.g., `blob.v
 - SCORM 2004: `window.API_1484_11` (instance of `Scorm2004API` from `scorm-again`)
 - Both assignments happen exclusively inside `useEffect` — never in render or component body.
 
-**T05 does not modify `[moduleSlug]/page.tsx`.** The lesson renderer exports a `ScormPlayerSlot` (null stub) from T03. T05 replaces that export with the real `ScormPlayer`. The lesson renderer page itself is not changed — T05 only creates new files.
-
-**Replacing the slot export:** T03 exports `ScormPlayerSlot` from `[moduleSlug]/page.tsx`. T05 should re-export `ScormPlayer` as `ScormPlayerSlot` from a file that the lesson renderer imports — OR T05 simply creates `ScormPlayer.tsx` and the lesson renderer already conditionally renders it (the exact wiring depends on how T03 structured the quiz branch; check T03's implementation before assuming).
-
-Actually — per the brief contract: "T05 only delivers the `ScormPlayer` component; it does not modify the lesson renderer page." This means T05 creates `ScormPlayer.tsx` with the full implementation. The `ScormPlayerSlot` stub in `[moduleSlug]/page.tsx` would then need to be updated by T03's review gate or by the PM — but since T05 must not touch that page, the practical resolution is: T05 exports `ScormPlayer` and notes in the PR that the lesson renderer slot must be wired up. However, to be safe: T05 may update `[moduleSlug]/page.tsx` ONLY to replace the `ScormPlayerSlot` null body with a real render of `ScormPlayer` — without touching the `SurveyFormSlot` export or any other part of the file. Confirm this interpretation with the reviewer.
+**T05 does not modify `[moduleSlug]/page.tsx`.** The slot stubs live in `src/components/lms/slots.tsx` (created by T03). T05 replaces the `ScormPlayerSlot` stub in that file with the real `ScormPlayer` component. The lesson renderer page is not changed — T05 modifies `src/components/lms/slots.tsx` only.
 
 **jszip memory:** `jszip` loads the entire ZIP into Node.js memory in the Route Handler. Default Vercel function memory limit is 1 GB. Warn in PR if any SCORM packages are expected to exceed 500 MB compressed.
 
@@ -48,6 +44,7 @@ Actually — per the brief contract: "T05 only delivers the `ScormPlayer` compon
 |------|--------|-------|
 | `src/components/lms/ScormPlayer.tsx` | create | `'use client'` — SCORM bridge + iframe |
 | `src/components/lms/ScormPlayer.module.css` | create | Stage backdrop + iframe container styles |
+| `src/components/lms/slots.tsx` | modify | Replace `ScormPlayerSlot` stub with real `ScormPlayer` |
 | `src/app/api/lms/scorm-upload/route.ts` | create | POST — ZIP upload, extraction, Blob storage |
 | `src/app/api/lms/scorm-commit/route.ts` | create | POST — write SCORM progress to Sanity |
 
@@ -133,6 +130,19 @@ Dark neutral container to minimize visual clash with SCORM content's own styling
 ```
 Use `--hds-*` token values where available.
 
+### Step 2b — Wire `ScormPlayer` into `src/components/lms/slots.tsx`
+
+In `src/components/lms/slots.tsx`, replace the `ScormPlayerSlot` stub with the real `ScormPlayer` component import and implementation. The function signature must remain identical to the stub:
+```typescript
+import { ScormPlayer } from './ScormPlayer'
+
+// Signature unchanged — T03 contract preserved
+export function ScormPlayerSlot(props: { lessonId: string; entryUrl: string; scormVersion: '1.2' | '2004' }) {
+  return <ScormPlayer {...props} />
+}
+```
+Do NOT modify `src/app/elearning/courses/[slug]/[moduleSlug]/page.tsx`.
+
 ### Step 3 — Create `src/app/api/lms/scorm-upload/route.ts`
 1. Auth guard: return 401 if no `userId`.
 2. Role check: return 403 if `sessionClaims.metadata.role !== 'system_admin'`.
@@ -192,7 +202,8 @@ This handler is called by `scorm-again` on `LMSSetValue` / `SetValue` events.
 - [ ] Stage backdrop (dark neutral container) renders; iframe fills container
 - [ ] All `window.*` assignments inside `useEffect` only
 - [ ] `scorm-upload` returns 403 for non-`system_admin` roles
-- [ ] `[moduleSlug]/page.tsx` not modified (or only the `ScormPlayerSlot` null body replaced — no other changes)
+- [ ] `src/components/lms/slots.tsx` updated — `ScormPlayerSlot` now renders real `ScormPlayer`
+- [ ] `[moduleSlug]/page.tsx` not modified
 - [ ] `npx tsc --noEmit` passes
 
 ---
@@ -202,7 +213,7 @@ Before starting, verify:
 - T00 complete: `scorm-again`, `@vercel/blob`, `jszip` present in `package.json`.
 - T01 complete: `sanity.types.ts` exists; `lessonProgress` schema has `scormData`, `completed`, `lessonShortId` fields.
 - T02 complete: `sessionClaims.metadata.role` accessible for role check.
-- T03 complete: `ScormPlayerSlot` exported from `[moduleSlug]/page.tsx`; progress update pattern established.
+- T03 complete: `ScormPlayerSlot` stub exported from `src/components/lms/slots.tsx`; `[moduleSlug]/page.tsx` imports from that module; progress update pattern established.
 - Environment: `BLOB_READ_WRITE_TOKEN` provisioned in Vercel project settings (required for any Blob operation).
 
 ---
@@ -215,7 +226,8 @@ Before starting, verify:
 - Do NOT store Blob URLs in Clerk metadata — only in Sanity.
 - Do NOT touch `src/sanity/lib/client.ts`, `src/sanity/lib/write-client.ts`, `sanity.config.ts`, or `.env*` files.
 - Do NOT add `useMemo` or `useCallback` outside of documented exceptions in `ScormPlayer`.
-- Do NOT touch `SurveyFormSlot` in the lesson renderer page.
+- Do NOT touch `SurveyFormSlot` in `src/components/lms/slots.tsx` — that is T06's responsibility.
+- Do NOT modify `src/app/elearning/courses/[slug]/[moduleSlug]/page.tsx`.
 
 ---
 

@@ -98,6 +98,7 @@ Document type with fields:
 - `content`: `array` of `block` (Portable Text), hidden when `document.type !== 'text'`
 - `scormPackage`: `file`, hidden when `document.type !== 'scorm'`
 - `scormEntryUrl`: `string`, hidden when `document.type !== 'scorm'` (URL written by scorm-upload API)
+- `scormVersion`: `string`, options list: `['1.2', '2004']`, hidden when `document.type !== 'scorm'`
 - `questions`: `array` of `quiz` object type, hidden when `document.type !== 'quiz'`
 - `quizRole`: `string`, options list: `['pre-test', 'post-test', 'self-assessment']`, hidden when `document.type !== 'quiz'`
 
@@ -140,7 +141,7 @@ Document type with fields (`_id` set programmatically as `cert_userId_courseId`)
 - `blobUrl`: `string`
 
 ### Step 8 — Register all schemas in `src/sanity/schemaTypes/index.ts`
-Import and add to the `schemaTypes` array: `course`, `courseModule`, `lesson`, `quiz`, `lessonProgress`, `surveyResponse`, `certificate`. Do not remove any existing schema registrations.
+Import and add to the `schema.types` array in `src/sanity/schemaTypes/index.ts`: `course`, `courseModule`, `lesson`, `quiz`, `lessonProgress`, `surveyResponse`, `certificate`. Do not remove any existing schema registrations.
 
 ### Step 9 — Create `src/types/lms.ts`
 Plain TypeScript file (no Sanity imports). Define and export:
@@ -185,12 +186,13 @@ Commit the generated `sanity.types.ts` file to the repository. Run `npx tsc --no
 ## Acceptance Criteria
 - [ ] `course.ts` schema created with `title`, `slug`, `description`, `modules[]`, `passingScore`, `country[]` fields
 - [ ] `courseModule.ts` schema created (name is `courseModule`, not `module`)
-- [ ] `lesson.ts` schema created with `type` enum (`text`, `scorm`, `quiz`), conditional `content`/`scormPackage`/`scormEntryUrl`/`questions`/`quizRole` fields
+- [ ] `lesson.ts` schema created with `type` enum (`text`, `scorm`, `quiz`), conditional `content`/`scormPackage`/`scormEntryUrl`/`scormVersion`/`questions`/`quizRole` fields
+- [ ] `lesson.ts` schema includes `scormVersion` field (options: `'1.2'`, `'2004'`; hidden unless type is `'scorm'`)
 - [ ] `quiz.ts` object type created with `questionText`, `options[]`, `correctIndex` fields
 - [ ] `lessonProgress.ts` schema created with `preTestScore`, `postTestScore`, `lessonShortId`, `gender`, `ageGroup`, `healthWorkerType`, `country` fields
 - [ ] `surveyResponse.ts` schema created with `csatScore` (1–5), `npsScore` (0–10), denormalized fields
 - [ ] `certificate.ts` schema created with `tier` enum (`participation`, `accomplishment`), `blobUrl`
-- [ ] All six document types + `quiz` object type registered in `schemaTypes/index.ts`
+- [ ] All six document types + `quiz` object type added to the `schema.types` array in `src/sanity/schemaTypes/index.ts`
 - [ ] `src/types/lms.ts` created with `LmsRole`, `CertificateTier`, `DashboardFilters`, `QuizSubmission`, `DashboardMetrics` exports
 - [ ] `src/sanity/lib/lms-fallbacks.ts` created with mock entries for local dev
 - [ ] `src/sanity/lib/client.ts` NOT modified

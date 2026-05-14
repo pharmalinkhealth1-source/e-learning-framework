@@ -29,11 +29,12 @@ Build the complete course journey UI: a Server Component course catalogue, cours
 **PlayerShell is a layout, not a component:** Implement it as `src/app/elearning/courses/[slug]/layout.tsx`. T03 also creates a `src/components/lms/PlayerShell.tsx` that contains the actual shell markup — the layout file imports and renders it, passing children as the lesson content area. This satisfies both Next.js route persistence and reusability.
 
 **Slot exports are contracts for T05 and T06:**
-- Export `ScormPlayerSlot` from the lesson renderer page file (`[moduleSlug]/page.tsx`) — renders `null`, accepts typed props `{ lessonId: string; entryUrl: string; scormVersion: '1.2' | '2004' }`.
-- Export `SurveyFormSlot` from the lesson renderer page file — renders `null`, accepts typed props `{ courseId: string }`.
-- T05 will replace `ScormPlayerSlot` with the real `ScormPlayer` component.
-- T06 will replace `SurveyFormSlot` with the real `SurveyForm` component.
-- **The renderer page (`[moduleSlug]/page.tsx`) must NOT be modified by T05 or T06** — they replace the named exports only.
+- Define `ScormPlayerSlot` and `SurveyFormSlot` in a dedicated file `src/components/lms/slots.tsx` — NOT in the page file itself. The page file imports and renders them from that module.
+- `ScormPlayerSlot` renders `null`, accepts typed props `{ lessonId: string; entryUrl: string; scormVersion: '1.2' | '2004' }`.
+- `SurveyFormSlot` renders `null`, accepts typed props `{ courseId: string }`.
+- T05 will replace `ScormPlayerSlot` in `src/components/lms/slots.tsx` with the real `ScormPlayer` component.
+- T06 will replace `SurveyFormSlot` in `src/components/lms/slots.tsx` with the real `SurveyForm` component.
+- **The renderer page (`[moduleSlug]/page.tsx`) must NOT be modified by T05 or T06** — they modify `src/components/lms/slots.tsx` only.
 
 **Progress API — denormalized fields:** When writing a `lessonProgress` document, the Route Handler must read `gender`, `country`, and `healthWorkerType` from Clerk `sessionClaims.metadata`. For `ageGroup`, derive it from the user's DOB stored in Clerk `publicMetadata` using these bands: `'<18'`, `'18-24'`, `'25-34'`, `'35-44'`, `'45+'`. These denormalized fields enable T08 dashboard GROQ filters without a Clerk API join.
 
@@ -60,6 +61,7 @@ Build the complete course journey UI: a Server Component course catalogue, cours
 | `src/app/elearning/courses/[slug]/[moduleSlug]/page.module.css` | create | Lesson renderer styles |
 | `src/components/lms/PlayerShell.tsx` | create | Persistent sidebar + progress bar component |
 | `src/components/lms/PlayerShell.module.css` | create | PlayerShell styles |
+| `src/components/lms/slots.tsx` | create | Slot stub exports for `ScormPlayerSlot` and `SurveyFormSlot` |
 | `src/app/api/lms/progress/route.ts` | create | POST progress Route Handler |
 
 ---
@@ -107,23 +109,27 @@ Completion state logic:
 - If `> 25`: run GROQ query `*[_type == "lessonProgress" && userId == $userId && courseId == $courseId && completed == true].lessonShortId`
 
 ### Step 5 — Create Lesson Renderer (`[moduleSlug]/page.tsx`)
-Server Component. Fetch lesson by `moduleSlug` from Sanity. Determine lesson type:
+Server Component. Fetch lesson by `moduleSlug` from Sanity. The GROQ projection for the lesson must include `scormVersion` alongside `scormEntryUrl`:
+```groq
+*[_type == "lesson" && slug.current == $moduleSlug][0] {
+  _id, title, type, content, scormEntryUrl, scormVersion, questions, quizRole
+}
+```
+Determine lesson type:
 - `type === 'text'`: render `<TextLesson content={lesson.content} />` (Portable Text via `@portabletext/react`)
-- `type === 'scorm'`: render `<ScormPlayerSlot lessonId={lesson._id} entryUrl={lesson.scormEntryUrl} scormVersion={lesson.scormVersion} />`
+- `type === 'scorm'`: render `<ScormPlayerSlot lessonId={lesson._id} entryUrl={lesson.scormEntryUrl} scormVersion={lesson.scormVersion} />` — `scormVersion` is available because the `lesson` schema includes this field (T01)
 - `type === 'quiz'`: render `<QuizEngine ... />` (stub for T04 — can render a placeholder `<div>Quiz coming in T04</div>` or import from a file T04 will create)
 
 At the bottom of the page (after lesson content): render `<SurveyFormSlot courseId={course._id} />`
 
-**Export the slot components from this file** so T05 and T06 can replace them:
+Create `src/components/lms/slots.tsx` that exports:
 ```typescript
-// Placeholder exports — replaced by T05 and T06
-export function ScormPlayerSlot(_props: { lessonId: string; entryUrl: string; scormVersion: '1.2' | '2004' }) {
-  return null
-}
-export function SurveyFormSlot(_props: { courseId: string }) {
-  return null
-}
+// Replaced by T05
+export function ScormPlayerSlot(_props: { lessonId: string; entryUrl: string; scormVersion: '1.2' | '2004' }): null { return null }
+// Replaced by T06
+export function SurveyFormSlot(_props: { courseId: string }): null { return null }
 ```
+In `[moduleSlug]/page.tsx`, import these from `'@/components/lms/slots'` and render them. The page file does NOT define the slots itself.
 
 ### Step 6 — Create `POST /api/lms/progress/route.ts`
 1. Auth guard: return 401 if no `userId`.
@@ -142,7 +148,7 @@ export function SurveyFormSlot(_props: { courseId: string }) {
 5. If `completed === true`: update `publicMetadata.completedLessons`:
    - Fetch current `completedLessons` from Clerk.
    - Append `lessonShortId` if not already present.
-   - Call `clerkClient().users.updateUserMetadata(userId, { publicMetadata: { completedLessons: updated } })`.
+   - Call using the two-step pattern: `const clerk = await clerkClient(); await clerk.users.updateUserMetadata(userId, { publicMetadata: { completedLessons: updated } })`.
    - If `completedLessons.length > 25` already: skip the metadata write (already falling back to GROQ) and only write to Sanity.
 6. Return `200 { success: true }`.
 
@@ -159,8 +165,9 @@ export function SurveyFormSlot(_props: { courseId: string }) {
 - [ ] Sidebar has `aria-label` on `<nav>`, keyboard navigable with Enter/Space
 - [ ] Lesson renderer handles `text`, `scorm`, `quiz` lesson types
 - [ ] TextLesson renders Portable Text with HDS typography tokens
-- [ ] `ScormPlayerSlot` exported from `[moduleSlug]/page.tsx` (renders null, typed props)
-- [ ] `SurveyFormSlot` exported from `[moduleSlug]/page.tsx` (renders null, typed props)
+- [ ] `src/components/lms/slots.tsx` created with `ScormPlayerSlot` (renders null, typed props)
+- [ ] `src/components/lms/slots.tsx` created with `SurveyFormSlot` (renders null, typed props)
+- [ ] `[moduleSlug]/page.tsx` imports slots from `'@/components/lms/slots'` — does not define them inline
 - [ ] `POST /api/lms/progress` writes `lessonProgress` document to Sanity with denormalized `gender`, `ageGroup`, `healthWorkerType`, `country` fields
 - [ ] `POST /api/lms/progress` updates `publicMetadata.completedLessons` with 8-char short ID
 - [ ] Falls back to GROQ for completion state when `completedLessons.length > 25`
@@ -180,7 +187,7 @@ Before starting, verify:
 ## Do Not
 - Do NOT add `'use client'` to `page.tsx` files (catalogue, course overview, lesson renderer) — they are Server Components.
 - Do NOT implement `PlayerShell` as a standalone page-level component only — it MUST be the `courses/[slug]/layout.tsx` to get App Router persistence.
-- Do NOT modify `[moduleSlug]/page.tsx` to inline the real `ScormPlayer` or `SurveyForm` — only export the typed null slots. T05 and T06 replace those exports.
+- Do NOT define slot stubs inline in `[moduleSlug]/page.tsx` — they must live in `src/components/lms/slots.tsx`. T05 and T06 modify `src/components/lms/slots.tsx` only; they must NOT modify `[moduleSlug]/page.tsx`.
 - Do NOT use `useMemo` or `useCallback` — React Compiler is active.
 - Do NOT touch `src/sanity/lib/client.ts`, `src/sanity/lib/write-client.ts`, `sanity.config.ts`, or `.env*` files.
 - Do NOT follow the `styled-components` pattern from `CommentForm.tsx`.

@@ -20,7 +20,7 @@ Build the analytics dashboard UI: a role-gated page at `/elearning/dashboard` wi
 **Role-gating rules:**
 - `learner` role: redirect to `/elearning` (not 404, not 403 — a redirect, performed in the Server Component before rendering anything).
 - `program_manager`: country filter pre-filled from `sessionClaims.metadata.country` and the country dropdown is disabled (read-only). All data is scoped to their country already by T08's Route Handler.
-- `partner_donor`, `system_admin`, `program_director`-equivalent: all filters available and enabled; no country pre-fill restriction.
+- `partner_donor`, `system_admin`: all filters available and enabled; no country pre-fill restriction.
 
 **Filter state in URL search params, NOT `useState`.** This is mandatory:
 - Filters are shareable links (a program manager can share a specific filtered view)
@@ -28,7 +28,7 @@ Build the analytics dashboard UI: a role-gated page at `/elearning/dashboard` wi
 - Use Next.js `useSearchParams()` (in client components) and `searchParams` prop (in Server Components) to read/write filter state
 - Filter changes: use `useRouter().push()` or `<Link>` with updated URL params — not local React state
 
-**Reuse `src/components/charts/CompletionsBar`.** This component already exists in the codebase. Use it for conversion rate and knowledge base growth bar charts. Do NOT create a duplicate chart component. Check the existing component's props interface before passing data.
+**Do NOT import `CompletionsBar` directly** — it uses `styled-components` which violates the CSS Modules constraint. Instead, build a new `src/components/lms/dashboard/MetricsBar.tsx` using CSS Modules + `--hds-*` tokens. `MetricsBar` accepts `data: { label: string; value: number }[]` and renders a simple horizontal bar chart. Add `src/components/lms/dashboard/MetricsBar.module.css` to files_affected.
 
 **`CertificateList` is admin/manager only.** Do not render it for `partner_donor` role — confirm this with the PRD (certificates are internal data). Render for `system_admin` and `program_manager` only.
 
@@ -46,6 +46,8 @@ Build the analytics dashboard UI: a role-gated page at `/elearning/dashboard` wi
 
 **`'use client'` only on:** `FilterBar.tsx` (needs `useRouter`, `useSearchParams`), and any component with click handlers.
 
+**`searchParams` is a Promise in Next.js 15+/16.x.** In Server Components, `searchParams` must be awaited before accessing properties: `const params = await searchParams`. The resolved object is then passed as props to child components.
+
 **React Compiler:** No `useMemo` or `useCallback`.
 
 ---
@@ -62,6 +64,8 @@ Build the analytics dashboard UI: a role-gated page at `/elearning/dashboard` wi
 | `src/components/lms/dashboard/FilterBar.tsx` | create | `'use client'` — URL-param filter dropdowns |
 | `src/components/lms/dashboard/FilterBar.module.css` | create | FilterBar styles |
 | `src/components/lms/dashboard/CertificateList.tsx` | create | Certificate table for admin/manager |
+| `src/components/lms/dashboard/MetricsBar.tsx` | create | CSS Modules horizontal bar chart (replaces CompletionsBar) |
+| `src/components/lms/dashboard/MetricsBar.module.css` | create | MetricsBar styles using `--hds-*` tokens |
 
 ---
 
@@ -78,8 +82,9 @@ import { getCsatAvg, getNpsScore, getKnowledgeGain, getDau, getConversionRate, g
 export default async function DashboardPage({
   searchParams,
 }: {
-  searchParams: { country?: string; gender?: string; ageGroup?: string; learnerType?: string }
+  searchParams: Promise<{ country?: string; gender?: string; ageGroup?: string; learnerType?: string }>
 }) {
+  const params = await searchParams
   const { sessionClaims } = await auth()
   const role = sessionClaims?.metadata?.role
   const userCountry = sessionClaims?.metadata?.country
@@ -91,10 +96,10 @@ export default async function DashboardPage({
 
   // For program_manager: override country filter with their own country
   const filters = {
-    country: role === 'program_manager' ? userCountry : searchParams.country,
-    gender: searchParams.gender,
-    ageGroup: searchParams.ageGroup,
-    learnerType: searchParams.learnerType,
+    country: role === 'program_manager' ? userCountry : params.country,
+    gender: params.gender,
+    ageGroup: params.ageGroup,
+    learnerType: params.learnerType,
     userRole: role,
     userCountry: userCountry ?? '',
   }
@@ -115,7 +120,7 @@ export default async function DashboardPage({
   const metrics = { csatAvg, npsScore, knowledgeGain, dau, conversionRate, retentionRate, newUsersByCountry, knowledgeBaseGrowth }
 
   return (
-    <DashboardShell role={role} userCountry={userCountry} searchParams={searchParams} metrics={metrics} />
+    <DashboardShell role={role} userCountry={userCountry} searchParams={params} metrics={metrics} />
   )
 }
 ```
@@ -134,7 +139,7 @@ Renders:
 - Header: "PharmaLink Analytics Dashboard" heading + role badge (e.g., "Program Manager — Kenya")
 - `<FilterBar>` component (client — receives role and userCountry to know which filters to disable)
 - Grid of `<MetricCard>` components for all 8 metrics
-- `<CompletionsBar>` (from `src/components/charts/CompletionsBar`) for "New Users by Country" bar chart and/or knowledge base growth — check the existing component's props interface
+- `<MetricsBar>` (from `src/components/lms/dashboard/MetricsBar`) for "New Users by Country" bar chart and/or knowledge base growth — pass `data` as `{ label: string; value: number }[]`
 - `<CertificateList>` rendered only if `role === 'system_admin' || role === 'program_manager'`
 
 ### Step 3 — Create `src/components/lms/dashboard/FilterBar.tsx`
@@ -195,8 +200,14 @@ Renders as a `<table>` with columns: Learner ID (userId), Course ID, Tier, Issue
 
 Note: learner names would require a Clerk API join — for PRD-A, display `userId` as the identifier. Adding full name lookup is a future enhancement.
 
-### Step 6 — Wire chart reuse
-Before rendering `CompletionsBar`, check its existing props interface in `src/components/charts/CompletionsBar`. Map `newUsersByCountry` data into the format it expects. Do not modify `CompletionsBar` — adapt the data shape.
+### Step 6 — Create `src/components/lms/dashboard/MetricsBar.tsx`
+Build `MetricsBar` using CSS Modules and `--hds-*` tokens. Props interface:
+```typescript
+interface MetricsBarProps {
+  data: { label: string; value: number }[]
+}
+```
+Renders a horizontal bar chart where each `data` entry is a labelled bar scaled relative to the maximum value. Do NOT import from `src/components/charts/CompletionsBar` — that component uses `styled-components` and is incompatible with this project's CSS Modules constraint.
 
 ---
 
@@ -207,7 +218,7 @@ Before rendering `CompletionsBar`, check its existing props interface in `src/co
 - [ ] Country dropdown pre-filled and disabled for `program_manager`
 - [ ] Filter changes update URL search params (not local state)
 - [ ] All 8 metrics displayed as `MetricCard` components
-- [ ] `CompletionsBar` reused for applicable charts — no duplicate chart component created
+- [ ] `MetricsBar` built with CSS Modules + `--hds-*` tokens; no `styled-components`
 - [ ] `CertificateList` rendered only for `system_admin` and `program_manager`
 - [ ] `CertificateList` NOT rendered for `partner_donor` or `learner`
 - [ ] FilterBar dropdowns update metrics without full page reload (Next.js soft navigation)
@@ -222,19 +233,20 @@ Before rendering `CompletionsBar`, check its existing props interface in `src/co
 Before starting, verify:
 - T07 complete: `certificate` documents being written to Sanity; `CertificateViewer` component exists (T09's `CertificateList` is separate from T07's `CertificateViewer`).
 - T08 complete: `GET /api/lms/dashboard` Route Handler returns `DashboardMetrics` JSON; `dashboardQueries.ts` exports all 8 query functions; role scoping enforced.
-- `src/components/charts/CompletionsBar` exists in the codebase — read its props interface before implementing Step 6.
+- `src/components/charts/CompletionsBar` exists in the codebase but uses `styled-components` — do NOT import it. Build `MetricsBar` instead (Step 6).
 
 ---
 
 ## Do Not
 - Do NOT use `useState` for filter values — URL search params only.
-- Do NOT create a new chart component that duplicates `CompletionsBar`.
+- Do NOT import `CompletionsBar` from `src/components/charts/` — it uses `styled-components` which violates the CSS Modules constraint. Use `MetricsBar` instead.
 - Do NOT add `'use client'` to `DashboardPage` or `DashboardShell` — keep them as Server Components.
 - Do NOT render `CertificateList` for `partner_donor` or `learner` roles.
 - Do NOT compute NPS or any metric in the UI layer — all metric computation is in T08's queries.
 - Do NOT use `useMemo` or `useCallback` — React Compiler is active.
 - Do NOT touch `src/sanity/lib/client.ts`, `src/sanity/lib/write-client.ts`, `sanity.config.ts`, or `.env*` files.
 - Do NOT implement DHIS2 integration, LinkedIn sharing, or WhatsApp — out of PRD-A scope.
+- Do NOT access `searchParams` properties before awaiting — in Next.js 15+/16.x, `searchParams` is a Promise in Server Components.
 
 ---
 

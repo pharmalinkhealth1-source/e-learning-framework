@@ -22,7 +22,7 @@ Create all eight analytics GROQ queries in a typed query file, and the role-gate
 **Role scoping:**
 - `program_manager`: ALL queries must include `&& country == $userCountry` as an additional GROQ filter. The `$userCountry` param comes from `sessionClaims.metadata.country`.
 - `partner_donor`: read-only but unrestricted by country (same as admin for data scope in PRD-A — confirm with stakeholder if this assumption changes).
-- `system_admin` and `program_director` equivalent: queries unrestricted by country.
+- `system_admin`: queries unrestricted by country.
 - `learner`: return 403 immediately — no dashboard data access.
 
 **NPS promoter definition:** `npsScore >= 9` (NOT `csatScore`). NPS formula: `(count of promoters / total responses) * 100`. A promoter is a survey respondent with `npsScore >= 9`.
@@ -114,7 +114,7 @@ Returns: `number` (count of active users in last 12 months — approximation)
 ```groq
 *[_type == "lessonProgress" {roleScope} && defined(country)] {
   country,
-  "month": completedAt[0..6]
+  "month": string::slice(completedAt, 0, 7)
 } | order(month desc)
 ```
 Post-process in JavaScript to group by country and month.
