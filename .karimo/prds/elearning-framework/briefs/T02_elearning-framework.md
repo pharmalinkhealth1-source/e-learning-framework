@@ -1,4 +1,4 @@
-# Brief: Clerk Roles + Registration Flow
+# Brief: Clerk Roles + Registration + Email
 **Task ID:** T02
 **PRD:** elearning-framework
 **Wave:** 1
@@ -131,9 +131,50 @@ The handler:
    await clerk.users.updateUser(userId, { username: generatedUsername })
    ```
 
-7. Return `200` with `{ success: true }`.
+7. Return `200` with `{ success: true, redirect: '/elearning/my-learning' }`.
 
 8. Return `409` if the phone number / username already exists (catch the Clerk API error and map to 409).
+
+### Step 3 — Send welcome email
+
+After the successful `updateUserMetadata` call, send a welcome email via Clerk's backend email API. Check `src/app/api/auth/onboarding/route.ts` for the exact `clerkClient` usage pattern installed in this project:
+```typescript
+const clerk = await clerkClient()
+await clerk.emails.createEmail({
+  fromEmailName: 'welcome',
+  subject: 'Welcome to PharmaLink Learning',
+  body: `Hi ${firstName}, your account is ready. Start learning at /elearning/my-learning`,
+  emailAddressId: userId, // or the user's emailAddress.id — check Clerk API version
+})
+```
+
+### Step 4 — Auto-enroll in country-matched and global courses
+
+After setting `publicMetadata`, query Sanity for courses matching the user's country or `'global'`. For each matched course, write an `enrollment` document (idempotent — skip if `_id: enrol_${userId}_${courseId}` already exists):
+```typescript
+import { writeClient } from '@/sanity/lib/write-client'
+// Query courses
+const courses = await client.fetch(
+  `*[_type == "course" && ($country in country || "global" in country)] { _id }`,
+  { country }
+)
+// Write enrollment for each course
+for (const course of courses) {
+  const enrollmentId = `enrol_${userId}_${course._id}`
+  const existing = await client.fetch(`*[_id == $id][0]`, { id: enrollmentId })
+  if (!existing) {
+    await writeClient.create({
+      _type: 'enrollment',
+      _id: enrollmentId,
+      userId,
+      courseId: course._id,
+      enrolledAt: new Date().toISOString(),
+      country,
+      source: 'auto',
+    })
+  }
+}
+```
 
 ---
 
@@ -151,6 +192,9 @@ The handler:
 - [ ] Username generated correctly: strip `+` and leading `0`s from phone number
 - [ ] `src/types/clerk.d.ts` augments `CustomSessionClaims` with `onboarded`, `role`, `country`, `completedLessons`, `lms_registered`
 - [ ] `npx tsc --noEmit` passes
+- [ ] Welcome email sent to user's email address on successful registration
+- [ ] Enrollment documents created for all country-matched + global courses on registration
+- [ ] `POST /api/lms/register` response includes `redirect: '/elearning/my-learning'`
 
 ---
 

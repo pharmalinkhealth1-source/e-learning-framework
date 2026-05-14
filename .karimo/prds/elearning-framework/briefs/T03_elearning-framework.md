@@ -1,4 +1,4 @@
-# Brief: Course Journey + PlayerShell
+# Brief: Course Journey + PlayerShell + My Learning
 **Task ID:** T03
 **PRD:** elearning-framework
 **Wave:** 2a
@@ -63,6 +63,9 @@ Build the complete course journey UI: a Server Component course catalogue, cours
 | `src/components/lms/PlayerShell.module.css` | create | PlayerShell styles |
 | `src/components/lms/slots.tsx` | create | Slot stub exports for `ScormPlayerSlot` and `SurveyFormSlot` |
 | `src/app/api/lms/progress/route.ts` | create | POST progress Route Handler |
+| `src/app/elearning/my-learning/page.tsx` | create | My Learning dashboard (Server Component, learner only) |
+| `src/app/elearning/my-learning/page.module.css` | create | My Learning styles |
+| `src/app/api/lms/enroll/route.ts` | create | POST enrollment fallback handler |
 
 ---
 
@@ -152,6 +155,26 @@ In `[moduleSlug]/page.tsx`, import these from `'@/components/lms/slots'` and ren
    - If `completedLessons.length > 25` already: skip the metadata write (already falling back to GROQ) and only write to Sanity.
 6. Return `200 { success: true }`.
 
+### Step 7 — Build `/elearning/my-learning` page
+
+Server Component at `src/app/elearning/my-learning/page.tsx`:
+
+1. Auth guard: if role is not `'learner'`, redirect to `/elearning/dashboard`.
+2. GROQ: fetch all enrollment documents for current `userId`, dereferencing `course { title, slug, passingScore }`.
+3. For each enrolled course: compute `progress %` = count of `lessonProgress` documents for this course where `completed == true` / total lessons in course.
+4. **Auto-enroll fallback**: if no enrollment documents found, call `POST /api/lms/enroll` to create them (handles users registered before T02 auto-enroll was in place).
+5. Render three sections:
+   - **Enrolled courses grid**: card per course with title, progress % bar, last activity date, "Continue" or "Start" CTA.
+   - **Completed courses section**: course cards with certificate tier badge (Participation / Accomplishment).
+   - **Certificates panel**: table — course name, tier, issued date, expiry date (`expiresAt`), "Download" button. Show warning badge if expiry < 30 days from now.
+6. **Notification feed**: query `*[_type == "notification" && userId == $userId] | order(createdAt desc) [0..9]` — render `NotificationFeed` component (created in T10 — leave a `{/* NotificationFeed slot */}` comment placeholder here that T10 will wire).
+7. **Notification bell slot**: PlayerShell header must include a `{/* notification bell slot */}` placeholder for T10 to add the unread count badge.
+8. Mobile-responsive CSS Module: stack cards on mobile (< 768px), grid on tablet and above.
+
+### Step 8 — Build `POST /api/lms/enroll` fallback handler
+
+Auth guard. Query Sanity for courses where `$country in country || "global" in country`. For each matched course: write `enrollment` document (idempotent — `_id: enrol_${userId}_${courseId}`, skip if exists). Return `{ enrolled: N }`.
+
 ---
 
 ## Acceptance Criteria
@@ -173,6 +196,13 @@ In `[moduleSlug]/page.tsx`, import these from `'@/components/lms/slots'` and ren
 - [ ] Falls back to GROQ for completion state when `completedLessons.length > 25`
 - [ ] All new styles use CSS Modules + `--hds-*` tokens; no Tailwind
 - [ ] `npx tsc --noEmit` passes
+- [ ] `/elearning/my-learning` renders for learner role; other roles redirected to `/elearning/dashboard`
+- [ ] My Learning shows enrolled course cards with progress %, completion badges, expiry alerts (30-day warning)
+- [ ] Module gating: Module N+1 locked until Module N all lessons complete
+- [ ] Pre-test completion (any score) unlocks Module 1
+- [ ] PlayerShell mobile-responsive: sidebar collapses below 768px
+- [ ] Notification feed slot placeholder present in My Learning page for T10 integration
+- [ ] Notification bell slot placeholder present in PlayerShell header for T10 integration
 
 ---
 

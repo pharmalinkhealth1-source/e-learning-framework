@@ -66,6 +66,8 @@ Build the analytics dashboard UI: a role-gated page at `/elearning/dashboard` wi
 | `src/components/lms/dashboard/CertificateList.tsx` | create | Certificate table for admin/manager |
 | `src/components/lms/dashboard/MetricsBar.tsx` | create | CSS Modules horizontal bar chart (replaces CompletionsBar) |
 | `src/components/lms/dashboard/MetricsBar.module.css` | create | MetricsBar styles using `--hds-*` tokens |
+| `src/components/lms/dashboard/ExpiryAlert.tsx` | create | Expiring certificates alert banner |
+| `src/components/lms/dashboard/ExpiryAlert.module.css` | create | ExpiryAlert styles |
 
 ---
 
@@ -141,6 +143,8 @@ Renders:
 - Grid of `<MetricCard>` components for all 8 metrics
 - `<MetricsBar>` (from `src/components/lms/dashboard/MetricsBar`) for "New Users by Country" bar chart and/or knowledge base growth — pass `data` as `{ label: string; value: number }[]`
 - `<CertificateList>` rendered only if `role === 'system_admin' || role === 'program_manager'`
+- `<ExpiryAlert>` banner: calls `getExpiringCertificates({ daysAhead: 30 })` — if count > 0, renders "N certificates expiring within 30 days" with expand/collapse list of affected certificates
+- `<MetricsBar>` for enrollment by country: calls `getEnrollmentsByCountry()`, aggregates to `{ label: country, value: count }[]`
 
 ### Step 3 — Create `src/components/lms/dashboard/FilterBar.tsx`
 ```typescript
@@ -226,6 +230,8 @@ Renders a horizontal bar chart where each `data` entry is a labelled bar scaled 
 - [ ] CSS Modules + `--hds-*` tokens throughout; no Tailwind
 - [ ] No `useMemo` or `useCallback`
 - [ ] `npx tsc --noEmit` passes
+- [ ] `ExpiryAlert` banner displays when `getExpiringCertificates` returns count > 0
+- [ ] Enrollment by country chart renders via `MetricsBar` using `getEnrollmentsByCountry` data
 
 ---
 

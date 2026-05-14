@@ -45,6 +45,8 @@ tasks:
       - src/sanity/schemaTypes/lessonProgress.ts
       - src/sanity/schemaTypes/surveyResponse.ts
       - src/sanity/schemaTypes/certificate.ts
+      - src/sanity/schemaTypes/enrollment.ts
+      - src/sanity/schemaTypes/notification.ts
       - src/sanity/schemaTypes/index.ts
       - src/sanity/schemaTypes/quiz.ts
       - src/sanity/lib/lms-fallbacks.ts
@@ -63,8 +65,14 @@ tasks:
         npsScore number 0-10, completedAt datetime,
         gender string, ageGroup string, healthWorkerType string, country string),
       certificate (_id: cert_userId_courseId, userId, courseId, tier enum [participation|accomplishment],
-        score number, issuedAt datetime, blobUrl string).
-      Register all six in schemaTypes/index.ts.
+        score number, issuedAt datetime, expiresAt datetime, blobUrl string).
+      enrollment (_id: enrol_userId_courseId, userId string, courseId string,
+        enrolledAt datetime, country string, source enum [auto|manual]),
+      notification (_id: notif_userId_timestamp, userId string,
+        type enum [enrollment|completion|certificate_ready|certificate_expiring|inactivity],
+        read boolean default false, message string, courseId string, createdAt datetime).
+      Register enrollment and notification in schemaTypes/index.ts.
+      Register all schemas in schemaTypes/index.ts.
       Create src/sanity/schemaTypes/quiz.ts with question object type:
         { questionText string, options string[], correctIndex number }.
         Import and use in lesson.ts questions[] field and quizRole enum [pre-test|post-test|self-assessment].
@@ -85,9 +93,12 @@ tasks:
       - npx sanity typegen generate runs without errors
       - sanity.types.ts committed to repo
       - npx tsc --noEmit passes after schema addition
+      - enrollment schema created and registered
+      - notification schema created and registered
+      - certificate schema includes expiresAt field
 
   - id: T02
-    title: "Clerk roles + registration flow"
+    title: "Clerk roles + registration + email"
     wave: 1
     complexity: 4
     priority: critical
@@ -111,15 +122,27 @@ tasks:
       Returns 400 with field-level errors for validation failures.
       Note: src/middleware.ts is require_review — must not break existing /forum(.*) protection
       or onboarding redirect logic.
+      After successful registration:
+      1. Send welcome email via Clerk's backend email API (clerkclient.emails.createEmail or
+         equivalent for the installed Clerk version — check src/app/api/auth/onboarding/route.ts
+         for the exact clerkClient usage pattern).
+      2. Redirect response includes a flag directing the client to /elearning/my-learning.
+      Auto-enrollment: after setting publicMetadata, query Sanity for courses where
+      country includes the user's country or 'global'. For each matched course, write an
+      enrollment document (_id: enrol_userId_courseId) via writeClient. Skip if enrollment
+      already exists (idempotent).
     acceptance_criteria:
       - /elearning/courses/* and /elearning/dashboard/* redirect unauthenticated users to Clerk sign-in
       - POST /api/lms/register validates DOB >= 18, email format, required fields
       - publicMetadata.role set correctly on registration
       - Existing /forum protection and onboarding redirect unchanged
       - npx tsc --noEmit passes
+      - Welcome email sent to user's email address on successful registration
+      - Enrollment documents created for all country-matched + global courses on registration
+      - POST /api/lms/register response directs client to /elearning/my-learning
 
   - id: T03
-    title: "Course journey + PlayerShell"
+    title: "Course journey + PlayerShell + My Learning"
     wave: 2a
     complexity: 5
     priority: critical
@@ -139,6 +162,9 @@ tasks:
       - src/components/lms/PlayerShell.tsx
       - src/components/lms/PlayerShell.module.css
       - src/app/api/lms/progress/route.ts
+      - src/app/elearning/my-learning/page.tsx
+      - src/app/elearning/my-learning/page.module.css
+      - src/app/api/lms/enroll/route.ts
     description: >
       Replace the marketing stub at src/app/elearning/page.tsx with a Server Component
       course catalogue. GROQ query: *[_type == "course" && $userCountry in country || "global" in country].
@@ -162,6 +188,25 @@ tasks:
       gender, ageGroup (derived from DOB), healthWorkerType, country — these enable GROQ dashboard
       filters without joining Clerk data.
       Falls back to Sanity GROQ for completed state when completedLessons.length > 25.
+      Build /elearning/my-learning (Server Component, learner role only):
+      - Redirect non-learner roles to /elearning/dashboard
+      - GROQ: fetch all enrollment documents for current userId, dereference course title/slug/passingScore
+      - For each enrolled course: compute progress % = completedLessons in this course / total lessons
+      - Show enrolled courses grid (in-progress and completed), certificate tier badges, expiry alerts
+      - Notification feed: query notification documents for userId, sorted by createdAt desc, show last 10
+      - Mobile-responsive CSS Module layout (stack cards on mobile, grid on tablet+)
+      Module completion gating in PlayerShell (layout.tsx):
+      - Sidebar renders each module with lock icon if not yet unlocked
+      - Module N unlocks when: all lessons in Module N-1 are in completedLessons (or Module 1 after pre-test submitted)
+      - Pre-test completion (any score) unlocks Module 1
+      - Locked module items: aria-disabled=true, cursor not-allowed, no href
+      Mobile breakpoints in PlayerShell.module.css:
+      - Sidebar collapses to top navigation bar on viewport < 768px
+      - Lesson content full-width on mobile
+      - Touch-friendly tap targets (min 44px)
+      Auto-enroll check on /elearning/my-learning load:
+      - If no enrollment documents found for userId, call POST /api/lms/enroll (create enrollment docs)
+        as a fallback (handles users who registered before auto-enroll was in place)
     acceptance_criteria:
       - Course catalogue shows country-scoped + global courses from Sanity
       - PlayerShell persists across lesson navigation without re-mount
@@ -171,6 +216,12 @@ tasks:
       - TextLesson renders Portable Text with HDS typography tokens
       - No 'use client' on Server Component pages
       - npx tsc --noEmit passes
+      - /elearning/my-learning renders for learner role; other roles redirected to /elearning/dashboard
+      - My Learning shows enrolled course cards with progress %, completion badges, expiry alerts
+      - Module gating: Module N+1 locked until Module N all lessons complete
+      - Pre-test completion (any score) unlocks Module 1
+      - PlayerShell mobile-responsive: sidebar collapses below 768px
+      - Notification feed shows last 10 notifications for current user
 
   - id: T04
     title: "Pre/post-test + self-assessment engine"
@@ -288,7 +339,7 @@ tasks:
       - npx tsc --noEmit passes
 
   - id: T07
-    title: "Certificate generation (2-tier PDF)"
+    title: "Certificate generation (2-tier PDF + expiry)"
     wave: 3
     complexity: 3
     priority: must
@@ -310,11 +361,19 @@ tasks:
         - Course name
         - Tier label ("Certificate of Participation" or "Certificate of Accomplishment")
         - Issue date
+        - Expiry date
         - Unique certificate ID (cert_userId_courseId)
       Uploads PDF to @vercel/blob (private access). Writes certificate document to Sanity
       (_id: cert_userId_courseId, tier, score, issuedAt, blobUrl). Returns { blobUrl, tier }.
       Build CertificateViewer client component: renders certificate preview, download button,
       and tier badge. Shown after survey completion.
+      Set certificate.expiresAt = issuedAt + 365 days (1 year renewal cycle).
+      Include expiry date on PDF certificate.
+      After writing certificate document to Sanity, write a notification document:
+        { _id: 'notif_${userId}_certready_${courseId}', userId, type: 'certificate_ready',
+          message: 'Your certificate for [course name] is ready to download.',
+          courseId, read: false, createdAt: now }
+      Send certificate-ready email via Clerk email API (same pattern as T02 welcome email).
     acceptance_criteria:
       - Participation certificate issued on course completion regardless of score
       - Accomplishment certificate issued only when postTestScore >= course.passingScore
@@ -322,6 +381,10 @@ tasks:
       - certificate document written to Sanity with correct tier
       - Download link works (Vercel Blob URL)
       - npx tsc --noEmit passes
+      - certificate.expiresAt set to issuedAt + 365 days
+      - Expiry date appears on PDF
+      - notification document written on certificate issuance
+      - Certificate-ready email sent via Clerk
 
   - id: T08
     title: "Dashboard GROQ + analytics queries"
@@ -354,6 +417,14 @@ tasks:
         - Knowledge base growth: count(courses) by month
       Create GET /api/lms/dashboard route handler: auth guard + role check (block learner role),
       calls dashboardQueries with user's role + country from sessionClaims, returns JSON.
+      Additional queries:
+      getExpiringCertificates({ daysAhead = 30, country? }): returns certificates where
+        expiresAt < now() + daysAhead days AND expiresAt > now(), with learner userId and courseId.
+        Used for admin expiry alert widget and notification trigger.
+      getEnrollmentsByCountry({ country? }): count of enrollment documents grouped by country,
+        filtered by date range. Returns Array<{ country: string; month: string; count: number }>.
+      getInactiveLearners({ daysSince = 7, country? }): count of users with no lessonProgress
+        documents updated in the last daysSince days. Used by T10 notification worker.
     acceptance_criteria:
       - All 8 metrics return correct values from Sanity GROQ
       - Program Manager queries restricted to own country
@@ -361,6 +432,9 @@ tasks:
       - Learner role returns 403
       - All queries are typed via sanity.types.ts
       - npx tsc --noEmit passes
+      - getExpiringCertificates returns certs expiring within N days
+      - getEnrollmentsByCountry returns enrollment counts grouped by country+month
+      - getInactiveLearners returns count of users with no activity in N days
 
   - id: T09
     title: "Dashboard UI + role-gated views"
@@ -381,6 +455,8 @@ tasks:
       - src/components/lms/dashboard/FilterBar.tsx
       - src/components/lms/dashboard/FilterBar.module.css
       - src/components/lms/dashboard/CertificateList.tsx
+      - src/components/lms/dashboard/ExpiryAlert.tsx
+      - src/components/lms/dashboard/ExpiryAlert.module.css
     description: >
       Build dashboard page at /elearning/dashboard. Server Component fetches initial
       metrics via /api/lms/dashboard. Redirect to /elearning if role === 'learner'.
@@ -396,6 +472,11 @@ tasks:
       Metrics displayed: CSAT, NPS, Knowledge Gain, DAU, Conversion Rate, Retention Rate,
       New Users by Country (bar chart), Knowledge Base Growth.
       Breakdown dimensions: gender, age group, learner type, geography.
+      Add to DashboardShell:
+      - Expiring certificates alert banner: if getExpiringCertificates count > 0, show
+        "N certificates expiring within 30 days" banner with expand/collapse list.
+      - Enrollment by country chart: MetricsBar using getEnrollmentsByCountry data
+        (label = country, value = count).
     acceptance_criteria:
       - Dashboard loads with correct role-scoped metrics
       - Learner role redirected away from /elearning/dashboard
@@ -405,4 +486,56 @@ tasks:
       - CompletionsBar reused where applicable (no duplicate chart component)
       - CertificateList renders for admin/manager roles
       - CSS Modules + --hds-* tokens throughout; no Tailwind
+      - npx tsc --noEmit passes
+      - Expiry alert banner shows when certificates expiring within 30 days exist
+      - Enrollment by country chart renders using MetricsBar
+
+  - id: T10
+    title: "Notifications (email + in-app)"
+    wave: 3
+    complexity: 3
+    priority: must
+    status: pending
+    model: sonnet
+    require_review: false
+    depends_on: [T01, T02, T03, T07]
+    files_affected:
+      - src/app/api/lms/notifications/route.ts
+      - src/app/api/lms/notifications/mark-read/route.ts
+      - src/app/api/lms/notifications/send-expiry-warnings/route.ts
+      - src/components/lms/NotificationFeed.tsx
+      - src/components/lms/NotificationFeed.module.css
+    description: >
+      Build notification infrastructure for three event types:
+      1. Enrollment (handled in T02 — email only, no new work here)
+      2. Certificate ready (handled in T07 — email + Sanity doc, no new work here)
+      3. Certificate expiring (30-day warning): POST /api/lms/notifications/send-expiry-warnings
+         reads getExpiringCertificates (from T08), for each cert: check if expiry-warning
+         notification already sent (idempotent via _id: notif_userId_certexpiring_courseId),
+         if not: write notification document + send email via Clerk API.
+      4. Inactivity nudge (7-day): check getInactiveLearners (from T08), for each userId:
+         write notification document + send email (idempotent via _id: notif_userId_inactive_YYYY-WW).
+
+      Build GET /api/lms/notifications route handler: auth guard, returns notification
+      documents for current userId, sorted by createdAt desc, limit 20.
+
+      Build POST /api/lms/notifications/mark-read route handler: auth guard, accepts
+      { notificationId } or { all: true }, sets notification.read = true via writeClient.
+
+      Build NotificationFeed client component: renders list of notifications with
+      read/unread state, "Mark all read" button. Used in /elearning/my-learning (T03).
+      CSS Module + --hds-* tokens. Notification bell icon with unread count badge in
+      PlayerShell header (add bell to PlayerShell layout in T03 — note this as a
+      cross-task dependency for T03 to leave a slot).
+
+      Note: The send-expiry-warnings and inactivity routes are designed to be called
+      by a cron job or manual admin trigger — not by learners. Add role check:
+      system_admin only for these two routes.
+    acceptance_criteria:
+      - GET /api/lms/notifications returns notifications for current user
+      - POST /api/lms/notifications/mark-read marks single or all notifications as read
+      - send-expiry-warnings writes notification docs and sends emails (idempotent)
+      - Inactivity nudge writes notification docs and sends emails (idempotent, weekly)
+      - NotificationFeed renders with read/unread states and mark-all-read
+      - system_admin gate on send-expiry-warnings and inactivity routes
       - npx tsc --noEmit passes

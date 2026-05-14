@@ -23,6 +23,13 @@ PRD-A covers Phases 1–2 only: core LMS, SCORM bridge, and analytics dashboard.
 - Dashboard surfaces CSAT, NPS, knowledge gain, DAU, conversion rate, retention — filterable by country/gender/age/learner type
 - End-of-course survey (CSAT + NPS) fires at course completion
 - `npx tsc --noEmit` passes; WCAG 2.1 AA on PlayerShell; all styling via CSS Modules + `--hds-*` tokens
+- Learner "My Learning" view shows enrolled courses, progress, certificates, and expiry alerts
+- Module completion gates enforce sequential learning (each module unlocks only after the prior completes)
+- Auto-enrollment on registration for country-matched and global courses
+- Certificate expiry set at 1 year; expiry warnings surfaced in learner and admin views
+- Email notifications sent on enrollment, certificate issuance, and 30-day expiry warning
+- In-app notification feed in "My Learning" view
+- Mobile-responsive PlayerShell (CSS Module breakpoints)
 
 ---
 
@@ -33,7 +40,7 @@ PRD-A covers Phases 1–2 only: core LMS, SCORM bridge, and analytics dashboard.
 - LinkedIn certificate sharing (PRD-B)
 - WhatsApp / USSD / IVR / offline channels (separate PRD)
 - DHIS2 interoperability (separate PRD)
-- Messaging / peer chat forum (existing forum feature — wire up later)
+- Forum/peer messaging integration (wire up in PRD-C)
 - External database (Postgres/Turso) — Sanity-only persistence in PRD-A
 
 ---
@@ -60,6 +67,59 @@ PRD-A covers Phases 1–2 only: core LMS, SCORM bridge, and analytics dashboard.
 - I can create a Course with Modules and Lessons (text, SCORM) in Sanity Studio
 - I can upload a SCORM ZIP for a lesson and have it auto-extracted to Vercel Blob
 - I can set a post-test pass threshold per course for Accomplishment certificate
+
+---
+
+## 4a. User & Course Journeys
+
+### Journey 1: First-Time Registration & Login
+1. New user visits `/elearning` → sees course catalogue with locked CTAs
+2. Clicks "Register" → `/elearning/register` (T02)
+3. Completes mandatory registration form (name, DOB ≥18, gender, province, health worker type, pharmacy, email, phone)
+4. Country auto-detected from phone prefix → language pre-filled → user confirms
+5. Username auto-generated from phone number (country code, no `+` or leading `0`s)
+6. `POST /api/lms/register` sets `publicMetadata: { role: 'learner', country, lms_registered: true, completedLessons: [] }`
+7. Auto-enrollment triggered: Sanity query for `course.country includes userCountry || 'global'` → creates `enrollment` documents (T03)
+8. Welcome email sent via Clerk (T02)
+9. Redirect to `/elearning/my-learning`
+10. User sees enrolled course cards with "Start" CTAs
+
+### Journey 2: Full Course Learning Flow
+1. `/elearning/my-learning` → select in-progress or new course
+2. Course overview page: module list with lock/unlock state, pre-test CTA
+3. **Pre-test** (required): complete before any module unlocks — score recorded, no gate
+4. **Module 1** unlocks: learner works through lessons (text or SCORM) in order
+   - Each lesson completion updates `lessonProgress` + `publicMetadata.completedLessons`
+   - SCORM lessons auto-commit via `scorm-again` bridge
+5. **Module N+1 locks** until Module N fully complete (all lessons done)
+6. After all modules: **Self-assessment** (informational)
+7. **Post-test**: score compared to `course.passingScore`
+8. **Survey** (CSAT + NPS): fires immediately after post-test
+9. **Certificate issued**: Participation (always) or Accomplishment (score ≥ passingScore)
+   - Certificate PDF generated, uploaded to Vercel Blob (private)
+   - `expiresAt` set to 1 year from `issuedAt`
+   - "Certificate ready" email sent via Clerk
+   - Notification document written to Sanity
+10. Learner redirected to `/elearning/my-learning` — course card shows "Completed" + certificate tier badge
+
+### Journey 3: Learner "My Learning" Dashboard
+Route: `/elearning/my-learning` (learner role only; other roles redirect to `/elearning/dashboard`)
+
+1. **Enrolled courses grid**: card per course with title, progress % bar, last activity date, "Continue" or "Start" CTA
+2. **Completed courses section**: course card with certificate tier badge (Participation / Accomplishment)
+3. **Certificates panel**: table — course name, tier, issued date, expiry date, "Download" button
+4. **Expiry alerts**: courses with certificates expiring within 30 days show warning badge
+5. **Notification feed**: recent system notifications (enrollment confirmed, certificate ready, expiry warning, inactivity nudge)
+
+### Journey 4: Admin / Program Manager Analytics Flow
+Route: `/elearning/dashboard` (admin, program_manager, partner_donor roles; learner redirected to `/elearning/my-learning`)
+
+1. **KPI cards row**: CSAT, NPS, Knowledge Gain, DAU, Conversion Rate, Retention Rate
+2. **Filter bar**: country (program_manager pre-filled + disabled), gender, age group, learner type
+3. **Charts section**: new users by country (MetricsBar), knowledge base growth over time (MetricsBar)
+4. **Expiring certificates alert**: count of certificates expiring within 30 days → click to expand list
+5. **Enrollment by country**: MetricsBar showing enrollments per country
+6. **Certificate list**: all issued certificates — learner name, course, tier, issue date, expiry date
 
 ---
 
@@ -184,13 +244,14 @@ See `tasks.yaml` for full task definitions.
 |----|-------|------|------------|----------|
 | T00 | Dependency bootstrap | 1 | 1 | critical |
 | T01 | Sanity schemas + typegen | 1 | 3 | critical |
-| T02 | Clerk roles + registration | 1 | 4 | critical |
-| T03 | Course journey + PlayerShell | 2a | 5 | critical |
+| T02 | Clerk roles + registration + email | 1 | 4 | critical |
+| T03 | Course journey + PlayerShell + My Learning | 2a | 5 | critical |
 | T04 | Pre/post-test + self-assessment engine | 2b | 4 | critical |
 | T05 | SCORM upload + bridge + commit | 2b | 5 | must |
 | T06 | End-of-course survey (CSAT + NPS) | 2b | 2 | must |
-| T07 | Certificate generation (2-tier PDF) | 3 | 3 | must |
+| T07 | Certificate generation (2-tier PDF + expiry) | 3 | 3 | must |
 | T08 | Dashboard GROQ + analytics queries | 3 | 4 | must |
 | T09 | Dashboard UI + role-gated views | 4 | 5 | must |
+| T10 | Notifications (email + in-app) | 3 | 3 | must |
 
-**Total:** 10 tasks, 36 complexity points
+**Total:** 11 tasks, 39 complexity points

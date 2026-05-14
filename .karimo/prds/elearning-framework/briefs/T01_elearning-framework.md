@@ -44,7 +44,9 @@ Define all six Sanity v5 document/object schemas for the LMS data model, registe
 | `src/sanity/schemaTypes/lessonProgress.ts` | create | Document schema |
 | `src/sanity/schemaTypes/surveyResponse.ts` | create | Document schema |
 | `src/sanity/schemaTypes/certificate.ts` | create | Document schema |
-| `src/sanity/schemaTypes/index.ts` | modify | Add 6 new schemas to existing array |
+| `src/sanity/schemaTypes/enrollment.ts` | create | Document schema |
+| `src/sanity/schemaTypes/notification.ts` | create | Document schema |
+| `src/sanity/schemaTypes/index.ts` | modify | Add all new schemas to existing array |
 | `src/sanity/lib/lms-fallbacks.ts` | create | Mock data for local dev |
 | `src/types/lms.ts` | create | Plain TypeScript interfaces |
 | `sanity.types.ts` | auto-generated | Run `npx sanity typegen generate` and commit |
@@ -138,10 +140,28 @@ Document type with fields (`_id` set programmatically as `cert_userId_courseId`)
 - `tier`: `string`, options list: `['participation', 'accomplishment']`
 - `score`: `number`
 - `issuedAt`: `datetime`
+- `expiresAt`: `datetime`
 - `blobUrl`: `string`
 
+### Step 7a — Create `src/sanity/schemaTypes/enrollment.ts`
+Document type with fields (`_id` set programmatically as `enrol_userId_courseId`):
+- `userId`: `string`, required
+- `courseId`: `string`, required
+- `enrolledAt`: `datetime`
+- `country`: `string`
+- `source`: `string`, options list: `['auto', 'manual']`
+
+### Step 7b — Create `src/sanity/schemaTypes/notification.ts`
+Document type with fields (`_id` set programmatically as `notif_userId_type_courseId`):
+- `userId`: `string`, required
+- `type`: `string`, options list: `['enrollment', 'completion', 'certificate_ready', 'certificate_expiring', 'inactivity']`
+- `read`: `boolean` (default false)
+- `message`: `string`
+- `courseId`: `string`
+- `createdAt`: `datetime`
+
 ### Step 8 — Register all schemas in `src/sanity/schemaTypes/index.ts`
-Import and add to the `schema.types` array in `src/sanity/schemaTypes/index.ts`: `course`, `courseModule`, `lesson`, `quiz`, `lessonProgress`, `surveyResponse`, `certificate`. Do not remove any existing schema registrations.
+Import and add to the `schema.types` array in `src/sanity/schemaTypes/index.ts`: `course`, `courseModule`, `lesson`, `quiz`, `lessonProgress`, `surveyResponse`, `certificate`, `enrollment`, `notification`. Do not remove any existing schema registrations.
 
 ### Step 9 — Create `src/types/lms.ts`
 Plain TypeScript file (no Sanity imports). Define and export:
@@ -191,8 +211,10 @@ Commit the generated `sanity.types.ts` file to the repository. Run `npx tsc --no
 - [ ] `quiz.ts` object type created with `questionText`, `options[]`, `correctIndex` fields
 - [ ] `lessonProgress.ts` schema created with `preTestScore`, `postTestScore`, `lessonShortId`, `gender`, `ageGroup`, `healthWorkerType`, `country` fields
 - [ ] `surveyResponse.ts` schema created with `csatScore` (1–5), `npsScore` (0–10), denormalized fields
-- [ ] `certificate.ts` schema created with `tier` enum (`participation`, `accomplishment`), `blobUrl`
-- [ ] All six document types + `quiz` object type added to the `schema.types` array in `src/sanity/schemaTypes/index.ts`
+- [ ] `certificate.ts` schema created with `tier` enum (`participation`, `accomplishment`), `blobUrl`, `expiresAt`
+- [ ] `enrollment.ts` schema created with `userId`, `courseId`, `enrolledAt`, `country`, `source` fields
+- [ ] `notification.ts` schema created with `userId`, `type` enum, `read`, `message`, `courseId`, `createdAt` fields
+- [ ] All document types + `quiz` object type added to the `schema.types` array in `src/sanity/schemaTypes/index.ts`
 - [ ] `src/types/lms.ts` created with `LmsRole`, `CertificateTier`, `DashboardFilters`, `QuizSubmission`, `DashboardMetrics` exports
 - [ ] `src/sanity/lib/lms-fallbacks.ts` created with mock entries for local dev
 - [ ] `src/sanity/lib/client.ts` NOT modified

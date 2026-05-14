@@ -34,8 +34,8 @@ waves:
       before dashboard work begins. Dashboard metrics depend on data shapes confirmed here.
 
   - wave: 3
-    label: "Certificates + Dashboard GROQ"
-    tasks: [T07, T08]
+    label: "Certificates + Dashboard GROQ + Notifications"
+    tasks: [T07, T08, T10]
     parallel: true
     review_gate: false
 
@@ -58,15 +58,16 @@ dependency_graph:
   T07: [T00, T01, T03, T04, T06]
   T08: [T00, T01, T03, T04, T05, T06]
   T09: [T07, T08]
+  T10: [T01, T02, T03, T07]
 
 longest_chain: "T01 → T03 → T04 → T08 → T09"
 longest_chain_length: 5
 
 complexity_summary:
-  total_tasks: 10
-  total_complexity: 36
+  total_tasks: 11
+  total_complexity: 39
   wave_1: 8
   wave_2a: 5
   wave_2b: 11
-  wave_3: 7
+  wave_3: 10
   wave_4: 5

@@ -1,4 +1,4 @@
-# Brief: Certificate Generation (2-Tier PDF)
+# Brief: Certificate Generation (2-Tier PDF + Expiry)
 **Task ID:** T07
 **PRD:** elearning-framework
 **Wave:** 3
@@ -37,7 +37,12 @@ Generate and store 2-tier PDF certificates (Participation and Accomplishment) us
 - Course name (from Sanity course document)
 - Tier label: "Certificate of Participation" or "Certificate of Accomplishment"
 - Issue date (formatted: e.g., "13 May 2026")
+- Expiry date (formatted: e.g., "13 May 2027" — `issuedAt + 365 days`)
 - Unique certificate ID (`cert_${userId}_${courseId}`)
+
+**Certificate expiry:** Set `expiresAt = issuedAt + 365 days` on the Sanity certificate document. This field is defined in the `certificate` schema (T01).
+
+**Post-issuance notification:** After writing the certificate document, write a `notification` document to Sanity and send a certificate-ready email via Clerk. See implementation steps below.
 
 **Learner name:** Fetch from Clerk via `clerkClient().users.getUser(userId)` inside the Route Handler — use `firstName` and `lastName`.
 
@@ -130,6 +135,8 @@ Generate and store 2-tier PDF certificates (Participation and Accomplishment) us
 
 11. Write `certificate` document to Sanity via `writeClient`:
     ```typescript
+    const issuedAt = new Date()
+    const expiresAt = new Date(issuedAt.getTime() + 365 * 24 * 60 * 60 * 1000)
     await writeClient.create({
       _type: 'certificate',
       _id: `cert_${userId}_${courseId}`,
@@ -137,12 +144,42 @@ Generate and store 2-tier PDF certificates (Participation and Accomplishment) us
       courseId,
       tier,
       score: postTestScore ?? 0,
-      issuedAt: new Date().toISOString(),
+      issuedAt: issuedAt.toISOString(),
+      expiresAt: expiresAt.toISOString(),
       blobUrl: url,
     })
     ```
 
-12. Return `{ blobUrl: url, tier }`.
+12. Write a `notification` document to Sanity (idempotent):
+    ```typescript
+    const notificationId = `notif_${userId}_certready_${courseId}`
+    const existingNotif = await client.fetch(`*[_id == $id][0]`, { id: notificationId })
+    if (!existingNotif) {
+      await writeClient.create({
+        _type: 'notification',
+        _id: notificationId,
+        userId,
+        type: 'certificate_ready',
+        message: `Your certificate for ${course.title} is ready to download.`,
+        courseId,
+        read: false,
+        createdAt: new Date().toISOString(),
+      })
+    }
+    ```
+
+13. Send certificate-ready email via Clerk (same pattern as T02 welcome email — check `src/app/api/auth/onboarding/route.ts` for the exact `clerkClient` usage):
+    ```typescript
+    const clerk = await clerkClient()
+    await clerk.emails.createEmail({
+      fromEmailName: 'certificates',
+      subject: `Your certificate for ${course.title} is ready`,
+      body: `Congratulations! Your certificate is ready. Download it from /elearning/my-learning`,
+      emailAddressId: userId,
+    })
+    ```
+
+14. Return `{ blobUrl: url, tier }`.
 
 ### Step 2 — Create `src/components/lms/CertificateViewer.tsx`
 `'use client'` component. Props:
@@ -184,6 +221,10 @@ Only touch the post-survey section of the completion area. Do NOT touch `ScormPl
 - [ ] `CertificateViewer` renders tier badge and download button after survey completion
 - [ ] CSS Modules + `--hds-*` tokens throughout; no Tailwind
 - [ ] `npx tsc --noEmit` passes
+- [ ] `certificate.expiresAt` set to `issuedAt + 365 days`
+- [ ] Expiry date appears on generated PDF
+- [ ] `notification` document written to Sanity on certificate issuance (idempotent)
+- [ ] Certificate-ready email sent via Clerk on issuance
 
 ---
 

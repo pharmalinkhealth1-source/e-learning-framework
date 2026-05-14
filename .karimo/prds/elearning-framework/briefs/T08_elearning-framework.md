@@ -168,6 +168,35 @@ Pass params as the second argument to `client.fetch()`.
    ```
 7. Return `200` with `DashboardMetrics` JSON object.
 
+### Step 4 — Add three additional query functions
+
+**9. `getExpiringCertificates({ daysAhead = 30, country? })`**
+```groq
+*[_type == "certificate" && expiresAt < $cutoff && expiresAt > $now
+  {countryScope}] {
+  _id, userId, courseId, tier, issuedAt, expiresAt
+}
+```
+Params: `{ cutoff: new Date(Date.now() + daysAhead * 86400000).toISOString(), now: new Date().toISOString() }`
+Returns: `Array<{ _id: string; userId: string; courseId: string; tier: string; issuedAt: string; expiresAt: string }>`
+
+**10. `getEnrollmentsByCountry({ country? })`**
+```groq
+*[_type == "enrollment" {countryScope}] {
+  country,
+  "month": string::slice(enrolledAt, 0, 7)
+} | order(month desc)
+```
+Post-process in JavaScript to group by country and month.
+Returns: `Array<{ country: string; month: string; count: number }>`
+
+**11. `getInactiveLearners({ daysSince = 7, country? })`**
+```groq
+count(*[_type == "lessonProgress" {countryScope} && completedAt < $cutoff])
+```
+Where `$cutoff = new Date(Date.now() - daysSince * 86400000).toISOString()`. Returns count of progress documents not updated in `daysSince` days (approximation for inactive learners).
+Returns: `number`
+
 ---
 
 ## Acceptance Criteria
@@ -182,6 +211,9 @@ Pass params as the second argument to `client.fetch()`.
 - [ ] All queries typed via `sanity.types.ts`
 - [ ] `DashboardFilters` from `src/types/lms.ts` used for filter shape
 - [ ] `npx tsc --noEmit` passes
+- [ ] `getExpiringCertificates` returns certs where `expiresAt` is within `daysAhead` days
+- [ ] `getEnrollmentsByCountry` returns enrollment counts grouped by country + month
+- [ ] `getInactiveLearners` returns count of users with no activity in `daysSince` days
 
 ---
 
