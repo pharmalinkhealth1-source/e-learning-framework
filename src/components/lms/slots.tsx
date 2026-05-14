@@ -1,4 +1,5 @@
 import { ScormPlayer } from './ScormPlayer'
+import { SurveyForm } from './SurveyForm'
 
 export function ScormPlayerSlot(props: {
   lessonId: string
@@ -7,8 +8,6 @@ export function ScormPlayerSlot(props: {
 }) {
   return <ScormPlayer {...props} />
 }
-
-import { SurveyForm } from './SurveyForm'
 
 export function SurveyFormSlot({ courseId }: { courseId: string }) {
   return <SurveyForm courseId={courseId} />
