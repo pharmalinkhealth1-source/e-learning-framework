@@ -1,33 +1,32 @@
 "use client";
 
 import * as React from 'react';
-import { StripeButton } from '@/components/stripe/StripeUI';
 import styled from 'styled-components';
 
 const Form = styled.form`
-  margin-top: 40px;
-  padding: 32px;
+  margin-top: 20px;
+  padding: 24px;
   background: white;
   border-radius: 12px;
-  box-shadow: var(--hds-shadow-card);
   border: 1px solid #E6EBF1;
 `;
 
 const TextArea = styled.textarea`
   width: 100%;
-  min-height: 120px;
+  min-height: 100px;
   padding: 12px;
   border: 1px solid #E6EBF1;
   border-radius: 8px;
   font-size: 15px;
   font-family: inherit;
-  margin-bottom: 20px;
-  transition: border-color 0.2s ease;
+  margin-bottom: 16px;
+  transition: all 0.2s ease;
   resize: vertical;
 
   &:focus {
     outline: none;
-    border-color: var(--hds-color-primary);
+    border-color: #6c30c0;
+    box-shadow: 0 0 0 4px rgba(108, 48, 192, 0.1);
   }
 `;
 
@@ -35,11 +34,40 @@ const Label = styled.label`
   display: block;
   font-size: 14px;
   font-weight: 600;
-  color: var(--hds-color-fg);
+  color: #0a2540;
   margin-bottom: 8px;
 `;
 
-export default function CommentForm({ postId }: { postId: string }) {
+const SubmitBtn = styled.button`
+  background-color: #6c30c0;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #4f2683;
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+`;
+
+export default function CommentForm({ 
+  postId, 
+  parentCommentId, 
+  onSuccess 
+}: { 
+  postId: string, 
+  parentCommentId?: string,
+  onSuccess?: () => void
+}) {
   const [content, setContent] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [status, setStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
@@ -55,12 +83,13 @@ export default function CommentForm({ postId }: { postId: string }) {
       const res = await fetch("/api/forum/comment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ postId, content }),
+        body: JSON.stringify({ postId, content, parentCommentId }),
       });
 
       if (res.ok) {
         setStatus('success');
         setContent("");
+        if (onSuccess) onSuccess();
         // In a real app, we might trigger a revalidation or update local state
         window.location.reload(); 
       } else {
@@ -75,21 +104,22 @@ export default function CommentForm({ postId }: { postId: string }) {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <Label>Add a comment</Label>
+      <Label>{parentCommentId ? "Reply to comment" : "Add a comment"}</Label>
       <TextArea
-        placeholder="What are your thoughts?"
+        placeholder={parentCommentId ? "Type your reply..." : "What are your thoughts?"}
         value={content}
         onChange={(e) => setContent(e.target.value)}
         required
+        disabled={isLoading}
       />
       
       <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-        <StripeButton type="submit" isLoading={isLoading}>
-          Post comment
-        </StripeButton>
+        <SubmitBtn type="submit" disabled={isLoading}>
+          {isLoading ? "Posting..." : parentCommentId ? "Post reply" : "Post comment"}
+        </SubmitBtn>
         
-        {status === 'success' && <span style={{ color: '#00A63E', fontSize: '14px' }}>Comment posted!</span>}
-        {status === 'error' && <span style={{ color: '#D92121', fontSize: '14px' }}>Failed to post comment.</span>}
+        {status === 'success' && <span style={{ color: '#00A63E', fontSize: '14px' }}>Posted!</span>}
+        {status === 'error' && <span style={{ color: '#D92121', fontSize: '14px' }}>Failed to post.</span>}
       </div>
     </Form>
   );

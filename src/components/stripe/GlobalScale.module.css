@@ -1,0 +1,124 @@
+.section {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth) + 2px);
+  padding-inline: var(--hds-space-layout-content-margin);
+  padding-block: var(--hds-space-core-1500) var(--hds-space-core-1000);
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+  border-inline: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 80px;
+}
+
+@media (min-width: 640px) {
+  .container {
+    border-inline: 1px solid var(--hds-color-core-neutral-100);
+  }
+}
+
+.content {
+  flex: 1;
+  max-width: 500px;
+}
+
+.text {
+  margin-block-end: 64px;
+}
+
+.title {
+  font-family: var(--hds-font-family);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--hds-color-core-neutral-900);
+  line-height: 1.2;
+  margin-block-end: 16px;
+}
+
+.description {
+  font-family: var(--hds-font-family);
+  font-size: 18px;
+  color: var(--hds-color-core-neutral-500);
+  line-height: 1.6;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 48px;
+}
+
+.statCard {
+  border-left: 2px solid var(--hds-color-util-brand-500);
+  padding-left: 20px;
+}
+
+.statValue {
+  font-family: var(--hds-font-family);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--hds-color-core-neutral-900);
+  margin-block-end: 4px;
+}
+
+.statLabel {
+  font-family: var(--hds-font-family);
+  font-size: 14px;
+  color: var(--hds-color-core-neutral-500);
+  font-weight: 500;
+}
+
+.globeWrapper {
+  flex: 1;
+  height: 500px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.globeGlow {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle at center, rgba(99, 91, 255, 0.15) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+@media (max-width: 1024px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+    gap: 64px;
+  }
+  
+  .content {
+    max-width: 800px;
+  }
+  
+  .statsGrid {
+    justify-content: center;
+  }
+  
+  .statCard {
+    text-align: left;
+  }
+  
+  .globeWrapper {
+    height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}

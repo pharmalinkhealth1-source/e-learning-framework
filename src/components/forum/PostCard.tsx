@@ -1,3 +1,8 @@
+"use client";
+
+import * as React from 'react';
+import Link from 'next/link';
+import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 interface PostCardProps {

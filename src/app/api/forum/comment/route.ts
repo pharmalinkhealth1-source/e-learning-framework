@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { postId, content } = await req.json();
+    const { postId, content, parentCommentId } = await req.json();
 
     // 1. Find the author in Sanity based on Clerk userId
     const author = await writeClient.fetch(`*[_type == "author" && clerkId == $userId][0]._id`, { userId });
@@ -31,7 +31,13 @@ export async function POST(req: Request) {
       parentPost: {
         _type: 'reference',
         _ref: postId,
-      }
+      },
+      ...(parentCommentId && {
+        parentComment: {
+          _type: 'reference',
+          _ref: parentCommentId,
+        }
+      })
     });
 
     return NextResponse.json({ success: true, id: result._id });

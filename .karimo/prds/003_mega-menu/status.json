@@ -1,9 +1,11 @@
 {
-  "status": "ready",
+  "status": "executing",
   "prd": "mega-menu",
   "generated": "2026-05-13",
   "tasks_total": 7,
   "tasks_complete": 0,
   "complexity_total": 21,
-  "waves": 5
+  "waves": 5,
+  "branch": "feature/mega-menu",
+  "execution_mode": "feature-branch"
 }

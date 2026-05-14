@@ -1,17 +1,28 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { ClerkProvider } from '@clerk/nextjs';
+import { IBM_Plex_Sans, IBM_Plex_Mono } from "next/font/google";
 import "@/styles/globals.css";
 
-const inter = Inter({
+const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-ibm-plex-sans",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-ibm-plex-mono",
 });
 
 import { ThemeProvider } from "@/components/stripe/ThemeProvider";
 
 export const metadata: Metadata = {
-  title: "Stripe | Financial Infrastructure for the Internet",
-  description: "A high-fidelity Stripe clone built with Next.js and HDS design tokens.",
+  title: "PharmaLink | Bridging Health Service Gaps with Innovative Care",
+  description: "The Pan-African clinical network connecting peak performers across the healthcare landscape.",
+  icons: {
+    icon: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
@@ -20,12 +31,31 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable}`}>
-        <ThemeProvider>
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en" className={`${ibmPlexSans.variable} ${ibmPlexMono.variable}`} suppressHydrationWarning>
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                (function() {
+                  try {
+                    var theme = localStorage.getItem('hds-theme');
+                    var supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+                    if (!theme && supportDarkMode) theme = 'dark';
+                    if (!theme) theme = 'light';
+                    document.documentElement.setAttribute('data-theme', theme === 'system' ? (supportDarkMode ? 'dark' : 'light') : theme);
+                  } catch (e) {}
+                })();
+              `,
+            }}
+          />
+        </head>
+        <body suppressHydrationWarning>
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

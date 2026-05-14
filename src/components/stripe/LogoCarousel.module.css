@@ -1,0 +1,106 @@
+.carousel {
+  width: 100%;
+  overflow: hidden;
+  padding: 60px 0;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 5%,
+    black 95%,
+    transparent
+  );
+}
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  width: 100%;
+}
+
+.track {
+  display: flex;
+  align-items: center;
+  gap: 80px;
+  animation: scroll 40s linear infinite;
+  padding-left: 40px;
+}
+
+.item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoWrapper {
+  position: relative;
+  width: 140px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: default;
+}
+
+.logoImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.3;
+  filter: grayscale(1);
+  transition: opacity 0.5s ease, filter 0.5s ease;
+}
+
+.item:hover .logoImage {
+  opacity: 1;
+  filter: grayscale(0);
+}
+
+.tooltip {
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--hds-color-core-neutral-1000, #0a2540);
+  color: white;
+  font-size: 10px;
+  font-weight: bold;
+  padding: 4px 12px;
+  border-radius: 100px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  z-index: 10;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoWrapper:hover .tooltip {
+  opacity: 1;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (max-width: 768px) {
+  .track {
+    gap: 40px;
+    animation-duration: 25s;
+  }
+  
+  .logoWrapper {
+    width: 100px;
+    height: 36px;
+  }
+}
