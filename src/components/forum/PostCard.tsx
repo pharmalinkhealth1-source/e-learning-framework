@@ -1,4 +1,8 @@
+'use client';
+
+import Link from 'next/link';
 import { motion } from 'framer-motion';
+import styled from 'styled-components';
 
 interface PostCardProps {
   title: string;
