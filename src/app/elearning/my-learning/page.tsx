@@ -2,6 +2,7 @@ import { auth } from '@clerk/nextjs/server'
 import { client } from '@/sanity/lib/client'
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import { NotificationFeed } from '@/components/lms/NotificationFeed'
 import styles from './page.module.css'
 
 interface CourseRef {
@@ -80,7 +81,7 @@ export default async function MyLearningPage() {
   }
 
   const certificates = await client.fetch<Certificate[]>(
-    `*[_type == "certificate" && userId == $userId] {
+    `*[_type == "certificate" && clerkUserId == $userId] {
       _id, courseId, tier, issuedAt, expiresAt, blobUrl,
       "courseName": *[_type == "course" && _id == ^.courseId][0].title
     }`,
@@ -91,7 +92,7 @@ export default async function MyLearningPage() {
   const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000
 
   const notifications = await client.fetch<Notification[]>(
-    `*[_type == "notification" && userId == $userId] | order(createdAt desc) [0..9] {
+    `*[_type == "notification" && clerkUserId == $userId] | order(createdAt desc) [0..19] {
       _id, type, message, read, createdAt
     }`,
     { userId }
@@ -112,24 +113,7 @@ export default async function MyLearningPage() {
           <Link href="/elearning" className={styles.browseLink}>Browse Courses →</Link>
         </header>
 
-        {notifications.length > 0 && (
-          <section className={styles.notificationsSection} aria-label="Notifications">
-            {/* NotificationFeed slot — T10 will wire NotificationFeed component here */}
-            <div className={styles.notificationList}>
-              {notifications.map((n) => (
-                <div
-                  key={n._id}
-                  className={`${styles.notification} ${n.read ? styles.read : styles.unread}`}
-                >
-                  <p className={styles.notificationMessage}>{n.message}</p>
-                  <time className={styles.notificationTime}>
-                    {new Date(n.createdAt).toLocaleDateString()}
-                  </time>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+        <NotificationFeed notifications={notifications} />
 
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>In Progress</h2>
