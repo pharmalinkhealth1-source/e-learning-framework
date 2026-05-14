@@ -108,7 +108,7 @@
 
 .ctaButton:hover {
   background-color: var(--hds-color-core-neutral-25);
-  color: #0f1137;
+  color: var(--hds-color-text-main);
 }
 
 .logoWrapper {

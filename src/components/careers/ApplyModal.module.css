@@ -103,7 +103,7 @@
 }
 
 .submitButton:hover {
-  background: #5449e5;
+  background: var(--hds-color-button-primary-bgHover);
   transform: translateY(-1px);
 }
 
