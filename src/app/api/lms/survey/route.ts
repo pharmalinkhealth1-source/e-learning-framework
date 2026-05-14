@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
   }
 
   const existing = await client.fetch<{ _id: string } | null>(
-    `*[_type == "surveyResponse" && courseId == $courseId && clerkUserId == $userId][0] { _id }`,
+    `*[_type == "surveyResponse" && courseId == $courseId && userId == $userId][0] { _id }`,
     { courseId, userId }
   )
   if (existing) return NextResponse.json({ error: 'Already submitted' }, { status: 409 })
@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
   await client.create({
     _type: 'surveyResponse',
     courseId,
-    clerkUserId: userId,
+    userId: userId,
     csatScore,
     npsScore,
     comment: comment ?? '',

@@ -20,7 +20,7 @@ export async function ExpiryAlert({ country }: ExpiryAlertProps) {
         <ul className={styles.list}>
           {expiring.map(c => (
             <li key={c._id} className={styles.listItem}>
-              <span>Learner: {c.clerkUserId}</span>
+              <span>Learner: {c.userId}</span>
               <span>Course: {c.courseId}</span>
               <span>Expires: {new Date(c.expiresAt).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
             </li>

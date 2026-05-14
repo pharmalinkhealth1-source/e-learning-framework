@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     || body?.cmi?.core?.lesson_status === 'passed'
 
   const existing = await client.fetch<{ _id: string } | null>(
-    `*[_type == "lessonProgress" && lessonId == $lessonId && clerkUserId == $userId][0] { _id }`,
+    `*[_type == "lessonProgress" && lessonId == $lessonId && userId == $userId][0] { _id }`,
     { lessonId, userId }
   )
 
@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
     await client.create({
       _type: 'lessonProgress',
       lessonId,
-      clerkUserId: userId,
+      userId: userId,
       scormData: body,
       completed,
       completedAt: completed ? new Date().toISOString() : undefined,

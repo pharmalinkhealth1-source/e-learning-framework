@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
 
   if (all) {
     const ids = await client.fetch<string[]>(
-      groq`*[_type == "notification" && clerkUserId == $userId && read == false]._id`,
+      groq`*[_type == "notification" && userId == $userId && read == false]._id`,
       { userId }
     )
     await Promise.all(ids.map(id => writeClient.patch(id).set({ read: true }).commit()))
@@ -20,6 +20,11 @@ export async function POST(req: NextRequest) {
   }
 
   if (notificationId) {
+    const owned = await client.fetch<string[]>(
+      groq`*[_type == "notification" && _id == $notificationId && userId == $userId]._id`,
+      { notificationId, userId }
+    )
+    if (!owned.length) return NextResponse.json({ error: 'Not found' }, { status: 404 })
     await writeClient.patch(notificationId).set({ read: true }).commit()
     return NextResponse.json({ ok: true })
   }

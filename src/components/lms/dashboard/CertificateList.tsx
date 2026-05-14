@@ -4,7 +4,7 @@ import styles from './CertificateList.module.css'
 
 interface CertRow {
   _id: string
-  clerkUserId: string
+  userId: string
   courseId: string
   tier: string
   issuedAt: string
@@ -20,7 +20,7 @@ export async function CertificateList({ isManager, userCountry }: CertificateLis
   const countryClause = isManager && userCountry ? ' && country == $userCountry' : ''
   const certs = await client.fetch<CertRow[]>(
     groq`*[_type == "certificate"${countryClause}] | order(issuedAt desc) [0..50] {
-      _id, clerkUserId, courseId, tier, issuedAt, score
+      _id, userId, courseId, tier, issuedAt, score
     }`,
     { userCountry }
   )
@@ -45,7 +45,7 @@ export async function CertificateList({ isManager, userCountry }: CertificateLis
         <tbody>
           {certs.map(c => (
             <tr key={c._id} className={styles.row}>
-              <td className={styles.td}>{c.clerkUserId}</td>
+              <td className={styles.td}>{c.userId}</td>
               <td className={styles.td}>{c.courseId}</td>
               <td className={styles.td}>
                 <span className={`${styles.tierBadge} ${c.tier === 'accomplishment' ? styles.accomplishment : styles.participation}`}>

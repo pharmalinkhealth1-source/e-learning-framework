@@ -81,7 +81,7 @@ export default async function MyLearningPage() {
   }
 
   const certificates = await client.fetch<Certificate[]>(
-    `*[_type == "certificate" && clerkUserId == $userId] {
+    `*[_type == "certificate" && userId == $userId] {
       _id, courseId, tier, issuedAt, expiresAt, blobUrl,
       "courseName": *[_type == "course" && _id == ^.courseId][0].title
     }`,
@@ -92,7 +92,7 @@ export default async function MyLearningPage() {
   const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000
 
   const notifications = await client.fetch<Notification[]>(
-    `*[_type == "notification" && clerkUserId == $userId] | order(createdAt desc) [0..19] {
+    `*[_type == "notification" && userId == $userId] | order(createdAt desc) [0..19] {
       _id, type, message, read, createdAt
     }`,
     { userId }

@@ -123,7 +123,7 @@ export async function getKnowledgeBaseGrowth(_filters: QueryFilters): Promise<nu
 
 export async function getExpiringCertificates(opts: { daysAhead?: number; country?: string } = {}): Promise<Array<{
   _id: string
-  clerkUserId: string
+  userId: string
   courseId: string
   tier: string
   issuedAt: string
@@ -135,7 +135,7 @@ export async function getExpiringCertificates(opts: { daysAhead?: number; countr
   const countryClause = country ? ' && country == $country' : ''
   return client.fetch(
     groq`*[_type == "certificate" && expiresAt < $cutoff && expiresAt > $now${countryClause}] {
-      _id, clerkUserId, courseId, tier, issuedAt, expiresAt
+      _id, userId, courseId, tier, issuedAt, expiresAt
     }`,
     { now, cutoff, country }
   )

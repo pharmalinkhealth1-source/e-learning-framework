@@ -6,7 +6,7 @@ import { groq } from 'next-sanity'
 
 interface ExpiringCert {
   _id: string
-  clerkUserId: string
+  userId: string
   courseId: string
   tier: string
   expiresAt: string
@@ -17,7 +17,7 @@ async function getExpiringCertificates(daysAhead = 30): Promise<ExpiringCert[]> 
   const cutoff = new Date(Date.now() + daysAhead * 86400000).toISOString()
   return client.fetch(
     groq`*[_type == "certificate" && expiresAt < $cutoff && expiresAt > $now] {
-      _id, clerkUserId, courseId, tier, expiresAt
+      _id, userId, courseId, tier, expiresAt
     }`,
     { now, cutoff }
   )
@@ -26,7 +26,7 @@ async function getExpiringCertificates(daysAhead = 30): Promise<ExpiringCert[]> 
 async function getInactiveLearnerIds(daysSince = 7): Promise<string[]> {
   const cutoff = new Date(Date.now() - daysSince * 86400000).toISOString()
   return client.fetch<string[]>(
-    groq`*[_type == "lessonProgress" && completedAt < $cutoff && defined(clerkUserId)].clerkUserId`,
+    groq`*[_type == "lessonProgress" && completedAt < $cutoff && defined(userId)].userId`,
     { cutoff }
   )
 }
@@ -54,7 +54,7 @@ export async function POST() {
 
   await Promise.all(
     expiring.map(async cert => {
-      const notifId = `notif_${cert.clerkUserId}_certexpiring_${cert.courseId}`
+      const notifId = `notif_${cert.userId}_certexpiring_${cert.courseId}`
       const exists = await client.fetch<{ _id: string } | null>(`*[_id == $id][0]`, { id: notifId })
       if (exists) {
         expirySkipped++
@@ -64,7 +64,7 @@ export async function POST() {
       await writeClient.create({
         _type: 'notification',
         _id: notifId,
-        clerkUserId: cert.clerkUserId,
+        userId: cert.userId,
         type: 'certificate_expiring',
         message: `Your certificate expires on ${expiryDate}. Complete a refresher to keep it active.`,
         courseId: cert.courseId,
@@ -92,7 +92,7 @@ export async function POST() {
       await writeClient.create({
         _type: 'notification',
         _id: notifId,
-        clerkUserId: userId,
+        userId: userId,
         type: 'inactivity_nudge',
         message: 'We miss you — continue your learning journey on PharmaLink.',
         read: false,

@@ -140,7 +140,7 @@ export async function POST(req: NextRequest) {
 
   // Survey gate
   const survey = await client.fetch<{ _id: string } | null>(
-    `*[_type == "surveyResponse" && courseId == $courseId && clerkUserId == $userId][0] { _id }`,
+    `*[_type == "surveyResponse" && courseId == $courseId && userId == $userId][0] { _id }`,
     { courseId, userId }
   )
   if (!survey) return NextResponse.json({ error: 'Survey not submitted' }, { status: 400 })
@@ -148,7 +148,7 @@ export async function POST(req: NextRequest) {
   // Fetch post-test score and course info in parallel
   const [progressDoc, course, clerkUser] = await Promise.all([
     client.fetch<{ postTestScore: number } | null>(
-      `*[_type == "lessonProgress" && clerkUserId == $userId && courseId == $courseId && defined(postTestScore)][0] { postTestScore }`,
+      `*[_type == "lessonProgress" && userId == $userId && courseId == $courseId && defined(postTestScore)][0] { postTestScore }`,
       { userId, courseId }
     ),
     client.fetch<{ title: string; passingScore: number } | null>(
@@ -191,7 +191,7 @@ export async function POST(req: NextRequest) {
   await writeClient.create({
     _type: 'certificate',
     _id: certId,
-    clerkUserId: userId,
+    userId: userId,
     courseId,
     tier,
     score: postTestScore ?? 0,
@@ -207,7 +207,7 @@ export async function POST(req: NextRequest) {
     await writeClient.create({
       _type: 'notification',
       _id: notifId,
-      clerkUserId: userId,
+      userId: userId,
       type: 'certificate_ready',
       message: `Your certificate for ${course.title} is ready to download.`,
       courseId,
