@@ -1,14 +1,14 @@
 ---
 gsd_state_version: 1.0
-milestone: v1.0
-milestone_name: milestone
-status: Milestone complete
-last_updated: "2026-05-03T19:17:05.186Z"
+milestone: v2.0
+milestone_name: Milestone 2: Functional Ecosystem Expansion
+status: Active
+last_updated: "2026-05-13T04:20:00Z"
 progress:
-  total_phases: 1
-  completed_phases: 1
-  total_plans: 4
-  completed_plans: 4
+  total_phases: 10
+  completed_phases: 10
+  total_plans: 23
+  completed_plans: 23
 ---
 
 # Project State: Stripe-Fidelity Client Basis
@@ -24,24 +24,26 @@ progress:
 - [x] Phase 1: Global Navigation & Brand (2026-05-03)
 - [x] Phase 2: The Mesh Gradient Hero (2026-05-03)
 - [x] Phase 3: The Bento Ecosystem (2026-05-03)
-- [/] Phase 4: Sanity Schema & Studio (Planning)
-- [ ] Phase 5: Clerk Authentication
-- [ ] Phase 6: Custom Forum Layer
-- [ ] Phase 7: MapLibre Location Directory
-- [ ] Phase 8: D3 Animated Insights
+- [x] Phase 4: Sanity Schema & Studio (2026-05-03)
+- [x] Phase 5: Clerk Authentication (2026-05-03)
+- [x] Phase 6: Custom Forum Layer (2026-05-08)
+- [x] Phase 7: MapLibre Location Directory (2026-05-08)
+- [x] Phase 8: D3 Animated Insights (2026-05-08)
+- [x] Phase 9: Community Hub Page (2026-05-08)
+- [x] Phase 10: Member Spotlights (2026-05-13)
 
 ## Active Phase
 
-- **ID**: 4
-- **Name**: Sanity Schema & Studio
-- **Directory**: .planning/phases/04-sanity-schema-studio
+- **ID**: 11
+- **Name**: Careers & Job Board
+- **Directory**: .planning/phases/11-careers-job-board
 
 ## Statistics
 
-- **Phases Total**: 8
-- **Phases Completed**: 3
-- **Total Plans**: 3
-- **Lines of Code**: ~700 (Tokens, Nav, Hero, Bento, WebGL)
+- **Phases Total**: 10
+- **Phases Completed**: 10
+- **Total Plans**: 20
+- **Lines of Code**: ~3000 (Added D3 Insights)
 
 ---
 *Last updated: 2026-05-03*

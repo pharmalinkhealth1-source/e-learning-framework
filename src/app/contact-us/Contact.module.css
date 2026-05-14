@@ -370,6 +370,17 @@
   pointer-events: none;
 }
 
+.gradientOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50vh;
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(255, 255, 255, 0) 100%);
+  z-index: 1;
+  pointer-events: none;
+}
+
 .gridLinesContainer {
   position: absolute;
   inset: 0;

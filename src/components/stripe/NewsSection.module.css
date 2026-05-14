@@ -1,0 +1,252 @@
+.newsSection {
+  background-color: var(--color-white);
+  overflow: hidden;
+}
+
+.container {
+  max-width: 1264px;
+  margin: 0 auto;
+  padding: 120px 32px;
+  border-left: 1px solid var(--hds-color-surface-border-quiet);
+  border-right: 1px solid var(--hds-color-surface-border-quiet);
+  position: relative;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 48px;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--hds-color-neutral-900);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.controls {
+  display: flex;
+  gap: 8px;
+}
+
+.controlBtn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  background-color: #E8E9FF;
+  color: black;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.controlBtn:hover {
+  background-color: #D5D7FF;
+}
+
+.controlBtn svg {
+  width: 16px;
+  height: 16px;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: var(--hds-color-neutral-600);
+}
+
+.carouselWrapper {
+  position: relative;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.cardsContainer {
+  display: flex;
+  gap: 12px;
+  height: 480px;
+  width: 100%;
+  align-items: stretch;
+}
+
+.card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--hds-color-neutral-100);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: var(--hds-shadow-sm);
+  transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+  box-shadow: var(--hds-shadow-lg);
+}
+
+.imageWrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.image {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 480px; /* Pin height to match container exactly */
+  width: auto;
+  min-width: 100%;
+  object-fit: cover; /* Ensures aspect ratio is preserved while filling the card */
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .image {
+    height: 400px; /* Match responsive container height */
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.4) 0%,
+    transparent 50%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.featuredCard .overlay {
+  opacity: 1;
+}
+
+.cardContent {
+  position: absolute;
+  bottom: 32px;
+  left: 32px;
+  color: white;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.cardTitle {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  letter-spacing: -0.01em;
+}
+
+.cardSubtitle {
+  font-size: 18px;
+  opacity: 0.9;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 80px;
+}
+
+.infoArea {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  gap: 40px;
+}
+
+.description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--hds-color-neutral-600);
+  max-width: 720px;
+}
+
+.description strong {
+  color: var(--hds-color-neutral-900);
+}
+
+.arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.card:hover .arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 1024px) {
+  .cardsContainer {
+    height: 400px;
+  }
+  
+  .cardTitle {
+    font-size: 24px;
+  }
+}
+
+/* Mobile Carousel Implementation */
+@media (max-width: 768px) {
+  .newsSection {
+    padding: 60px 0;
+  }
+
+  .title {
+    font-size: 24px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .cardsContainer {
+    display: flex;
+    overflow-x: auto;
+    gap: 16px;
+    height: 400px;
+    padding-right: 48px; /* Peeking effect */
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .cardsContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card {
+    flex: 0 0 85% !important; /* Force width on mobile */
+    scroll-snap-align: start;
+  }
+
+  .featuredCard .overlay, .sliverCard .overlay {
+    opacity: 1;
+  }
+
+  .cardContent {
+    bottom: 24px;
+    left: 24px;
+  }
+
+  .infoArea {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}

@@ -1,41 +1,179 @@
-.dropdownWrapper {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  perspective: 1000px;
-}
-
+/* ── Dropdown container ───────────────────────────────── */
+/* Positioned by .megamenuWrapper in Navbar — no absolute here */
 .dropdownContainer {
-  position: relative;
-  background-color: var(--hds-color-bg);
-  border: 1px solid var(--hds-color-border);
-  border-radius: var(--hds-space-core-300);
+  width: 100%;
+  background-color: var(--hds-color-surface-bg-quiet);
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  border-top: none;
   box-shadow: var(--hds-shadow-lg);
-  overflow: hidden;
   transform-origin: top center;
-  transition: width 0.3s ease, height 0.3s ease;
-  margin-top: var(--hds-space-core-300);
 }
 
+/* ── Dropdown content ─────────────────────────────────── */
 .dropdownContent {
-  padding: var(--hds-space-core-600);
-  min-width: 300px;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  margin-inline: auto;
+  padding: var(--hds-space-core-400) var(--hds-space-layout-content-margin, 20px);
 }
 
+/* ── Arrow pointer ────────────────────────────────────── */
+.arrow {
+  position: absolute;
+  top: -6px;
+  transform: translateX(-50%) rotate(45deg);
+  width: 12px;
+  height: 12px;
+  background-color: var(--hds-color-surface-bg-quiet);
+  border-left: 1px solid var(--hds-color-surface-border-quiet);
+  border-top: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+/* ── Legacy pane (keep for safety during transition) ──── */
 .pane {
   display: flex;
   gap: var(--hds-space-core-800);
   white-space: nowrap;
 }
 
+/* ── Panel section wrapper ───────────────────────────── */
+.section {
+  width: 100%;
+}
+
+/* ── Column grid ─────────────────────────────────────── */
+/* Content columns + 1 fixed-width featured card column */
+.columnGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) 240px;
+  gap: var(--hds-space-core-500);
+  align-items: start;
+}
+
+/* ── Single column ───────────────────────────────────── */
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-100);
+}
+
+/* ── Column header ───────────────────────────────────── */
+.columnHeader {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--hds-color-button-primary-bg);
+  margin: 0 0 var(--hds-space-core-100) 0;
+  padding-bottom: var(--hds-space-core-100);
+  border-bottom: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+/* ── Column separator ────────────────────────────────── */
+.columnSeparator {
+  border: none;
+  border-top: 1px solid var(--hds-color-surface-border-quiet);
+  margin: var(--hds-space-core-100) 0;
+}
+
+/* ── Nav link (sub-link item) ────────────────────────── */
+.navLink {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--hds-space-core-100) var(--hds-space-core-100);
+  border-radius: var(--hds-space-core-radius-md);
+  text-decoration: none;
+  transition: background-color 0.15s ease;
+}
+
+.navLink:hover {
+  background-color: var(--hds-color-surface-bg-subdued);
+}
+
+/* ── Nav link title ──────────────────────────────────── */
+.navLinkTitle {
+  font-size: var(--hds-font-text-xs-size, 0.875rem);
+  font-weight: 500;
+  color: var(--hds-color-text-main);
+  line-height: 1.3;
+}
+
+/* ── Nav link descriptor ─────────────────────────────── */
+.navLinkDescriptor {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--hds-color-text-subdued);
+  line-height: 1.4;
+}
+
+/* ── Featured card ───────────────────────────────────── */
+.featuredCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-150);
+  padding: var(--hds-space-core-200);
+  background-color: var(--hds-color-surface-bg-subdued);
+  border-radius: var(--hds-space-core-radius-lg);
+  border: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+/* ── Featured card image ─────────────────────────────── */
+.featuredCardImage {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--hds-space-core-radius-md);
+}
+
+/* ── Featured card body ──────────────────────────────── */
+.featuredCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-50);
+  flex: 1;
+}
+
+/* ── Featured card title ─────────────────────────────── */
+.featuredCardTitle {
+  font-size: var(--hds-font-text-xs-size, 0.875rem);
+  font-weight: 500;
+  color: var(--hds-color-text-main);
+  margin: 0;
+}
+
+/* ── Featured card description ───────────────────────── */
+.featuredCardDescription {
+  font-size: 0.75rem;
+  color: var(--hds-color-text-subdued);
+  margin: 0;
+  white-space: pre-line;
+}
+
+/* ── Featured card CTA ───────────────────────────────── */
+.featuredCardCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--hds-color-button-primary-bg);
+  text-decoration: none;
+  margin-top: auto;
+  transition: opacity 0.15s ease;
+}
+
+.featuredCardCta:hover {
+  opacity: 0.75;
+}
+
+/* ── Legacy classes (placeholder era — keep until T03 removes usages) */
 .sectionTitle {
-  font-size: var(--hds-size-text-xs);
+  font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  color: var(--hds-color-primary);
+  color: var(--hds-color-button-primary-bg);
   margin-bottom: var(--hds-space-core-300);
+  font-weight: 500;
 }
 
 .list {
@@ -46,8 +184,8 @@
 }
 
 .list li {
-  font-size: var(--hds-size-text-sm);
-  font-weight: var(--hds-font-weight-med);
+  font-size: var(--hds-font-text-xs-size, 0.875rem);
+  font-weight: 500;
   opacity: 0.8;
   cursor: pointer;
   transition: opacity 0.2s ease;
@@ -57,19 +195,28 @@
   opacity: 1;
 }
 
-.arrow {
-  position: absolute;
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 12px;
-  height: 12px;
-  background-color: var(--hds-color-bg);
-  border-left: 1px solid var(--hds-color-border);
-  border-top: 1px solid var(--hds-color-border);
+/* ── Dark mode overrides ─────────────────────────────── */
+[data-theme='dark'] .dropdownContainer {
+  background-color: var(--hds-color-surface-bg-quiet);
+  border-color: var(--hds-color-surface-border-quiet);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
 
-[data-theme='dark'] .dropdownContainer {
-  background-color: var(--hds-color-nav-bg);
-  backdrop-filter: blur(20px);
+[data-theme='dark'] .arrow {
+  background-color: var(--hds-color-surface-bg-quiet);
+  border-color: var(--hds-color-surface-border-quiet);
+}
+
+[data-theme='dark'] .featuredCard {
+  background-color: var(--hds-color-surface-bg-subdued);
+  border-color: var(--hds-color-surface-border-quiet);
+}
+
+[data-theme='dark'] .columnHeader {
+  color: var(--hds-color-core-primary-400);
+}
+
+[data-theme='dark'] .featuredCardCta {
+  color: var(--hds-color-core-primary-400);
 }

@@ -22,7 +22,7 @@
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border: 1px solid var(--hds-color-border);
-  border-radius: var(--hds-space-core-400);
+  border-radius: var(--hds-space-core-200);
   box-shadow: var(--hds-shadow-lg);
   padding: var(--hds-space-core-800);
   width: 100%;

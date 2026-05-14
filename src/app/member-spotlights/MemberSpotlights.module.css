@@ -1,0 +1,305 @@
+.main {
+  background-color: var(--hds-color-surface-bg-quiet, #f6f9fc);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  font-family: var(--hds-font-family, 'IBM Plex Sans', sans-serif);
+  --accentColor: var(--hds-color-core-primary-700, #6c30c0); /* Primary Purple */
+  --pinkAccent: var(--hds-color-core-secondary-500, #e84ac7); /* Pink Accent */
+  --titleColor: var(--hds-color-core-neutral-1000, #0a2540);
+  --textColor: var(--hds-color-core-neutral-600, #425466);
+  --cardBackground: var(--hds-color-core-neutral-0, #fff);
+  --cardBorder: var(--hds-color-core-neutral-50, #e5edf5);
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.gridLinesContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  margin-inline: auto;
+  pointer-events: none;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-inline: 1px solid var(--cardBorder);
+}
+
+.line {
+  border-left: 1px dashed var(--cardBorder);
+  height: 100%;
+}
+
+.line:first-child {
+  border-left: none;
+}
+
+.heroBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 600px;
+  background: radial-gradient(circle at 20% 30%, rgba(108, 48, 192, 0.08) 0%, transparent 40%),
+              radial-gradient(circle at 80% 70%, rgba(232, 74, 199, 0.08) 0%, transparent 40%);
+  z-index: 0;
+}
+
+.hero {
+  padding: 120px var(--hds-space-layout-content-margin, 20px) 80px;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.heroTag {
+  display: inline-block;
+  padding: 6px 12px;
+  background: rgba(108, 48, 192, 0.1);
+  color: var(--accentColor);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.title {
+  font-size: clamp(32px, 5vw, 56px);
+  font-weight: 700;
+  color: var(--titleColor);
+  line-height: 1.1;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: clamp(18px, 2vw, 20px);
+  color: var(--textColor);
+  max-width: 700px;
+  margin: 0 auto 40px;
+  line-height: 1.6;
+}
+
+/* Filter Bar */
+.filterBar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 24px;
+  background: var(--hds-color-surface-bg-base, #ffffff);
+  border: 1px solid var(--cardBorder);
+  border-radius: 24px;
+  margin-bottom: 64px;
+  position: relative;
+  z-index: 10;
+  box-shadow: var(--hds-shadow-sm, 0 4px 20px rgba(10, 37, 64, 0.05));
+}
+
+.searchInputWrapper {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 16px 12px 44px;
+  border: 1px solid var(--cardBorder);
+  border-radius: 14px;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.2s;
+}
+
+.searchInput:focus {
+  border-color: var(--accentColor);
+  box-shadow: 0 0 0 4px rgba(108, 48, 192, 0.1);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--hds-color-core-neutral-300);
+}
+
+.filterSelect {
+  padding: 12px 16px;
+  border: 1px solid var(--cardBorder);
+  border-radius: 14px;
+  font-size: 15px;
+  color: var(--titleColor);
+  background-color: white;
+  min-width: 160px;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 32px;
+  padding-bottom: 120px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card */
+.card {
+  background: var(--hds-color-surface-bg-base, #ffffff);
+  border: 1px solid var(--cardBorder);
+  border-radius: 24px;
+  padding: 32px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: var(--accentColor);
+  box-shadow: 0 20px 40px rgba(108, 48, 192, 0.1);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.avatarWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  background: var(--hds-color-core-neutral-25);
+  flex-shrink: 0;
+}
+
+.avatar {
+  object-fit: cover;
+}
+
+.memberName {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--titleColor);
+  margin-bottom: 4px;
+}
+
+.memberRole {
+  font-size: 14px;
+  color: var(--textColor);
+}
+
+.quote {
+  font-size: 18px;
+  font-style: italic;
+  color: var(--titleColor);
+  margin-bottom: 20px;
+  line-height: 1.5;
+  position: relative;
+}
+
+.quote::before {
+  content: '“';
+  font-size: 40px;
+  color: rgba(108, 48, 192, 0.2);
+  position: absolute;
+  left: -20px;
+  top: -10px;
+}
+
+.excerpt {
+  font-size: 15px;
+  color: var(--textColor);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.readMore {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--pinkAccent);
+  font-weight: 600;
+  font-size: 15px;
+  text-decoration: none;
+  transition: gap 0.2s;
+}
+
+.readMore:hover {
+  gap: 12px;
+}
+
+.readMore svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* CTA Section */
+.ctaSection {
+  background: var(--hds-color-surface-bg-base, #ffffff);
+  border-top: 1px solid var(--cardBorder);
+  padding: 120px var(--hds-space-layout-content-margin, 20px);
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.ctaTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--titleColor);
+  margin-bottom: 16px;
+}
+
+.ctaText {
+  font-size: 18px;
+  color: var(--textColor);
+  max-width: 600px;
+  margin: 0 auto 32px;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: 16px 32px;
+  background: var(--accentColor);
+  color: white;
+  border-radius: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.ctaButton:hover {
+  background: var(--hds-color-core-primary-900);
+}

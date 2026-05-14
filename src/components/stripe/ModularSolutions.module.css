@@ -950,6 +950,27 @@
   );
 }
 
+.connectBackgroundImage {
+  position: absolute;
+  /* top = 16 (top padding) + 38 (icon height) + 16 (gap) = 70px */
+  top: 70px;
+  right: var(--hds-space-core-200);
+  bottom: var(--hds-space-core-200);
+  width: 600px;
+  max-width: 60%;
+  background-image: url('/images/homepage/pharmalink-drives-the-industry-with-data-insights-1024x683.webp');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center right;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0; /* Changed to 0 for initial state, will be animated by Framer Motion */
+  border-radius: var(--hds-space-core-radius-md);
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 45%);
+  mask-image: linear-gradient(to right, transparent 0%, rgba(0,0,0,1) 45%);
+  transition: opacity 1.5s cubic-bezier(0.22, 1, 0.36, 1); /* Match Framer Motion duration */
+}
+
 .insightsTag {
   display: flex;
   align-items: center;

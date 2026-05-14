@@ -1,0 +1,104 @@
+.card {
+  background: var(--hds-color-surface-bg-base, #ffffff);
+  border: 2px solid var(--hds-color-core-secondary-500, #E84AC7);
+  border-radius: 24px;
+  padding: 32px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(232, 74, 199, 0.15);
+  border-color: var(--hds-color-core-secondary-600, #CC2DA8);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.avatarWrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background: var(--hds-color-surface-bg-quiet, #f1f5f9);
+  flex-shrink: 0;
+  border: 2px solid var(--hds-color-core-primary-300, #D1BAF8);
+}
+
+.avatar {
+  object-fit: cover;
+}
+
+.memberName {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--hds-color-core-neutral-1000, #0a2540);
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.memberRole {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--hds-color-core-neutral-700, #3c4257);
+}
+
+.quote {
+  font-size: 20px;
+  font-weight: 700;
+  font-style: italic;
+  color: var(--hds-color-core-neutral-1000, #0a2540);
+  margin-bottom: 20px;
+  line-height: 1.4;
+  position: relative;
+}
+
+.quote::before {
+  content: '“';
+  font-size: 40px;
+  color: rgba(108, 48, 192, 0.2);
+  position: absolute;
+  left: -20px;
+  top: -10px;
+}
+
+.excerpt {
+  font-size: 15px;
+  color: var(--textColor, #425466);
+  line-height: 1.6;
+  margin-bottom: 24px;
+  flex-grow: 1;
+}
+
+.cardActions {
+  margin-top: auto;
+  border-top: 1px solid var(--cardBorder, #e5edf5);
+  padding-top: 24px;
+}
+
+.readMoreButton {
+  width: 100%;
+  justify-content: space-between !important;
+  font-size: 15px !important;
+}
+
+.arrowIcon {
+  width: 18px;
+  height: 18px;
+  transition: transform 0.2s ease;
+}
+
+.readMoreButton:hover .arrowIcon {
+  transform: translate(2px, -2px);
+}

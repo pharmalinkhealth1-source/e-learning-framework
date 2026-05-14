@@ -16,11 +16,38 @@ export const directoryItem = defineType({
       type: 'string',
       options: {
         list: [
-          { title: 'Fintech', value: 'fintech' },
-          { title: 'E-commerce', value: 'ecommerce' },
-          { title: 'SaaS', value: 'saas' },
+          { title: 'Pharmacy', value: 'pharmacy' },
+          { title: 'Clinic', value: 'clinic' },
+          { title: 'Distribution Hub', value: 'distribution-hub' },
+          { title: 'Training Centre', value: 'training-centre' },
+          { title: 'Laboratory', value: 'laboratory' },
         ],
       },
+    }),
+    defineField({
+      name: 'description',
+      title: 'Description',
+      type: 'text',
+    }),
+    defineField({
+      name: 'address',
+      title: 'Address',
+      type: 'string',
+    }),
+    defineField({
+      name: 'city',
+      title: 'City',
+      type: 'string',
+    }),
+    defineField({
+      name: 'country',
+      title: 'Country',
+      type: 'string',
+    }),
+    defineField({
+      name: 'phone',
+      title: 'Phone',
+      type: 'string',
     }),
     defineField({
       name: 'location',

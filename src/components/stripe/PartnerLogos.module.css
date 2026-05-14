@@ -1,0 +1,41 @@
+.container {
+  width: 100%;
+  padding: 40px 0;
+  border-bottom: 1px solid var(--hds-color-slate-100);
+}
+
+.grid {
+  max-width: 1080px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.partner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logoText {
+  font-family: var(--hds-font-sans);
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.04em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
+}
+
+.logoText:hover {
+  opacity: 1;
+}
+
+@media (max-width: 768px) {
+  .grid {
+    justify-content: center;
+    gap: 24px;
+  }
+}

@@ -1,5 +1,4 @@
 import { type SchemaTypeDefinition } from 'sanity'
-
 import { forumPost } from './forumPost'
 import { directoryItem } from './directoryItem'
 import { jobOpening } from './jobOpening'
@@ -15,11 +14,14 @@ import { surveyResponse } from './surveyResponse'
 import { certificate } from './certificate'
 import { enrollment } from './enrollment'
 import { notification } from './notification'
+import { memberSpotlight } from './memberSpotlight'
+import blogPost from './blogPost'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     forumPost, directoryItem, jobOpening, dataInsight, author, comment,
     course, courseModule, lesson, quiz,
     lessonProgress, surveyResponse, certificate, enrollment, notification,
+    memberSpotlight, blogPost,
   ],
 }

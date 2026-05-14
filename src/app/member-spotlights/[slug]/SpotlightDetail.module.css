@@ -1,0 +1,238 @@
+.main {
+  background-color: var(--hds-color-surface-bg-quiet, #f6f9fc);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+  font-family: var(--hds-font-family, 'IBM Plex Sans', sans-serif);
+  --accentColor: var(--hds-color-core-primary-700);
+  --pinkAccent: var(--hds-color-core-secondary-500);
+  --titleColor: var(--hds-color-core-neutral-1000);
+  --textColor: var(--hds-color-core-neutral-700);
+  --cardBorder: var(--hds-color-core-neutral-50);
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  margin-inline: auto;
+  position: relative;
+  z-index: 1;
+}
+
+.gridLinesContainer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1264px) + 2px);
+  margin-inline: auto;
+  pointer-events: none;
+  z-index: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-inline: 1px solid var(--cardBorder);
+}
+
+.line {
+  border-left: 1px dashed var(--cardBorder);
+  height: 100%;
+}
+
+.line:first-child {
+  border-left: none;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--textColor);
+  text-decoration: none;
+  font-weight: 500;
+  margin: 40px 0;
+  transition: color 0.2s;
+  position: relative;
+  z-index: 10;
+  padding: 0 var(--hds-space-layout-content-margin, 20px);
+}
+
+.backLink:hover {
+  color: var(--accentColor);
+}
+
+.header {
+  padding: 0 var(--hds-space-layout-content-margin, 20px) 64px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 900px) {
+  .header {
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+  }
+}
+
+.imageWrapper {
+  width: 100%;
+  aspect-ratio: 4/5;
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--hds-shadow-lg, 0 30px 60px -12px rgba(50, 50, 93, 0.25));
+}
+
+.image {
+  object-fit: cover;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+}
+
+.badge {
+  display: inline-block;
+  padding: 6px 12px;
+  background: var(--hds-color-core-secondary-50, rgba(232, 74, 199, 0.1));
+  color: var(--pinkAccent);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  width: fit-content;
+}
+
+.title {
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 700;
+  color: var(--titleColor);
+  line-height: 1.1;
+  margin-bottom: 16px;
+}
+
+.meta {
+  font-size: 18px;
+  color: var(--textColor);
+  margin-bottom: 32px;
+}
+
+.quote {
+  font-size: 24px;
+  font-style: italic;
+  color: var(--accentColor);
+  line-height: 1.4;
+  margin-bottom: 32px;
+  padding-left: 24px;
+  border-left: 4px solid var(--accentColor);
+}
+
+/* Content Area */
+.contentArea {
+  padding: 80px var(--hds-space-layout-content-margin, 20px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 64px;
+  background: var(--hds-color-surface-bg-base, #ffffff);
+  border-top: 1px solid var(--cardBorder);
+  position: relative;
+  z-index: 10;
+}
+
+@media (min-width: 1024px) {
+  .contentArea {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.richText {
+  color: var(--textColor);
+  font-size: 18px;
+  line-height: 1.8;
+}
+
+.richText p {
+  margin-bottom: 24px;
+}
+
+.richText h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--titleColor);
+  margin: 48px 0 24px;
+}
+
+/* Sidebar */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.sidebarWidget {
+  background: var(--hds-color-surface-bg-quiet, #f6f9fc);
+  padding: 32px;
+  border-radius: 24px;
+  border: 1px solid var(--cardBorder);
+}
+
+.widgetTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--titleColor);
+  margin-bottom: 20px;
+}
+
+.profileList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.profileItem {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.profileLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: var(--hds-color-core-neutral-300);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.profileValue {
+  font-size: 16px;
+  color: var(--titleColor);
+  font-weight: 500;
+}
+
+/* Related section */
+.relatedSection {
+  padding: 120px var(--hds-space-layout-content-margin, 20px);
+  position: relative;
+  z-index: 10;
+}
+
+.relatedTitle {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--titleColor);
+  margin-bottom: 48px;
+}
+
+.relatedGrid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 32px;
+}
+
+@media (min-width: 768px) {
+  .relatedGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
