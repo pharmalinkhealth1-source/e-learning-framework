@@ -1,0 +1,65 @@
+.tableWrapper {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid var(--hds-color-border, #d0d0d0);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--hds-font-size-sm, 0.875rem);
+}
+
+.caption {
+  font-size: var(--hds-font-size-base, 1rem);
+  font-weight: 600;
+  color: var(--hds-color-text-primary, #1a1a1a);
+  text-align: left;
+  padding: 1rem 1.25rem 0.5rem;
+  caption-side: top;
+}
+
+.th {
+  padding: 0.625rem 1.25rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--hds-color-text-secondary, #555);
+  background: var(--hds-color-surface-secondary, #f5f5f5);
+  border-bottom: 1px solid var(--hds-color-border, #d0d0d0);
+  white-space: nowrap;
+}
+
+.row:nth-child(even) {
+  background: var(--hds-color-surface-secondary, #f5f5f5);
+}
+
+.td {
+  padding: 0.625rem 1.25rem;
+  color: var(--hds-color-text-primary, #1a1a1a);
+  border-bottom: 1px solid var(--hds-color-border-subtle, #ebebeb);
+}
+
+.tierBadge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: var(--hds-font-size-xs, 0.75rem);
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.accomplishment {
+  background: var(--hds-color-success-subtle, #f0faf0);
+  color: var(--hds-color-success, #2e7d32);
+}
+
+.participation {
+  background: var(--hds-color-surface-secondary, #f5f5f5);
+  color: var(--hds-color-text-secondary, #555);
+}
+
+.empty {
+  color: var(--hds-color-text-secondary, #555);
+  font-size: var(--hds-font-size-sm, 0.875rem);
+  padding: 1rem 0;
+}
