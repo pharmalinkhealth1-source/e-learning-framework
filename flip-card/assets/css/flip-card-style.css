@@ -1,0 +1,365 @@
+/*
+ * Elementor Flip Card Carousel Styles
+ *
+ * This stylesheet provides the core styling and animations for the
+ * custom Elementor Flip Card Carousel widget.
+ *
+ * @package ElementorFlipCardCarousel
+ */
+
+:root {
+    /* Define custom properties for easy customization */
+    --flip-duration: 0.6s;
+    --flip-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1);
+    --card-width: 600px;
+    --card-height: 400px;
+    --card-bg-front: #fff;
+    --card-bg-back: #f9f9f9;
+    --card-border-radius: 24px;
+    --card-border-color: #ff66c4;
+    --card-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --text-color-primary: #4F2D82;
+    --text-color-secondary: #4F2D82;
+    --accent-color: #ff66c4;
+    --font-family: 'IBM Plex Sans', sans-serif;
+}
+
+/* ---------------------------------------------------- */
+/* BEM: flip-card-carousel-container */
+/* ---------------------------------------------------- */
+.flip-card-carousel-container {
+    position: relative;
+    width: var(--card-width);
+    height: var(--card-height);
+    perspective: 1000px;
+    margin: 50px auto;
+    font-family: var(--font-family);
+}
+
+/* ---------------------------------------------------- */
+/* BEM: flip-card */
+/* ---------------------------------------------------- */
+.flip-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center;
+    /* Animate transform and opacity for smooth stacking and flipping */
+    /* Remove z-index delay so it drops behind immediately when class is removed */
+    transition: transform var(--flip-duration) var(--flip-timing-function),
+        opacity var(--flip-duration) var(--flip-timing-function);
+    z-index: 10;
+    cursor: pointer;
+    background: #fff;
+    /* Ensure background is solid for stacking */
+    border-radius: var(--card-border-radius);
+    /* Apply radius to container too */
+}
+
+/* ---------------------------------------------------- */
+/* Stacking Logic (Rotated Stack) */
+/* ---------------------------------------------------- */
+
+/* 1st Card (Top) */
+.flip-card:nth-child(1) {
+    z-index: 10;
+    transform: rotate(0deg);
+    opacity: 1;
+    pointer-events: auto;
+    /* Default border color */
+}
+
+/* 2nd Card (Middle) */
+.flip-card:nth-child(2) {
+    z-index: 9;
+    /* Rotate slightly counter-clockwise to match design */
+    transform: rotate(-3deg) translate(-4px, -2px);
+    opacity: 1;
+    pointer-events: none;
+    /* Reduce saturation/opacity of border ~15% */
+    --card-border-color: rgba(255, 102, 196, 0.85);
+}
+
+/* 3rd Card (Bottom) */
+.flip-card:nth-child(3) {
+    z-index: 8;
+    transform: rotate(-6deg) translate(-8px, -4px);
+    opacity: 1;
+    pointer-events: none;
+    /* Reduce saturation/opacity of border another ~15% -> ~30% total */
+    --card-border-color: rgba(255, 102, 196, 0.7);
+}
+
+/* Remaining cards (Hidden pile behind the 3rd) */
+.flip-card:nth-child(n+4) {
+    z-index: 1;
+    transform: rotate(-6deg) translate(-8px, -4px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------- */
+/* Animation Class */
+/* ---------------------------------------------------- */
+.flip-card.flipping {
+    /* Move UP and rotate slightly opposite to emphasize the lift */
+    transform: translateY(-120%) rotate(5deg);
+    opacity: 1;
+    /* Keep full opacity during move */
+    z-index: 20;
+    /* Keep on top during the exit animation */
+    pointer-events: none;
+}
+
+/* ---------------------------------------------------- */
+/* BEM: flip-card__inner */
+/* ---------------------------------------------------- */
+.flip-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: var(--card-border-radius);
+    box-shadow: var(--card-box-shadow);
+    background: var(--card-bg-front);
+    border: 2px solid var(--card-border-color);
+    overflow: hidden;
+}
+
+/* ---------------------------------------------------- */
+/* BEM: flip-card__front */
+/* ---------------------------------------------------- */
+.flip-card-front {
+    width: 100%;
+    height: 100%;
+    padding: 40px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: var(--card-bg-front);
+    color: var(--text-color-primary);
+}
+
+/* ---------------------------------------------------- */
+/* Card Header: Image + Meta */
+/* ---------------------------------------------------- */
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.card-image-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-right: 20px;
+    border: 2px solid #D1BAF8;
+    flex-shrink: 0;
+}
+
+.card-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.card-meta {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.card-name {
+    font-size: 1.4rem;
+    font-weight: 800;
+    margin: 0;
+    color: var(--text-color-primary);
+    line-height: 1.2;
+}
+
+.card-job-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 5px 0 0;
+    color: var(--text-color-primary);
+    line-height: 1.2;
+}
+
+/* ---------------------------------------------------- */
+/* Card Body: Quote + Description */
+/* ---------------------------------------------------- */
+.card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.card-quote {
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-style: italic;
+    color: var(--text-color-primary);
+    margin: 0 0 15px;
+    line-height: 1.4;
+    border-left: none;
+    padding: 0;
+}
+
+.card-description {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color-secondary);
+}
+
+/* ---------------------------------------------------- */
+/* Card Footer: Link */
+/* ---------------------------------------------------- */
+.card-footer {
+    margin-top: 20px;
+}
+
+.card-link {
+    display: inline-flex;
+    align-items: center;
+    color: var(--text-color-primary);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: color 0.2s;
+}
+
+.card-link:hover {
+    color: var(--accent-color);
+}
+
+.link-icon {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 8px;
+}
+
+.link-icon svg {
+    width: 20px;
+    height: 12px;
+}
+
+/* ---------------------------------------------------- */
+/* Back Face */
+/* ---------------------------------------------------- */
+.flip-card-back {
+    display: none;
+}
+
+/* ---------------------------------------------------- */
+/* Responsive Adjustments */
+/* ---------------------------------------------------- */
+@media (max-width: 768px) {
+    :root {
+        --card-width: 90%;
+        --card-height: auto;
+        min-height: 450px;
+    }
+
+    .flip-card-carousel-container {
+        height: 500px;
+    }
+
+    .flip-card-front {
+        padding: 25px 20px;
+    }
+
+    .card-header {
+        margin-bottom: 15px;
+    }
+
+    .card-name {
+        font-size: 1.2rem;
+    }
+
+    .card-quote {
+        font-size: 1.1rem;
+    }
+}
+
+/* ---------------------------------------------------- */
+/* Navigation Buttons */
+/* ---------------------------------------------------- */
+/* ---------------------------------------------------- */
+/* Navigation Buttons */
+/* ---------------------------------------------------- */
+.flip-card-nav {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    gap: 12px;
+    z-index: 20;
+    /* Above cards */
+    padding: 20px;
+    margin: 0 !important;
+}
+
+/* Increase specificity to override Elementor defaults */
+div.flip-card-carousel-container .flip-card-nav .flip-card-nav-btn,
+.flip-card-nav-btn {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    background: #fff !important;
+    border: 2px solid var(--card-border-color) !important;
+    border-radius: 50% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer;
+    transition: all 0.2s ease !important;
+    color: var(--card-border-color) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    text-transform: none !important;
+}
+
+div.flip-card-carousel-container .flip-card-nav .flip-card-nav-btn:hover,
+.flip-card-nav-btn:hover {
+    background: var(--card-border-color) !important;
+    color: #fff !important;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.15) !important;
+    border-color: var(--card-border-color) !important;
+}
+
+.flip-card-nav-btn:active {
+    transform: translateY(0);
+}
+
+.flip-card-nav-btn svg {
+    width: 24px;
+    height: 24px;
+    display: block;
+    fill: currentColor;
+    stroke: currentColor;
+    /* New SVG uses stroke too */
+    stroke-width: 0;
+    /* Or keep 1 if it needs thickness, but the path seems filled? */
+}
+
+/* The new SVG is a RIGHT arrow. */
+/* We handle the flip via inline styles or specific class overrides using scaleX */
+
+div.flip-card-carousel-container .flip-card-nav .flip-nav-prev svg,
+.flip-nav-prev svg {
+    /* transform is handled inline or via simple class now */
+}
+
+div.flip-card-carousel-container .flip-card-nav .flip-nav-next svg,
+.flip-nav-next svg {
+    transform: none !important;
+}

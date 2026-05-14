@@ -1,91 +1,108 @@
 import * as React from 'react';
-import { auth } from '@clerk/nextjs/server';
-import { redirect, notFound } from 'next/navigation';
 import { client } from '@/sanity/lib/client';
-import { PortableText } from '@portabletext/react';
-import styled from 'styled-components';
+import { notFound } from 'next/navigation';
+import Navbar from '@/components/stripe/Navbar';
+import Footer from '@/components/stripe/Footer';
 import CommentForm from '@/components/forum/CommentForm';
+import CommentThread from '@/components/forum/CommentThread';
+import ForumSync from '@/components/forum/ForumSync';
+import styles from './ForumDetail.module.css';
+import { PortableText } from '@portabletext/react';
 
-export default async function ForumPostDetailPage({ params }: { params: { slug: string } }) {
-  const { userId } = await auth();
+interface Comment {
+  _id: string;
+  content: string;
+  publishedAt: string;
+  authorName: string;
+  authorInitials: string;
+  parentId: string | null;
+  children?: Comment[];
+}
 
-  if (!userId) {
-    redirect('/sign-in');
-  }
-
+export default async function ForumPostPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   const post = await client.fetch(`*[_type == "forumPost" && slug.current == $slug][0] {
     _id,
     title,
     content,
-    "authorName": author->name,
     publishedAt,
+    "authorName": author->name,
     "comments": *[_type == "comment" && parentPost._ref == ^._id] | order(publishedAt asc) {
+      _id,
       content,
-      "authorName": author->name,
       publishedAt,
-      _id
+      "authorName": author->name,
+      "authorInitials": author->initials,
+      "parentId": parentComment._ref
     }
-  }`, { slug: params.slug });
+  }`, { slug });
 
   if (!post) {
     notFound();
   }
 
+  // Organize comments into a tree
+  const commentMap = new Map<string, Comment>();
+  const rootComments: Comment[] = [];
+
+  post.comments.forEach((comment: any) => {
+    const c = { ...comment, children: [] };
+    commentMap.set(c._id, c);
+  });
+
+  post.comments.forEach((comment: any) => {
+    const c = commentMap.get(comment._id)!;
+    if (comment.parentId && commentMap.has(comment.parentId)) {
+      const parent = commentMap.get(comment.parentId)!;
+      parent.children = parent.children || [];
+      parent.children.push(c);
+    } else {
+      rootComments.push(c);
+    }
+  });
+
   return (
-    <div style={{ padding: '80px 20px', maxWidth: '800px', margin: '0 auto' }}>
-      <header style={{ marginBottom: '40px' }}>
-        <h1 style={{ fontSize: '36px', fontWeight: 700, color: 'var(--hds-color-fg)', marginBottom: '12px' }}>
-          {post.title}
-        </h1>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#707070', fontSize: '14px' }}>
-          <span style={{ fontWeight: 600, color: 'var(--hds-color-primary)' }}>{post.authorName}</span>
-          <span>•</span>
-          <span>{new Date(post.publishedAt).toLocaleDateString()}</span>
+    <main className={styles.main}>
+      <ForumSync postId={post._id} />
+      <Navbar />
+
+      <header className={styles.header}>
+        <div className={styles.headerBackground}></div>
+        <div className={styles.gridLinesContainer}>
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className={styles.line}></div>
+          ))}
+        </div>
+        
+        <div className={styles.container}>
+          <h1 className={styles.title}>{post.title}</h1>
+          <div className={styles.meta}>
+            <span className={styles.authorBadge}>{post.authorName}</span>
+            <span className={styles.date}>{new Date(post.publishedAt).toLocaleDateString()}</span>
+          </div>
         </div>
       </header>
 
-      <article style={{ 
-        fontSize: '18px', 
-        lineHeight: '1.8', 
-        color: 'var(--hds-color-fg)',
-        marginBottom: '80px',
-        borderBottom: '1px solid #E6EBF1',
-        paddingBottom: '40px'
-      }}>
-        <PortableText value={post.content} />
-      </article>
-
-      <section>
-        <h2 style={{ fontSize: '24px', fontWeight: 600, marginBottom: '24px' }}>
-          Comments ({post.comments?.length || 0})
-        </h2>
-
-        <div style={{ display: 'grid', gap: '24px' }}>
-          {post.comments?.map((comment: any) => (
-            <div key={comment._id} style={{ 
-              padding: '20px', 
-              background: '#F6F9FC', 
-              borderRadius: '8px',
-              borderLeft: '4px solid var(--hds-color-primary)'
-            }}>
-              <div style={{ marginBottom: '8px', fontSize: '13px', fontWeight: 600 }}>
-                {comment.authorName} <span style={{ fontWeight: 400, color: '#707070', marginLeft: '8px' }}>
-                  {new Date(comment.publishedAt).toLocaleDateString()}
-                </span>
-              </div>
-              <p style={{ fontSize: '15px', color: '#425466', lineHeight: '1.5' }}>{comment.content}</p>
-            </div>
-          ))}
-
-          {post.comments?.length === 0 && (
-            <p style={{ color: '#707070', textAlign: 'center', padding: '40px' }}>
-              No comments yet. Start the discussion!
-            </p>
-          )}
+      <article className={styles.container}>
+        <div className={styles.content}>
+          <PortableText value={post.content} />
         </div>
 
-        <CommentForm postId={post._id} />
-      </section>
-    </div>
+        <section className={styles.commentsSection}>
+          <h2 className={styles.commentsTitle}>Discussion ({post.comments.length})</h2>
+          
+          <CommentThread comments={rootComments} postId={post._id} />
+          
+          <div style={{ marginTop: '64px' }}>
+            <h3 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '24px', color: '#0a2540' }}>
+              Add to the conversation
+            </h3>
+            <CommentForm postId={post._id} />
+          </div>
+        </section>
+      </article>
+
+      <Footer />
+    </main>
   );
 }

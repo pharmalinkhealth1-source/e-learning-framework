@@ -1,0 +1,104 @@
+.card {
+  background: var(--hds-color-glass-bg, rgba(255, 255, 255, 0.7));
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--hds-color-border, rgba(0, 0, 0, 0.1));
+  border-radius: var(--hds-space-core-radius-lg, 8px);
+  padding: var(--hds-space-core-400, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-200, 16px);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border-color: var(--hds-color-core-primary-300, #D1BAF8);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  font-family: var(--hds-font-family);
+  font-size: var(--hds-font-heading-sm-size, 1.25rem);
+  font-weight: 400;
+  color: var(--hds-color-heading-solid, #0a2540);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.categoryBadge {
+  font-size: var(--hds-font-text-xs-size, 0.75rem);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hds-color-core-primary-700, #6C30C0);
+  background: var(--hds-color-core-primary-100, #F1EAFD);
+  padding: 4px 10px;
+  border-radius: 100px;
+}
+
+.metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--hds-space-core-200, 16px);
+  color: var(--hds-color-core-neutral-500, #64748d);
+  font-size: 0.9rem;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.metaIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+.excerpt {
+  color: var(--hds-color-core-neutral-700, #3c4257);
+  line-height: 1.6;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.cardActions {
+  margin-top: auto;
+  padding-top: var(--hds-space-core-200, 16px);
+}
+
+.applyButton {
+  width: fit-content;
+  font-weight: 400;
+}
+
+.arrowIcon {
+  width: 14px;
+  height: 14px;
+  margin-left: 8px;
+  transition: transform 0.2s ease;
+}
+
+.card:hover .arrowIcon {
+  transform: translate(2px, -2px);
+}
+
+/* Specific Category Accent Colors */
+.card[data-category="Clinical"] { border-left: 4px solid var(--hds-color-core-primary-700); }
+.card[data-category="Technical"] { border-left: 4px solid #0D9488; }
+.card[data-category="Operations"] { border-left: 4px solid var(--hds-color-core-secondary-500); }
+.card[data-category="Research"] { border-left: 4px solid var(--hds-color-core-primary-800); }

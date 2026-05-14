@@ -40,8 +40,12 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Generated / machine-specific
+# clerk configuration (can include secrets)
+/.clerk/
+
+# graphify generated cache
 graphify-out/
+
+# claude settings and worktrees
 .claude/settings.local.json
 .claude/worktrees/
-.clerk/

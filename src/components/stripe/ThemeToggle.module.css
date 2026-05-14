@@ -1,0 +1,38 @@
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--hds-space-core-radius-md);
+  color: var(--hds-color-text-main);
+  transition: background-color 0.2s ease;
+  position: relative;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.toggle:hover {
+  background-color: var(--hds-color-surface-bg-subdued);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.systemBadge {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  background: var(--hds-color-core-brand-600);
+  color: white;
+  padding: 0 4px;
+  border-radius: 4px;
+  pointer-events: none;
+}

@@ -1,0 +1,50 @@
+{
+  "configured_at": "2026-05-14T00:00:00Z",
+  "orchestration_version": 2,
+  "orchestration": {
+    "integration": {
+      "cadence": "worktree",
+      "auto_merge_on_green": true
+    },
+    "review": {
+      "trigger": "per-task",
+      "scope": "pr-diff",
+      "skip_if_diff_under": 0,
+      "on_findings": "halt",
+      "max_revision_loops": 3,
+      "providers": {
+        "greptile": { "fire_at": [], "on_findings": "halt" },
+        "code-review": { "fire_at": [], "on_findings": "halt" }
+      }
+    },
+    "gates": {
+      "model": "pause",
+      "auto_place": true,
+      "conditions": {
+        "require_tests_pass": true,
+        "require_build_pass": true,
+        "max_critical_findings": 0
+      },
+      "placements": [
+        { "after_wave": "1",  "label": "Foundation review: schemas + middleware before any route work" },
+        { "after_wave": "2a", "label": "PlayerShell review: course journey + My Learning before engine tasks" },
+        { "after_wave": "2b", "label": "LMS engine review: full journey walkthrough before dashboard" },
+        { "after_wave": "4",  "label": "Final review: role-gated dashboard before merge" }
+      ]
+    }
+  },
+  "models": {
+    "default": "sonnet",
+    "complexity_threshold": 5,
+    "force_opus_tasks": [],
+    "force_sonnet_tasks": [],
+    "escalation": {
+      "after_failures": 1,
+      "triggers": ["architectural_issues", "type_system_issues"]
+    }
+  },
+  "allow_bypass": {
+    "future_work_overlap": true,
+    "false_positive_factual": true
+  }
+}

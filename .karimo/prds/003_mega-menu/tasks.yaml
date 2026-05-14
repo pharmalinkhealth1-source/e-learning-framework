@@ -8,7 +8,7 @@ tasks:
     wave: 1
     complexity: 1
     priority: must
-    status: pending
+    status: complete
     model: sonnet
     depends_on: []
     files_affected:
@@ -33,7 +33,7 @@ tasks:
     wave: 2
     complexity: 3
     priority: must
-    status: pending
+    status: complete
     model: sonnet
     depends_on: [T01]
     files_affected:
@@ -59,7 +59,7 @@ tasks:
     wave: 2
     complexity: 5
     priority: must
-    status: pending
+    status: complete
     model: opus
     requires_review: true
     depends_on: [T01]
@@ -91,7 +91,7 @@ tasks:
     wave: 3
     complexity: 3
     priority: must
-    status: pending
+    status: complete
     model: sonnet
     depends_on: [T01, T04]
     files_affected:
@@ -122,7 +122,7 @@ tasks:
     wave: 1
     complexity: 2
     priority: must
-    status: pending
+    status: complete
     model: sonnet
     depends_on: []
     files_affected:
@@ -150,7 +150,7 @@ tasks:
     wave: 4
     complexity: 5
     priority: must
-    status: pending
+    status: complete
     model: opus
     depends_on: [T02, T03]
     files_affected:
@@ -184,7 +184,7 @@ tasks:
     wave: 5
     complexity: 2
     priority: should
-    status: pending
+    status: complete
     model: sonnet
     depends_on: [T02, T03, T06]
     files_affected:

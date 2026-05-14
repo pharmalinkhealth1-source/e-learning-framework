@@ -1,0 +1,73 @@
+version: "1.0"
+prd: elearning-framework
+generated: "2026-05-13"
+
+execution_branch: feature/elearning-framework
+
+waves:
+  - wave: 1
+    label: "Foundation"
+    tasks: [T00, T01, T02]
+    parallel: true
+    review_gate: true
+    review_note: >
+      Review schemas before any route/component work touches Sanity types.
+      Review middleware changes for /forum protection integrity.
+      Confirm BLOB_READ_WRITE_TOKEN provisioned before Wave 2b.
+
+  - wave: 2a
+    label: "Course Journey Core"
+    tasks: [T03]
+    parallel: false
+    review_gate: true
+    review_note: >
+      Review PlayerShell layout, progress API, and lesson renderer stubs
+      before T04/T05/T06 integrate against them.
+
+  - wave: 2b
+    label: "LMS Engine (parallel)"
+    tasks: [T04, T05, T06]
+    parallel: true
+    review_gate: true
+    review_note: >
+      Full course journey walkthrough (pre-test → modules → post-test → survey)
+      before dashboard work begins. Dashboard metrics depend on data shapes confirmed here.
+
+  - wave: 3
+    label: "Certificates + Dashboard GROQ + Notifications"
+    tasks: [T07, T08, T10]
+    parallel: true
+    review_gate: false
+
+  - wave: 4
+    label: "Dashboard UI"
+    tasks: [T09]
+    parallel: false
+    review_gate: true
+    review_note: >
+      Final review — validate role-gated visibility and metric correctness before merge.
+
+dependency_graph:
+  T00: []
+  T01: []
+  T02: []
+  T03: [T00, T01, T02]
+  T04: [T01, T02, T03]
+  T05: [T00, T01, T02, T03]
+  T06: [T01, T02, T03]
+  T07: [T00, T01, T03, T04, T06]
+  T08: [T00, T01, T03, T04, T05, T06]
+  T09: [T07, T08]
+  T10: [T01, T02, T03, T07]
+
+longest_chain: "T01 → T03 → T04 → T08 → T09"
+longest_chain_length: 5
+
+complexity_summary:
+  total_tasks: 11
+  total_complexity: 39
+  wave_1: 8
+  wave_2a: 5
+  wave_2b: 11
+  wave_3: 10
+  wave_4: 5

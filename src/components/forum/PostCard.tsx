@@ -62,7 +62,7 @@ const AuthorBadge = styled.span`
 
 export default function PostCard({ title, excerpt, author, date, slug, index }: PostCardProps) {
   return (
-    <Card 
+    <Card
       href={`/forum/${slug}`}
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
