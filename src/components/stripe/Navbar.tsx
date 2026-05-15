@@ -10,6 +10,7 @@ import Megamenu, { AboutUsPanel, CommunityPanel, DataInsightsPanel, PodcastPanel
 import MobileMenu from './MobileMenu';
 import { NAV_DATA } from '@/lib/nav-data';
 import { useUser } from '@clerk/nextjs';
+import NotificationBell from './NotificationBell';
 
 const PLATFORMS = [
   { 
@@ -274,9 +275,14 @@ const Navbar = () => {
                 <ThemeToggle />
               </li>
               {isSignedIn ? (
-                <li className={styles.navigationItem}>
-                  <MessagesNavButton />
-                </li>
+                <>
+                  <li className={styles.navigationItem}>
+                    <NotificationBell />
+                  </li>
+                  <li className={styles.navigationItem}>
+                    <MessagesNavButton />
+                  </li>
+                </>
               ) : (
                 <>
                   <li className={styles.navigationItem}>
