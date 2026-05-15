@@ -1,6 +1,9 @@
 import { auth, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
+const VALID_ROLES = ['learner', 'pharmacy', 'job_seeker', 'employer', 'partner', 'admin'];
+const ADMIN_INVITE_CODE = process.env.ADMIN_INVITE_CODE;
+
 export async function POST(req: Request) {
   const { userId } = await auth();
 
@@ -9,15 +12,25 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { role, companyName, useCase } = await req.json();
+    const body = await req.json();
+    const { role, inviteCode, ...profileFields } = body;
+
+    if (!VALID_ROLES.includes(role)) {
+      return NextResponse.json({ error: "Invalid role." }, { status: 400 });
+    }
+
+    if (role === 'admin') {
+      if (!ADMIN_INVITE_CODE || inviteCode !== ADMIN_INVITE_CODE) {
+        return NextResponse.json({ error: "Invalid invite code." }, { status: 403 });
+      }
+    }
 
     const client = await clerkClient();
     await client.users.updateUserMetadata(userId, {
       publicMetadata: {
         role,
         onboarded: true,
-        companyName,
-        useCase,
+        ...profileFields,
       },
     });
 

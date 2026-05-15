@@ -6,9 +6,10 @@ import MeshGradient from './MeshGradient';
 
 interface AuthLayoutProps {
   children: React.ReactNode;
+  wide?: boolean;
 }
 
-const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
+const AuthLayout: React.FC<AuthLayoutProps> = ({ children, wide }) => {
   return (
     <div className={styles.authContainer}>
       <div className={styles.gradientBg}>
@@ -17,7 +18,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           speed={0.005}
         />
       </div>
-      <div className={styles.authCard}>
+      <div className={`${styles.authCard} ${wide ? styles.authCardWide : ''}`}>
         <div className={styles.authLogo}>
           <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 259.38 259.38">
             <defs>
