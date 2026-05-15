@@ -1,7 +1,10 @@
-import { auth } from '@clerk/nextjs/server'
+import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { client } from '@/sanity/lib/client'
 import { writeClient } from '@/sanity/lib/write-client'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 interface RouteContext {
   params: Promise<{ id: string }>
@@ -110,7 +113,7 @@ export async function POST(req: Request, { params }: RouteContext) {
       .commit()
       .catch(() => {})
 
-    // Notify teacher recipients if sender is a learner
+    // Notify teacher recipients if sender is a learner — in-app + email
     const senderRole = (sessionClaims?.metadata as Record<string, unknown> | undefined)?.role as string | undefined
     if (senderRole === 'learner') {
       const otherIds = conversation.participantIds.filter((p) => p !== userId)
@@ -133,6 +136,39 @@ export async function POST(req: Request, { params }: RouteContext) {
           }).catch(() => {})
         )
       )
+
+      // Fire-and-forget emails to teacher recipients
+      if (teacherRecipients.length) {
+        ;(async () => {
+          try {
+            const clerk = await clerkClient()
+            await Promise.all(
+              teacherRecipients.map(async (r) => {
+                try {
+                  const teacher = await clerk.users.getUser(r.clerkId)
+                  const teacherEmail = teacher.emailAddresses[0]?.emailAddress
+                  if (!teacherEmail) return
+                  await resend.emails.send({
+                    from: 'PharmaLink <notifications@pharmalinkhealth.com>',
+                    to: teacherEmail,
+                    subject: `New message from ${senderName}`,
+                    html: `
+                      <p>Hi ${teacher.firstName ?? 'there'},</p>
+                      <p><strong>${senderName}</strong> sent you a message on PharmaLink.</p>
+                      <blockquote style="border-left:3px solid #6c30c0;padding-left:12px;color:#425466">
+                        ${trimmed.length > 200 ? trimmed.slice(0, 200) + '…' : trimmed}
+                      </blockquote>
+                      <p><a href="https://pharmalinkhealth.com/messages">Reply in PharmaLink →</a></p>
+                      <hr />
+                      <p style="color:#888;font-size:12px">PharmaLink · You are receiving this because a learner sent you a message.</p>
+                    `,
+                  })
+                } catch {}
+              })
+            )
+          } catch {}
+        })()
+      }
     }
 
     return NextResponse.json({

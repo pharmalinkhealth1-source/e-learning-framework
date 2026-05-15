@@ -1,8 +1,11 @@
-import { auth } from '@clerk/nextjs/server'
+import { auth, clerkClient } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { client } from '@/sanity/lib/client'
 import { writeClient } from '@/sanity/lib/write-client'
+import { Resend } from 'resend'
 import type { LmsRole, Submission } from '@/types/lms'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const TEACHER_ROLES: LmsRole[] = ['program_manager', 'system_admin']
 
@@ -92,21 +95,46 @@ export async function POST(req: Request) {
     status: 'pending',
   })
 
-  // Notify the assignment creator (teacher)
-  const assignment = await client.fetch<{ createdBy?: string } | null>(
-    `*[_type == "assignment" && _id == $assignmentId][0]{ createdBy }`,
+  // Notify the assignment creator (teacher) — in-app + email
+  const assignment = await client.fetch<{ createdBy?: string; title?: string } | null>(
+    `*[_type == "assignment" && _id == $assignmentId][0]{ createdBy, title }`,
     { assignmentId }
   )
   if (assignment?.createdBy) {
+    const teacherClerkId = assignment.createdBy
+
     writeClient.create({
       _type: 'notification',
-      userId: assignment.createdBy,
+      userId: teacherClerkId,
       type: 'assignment_submitted',
       message: `${studentName ?? 'A student'} submitted an assignment`,
       read: false,
       courseId,
       createdAt: now,
     }).catch(() => {})
+
+    // Fire-and-forget email
+    ;(async () => {
+      try {
+        const clerk = await clerkClient()
+        const teacher = await clerk.users.getUser(teacherClerkId)
+        const teacherEmail = teacher.emailAddresses[0]?.emailAddress
+        if (!teacherEmail) return
+        await resend.emails.send({
+          from: 'PharmaLink LMS <notifications@pharmalinkhealth.com>',
+          to: teacherEmail,
+          subject: `Assignment submitted${assignment.title ? `: ${assignment.title}` : ''}`,
+          html: `
+            <p>Hi ${teacher.firstName ?? 'there'},</p>
+            <p><strong>${studentName ?? 'A student'}</strong> has submitted work for
+            <strong>${assignment.title ?? 'an assignment'}</strong>.</p>
+            <p><a href="https://pharmalinkhealth.com/elearning/assignments/manage">Review submission →</a></p>
+            <hr />
+            <p style="color:#888;font-size:12px">PharmaLink LMS · You are receiving this because you are a course instructor.</p>
+          `,
+        })
+      } catch {}
+    })()
   }
 
   return NextResponse.json(created)
