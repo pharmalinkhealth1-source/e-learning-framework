@@ -1,0 +1,149 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--hds-color-core-neutral-0);
+  padding-block: var(--hds-space-core-1000, 80px);
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1080px) + 2px);
+  margin: 0 auto;
+  padding-inline: var(--hds-space-layout-content-margin, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-1000, 80px);
+}
+
+.header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--hds-space-core-400, 12px);
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--hds-color-foreground-highContrast);
+  letter-spacing: -0.02em;
+}
+
+.browseLink {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--hds-color-core-primary-700, #6c30c0);
+  text-decoration: none;
+}
+
+.browseLink:hover {
+  text-decoration: underline;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-600, 24px);
+}
+
+.emptyState {
+  padding: var(--hds-space-core-800, 32px);
+  text-align: center;
+  color: var(--hds-color-foreground-lowContrast);
+  background: var(--hds-color-core-neutral-40, #f6f9fc);
+  border-radius: 12px;
+  border: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.assignmentGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--hds-space-core-500, 16px);
+}
+
+.assignmentCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-400, 12px);
+  padding: var(--hds-space-core-600, 24px);
+  background: var(--hds-color-core-neutral-0);
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  border-radius: 12px;
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.assignmentCard:hover {
+  border-color: var(--hds-color-core-primary-700, #6c30c0);
+  transform: translateY(-1px);
+}
+
+.assignmentTitle {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--hds-color-foreground-highContrast);
+  letter-spacing: -0.01em;
+}
+
+.assignmentCourse {
+  font-size: 0.875rem;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.metaList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--hds-space-core-300, 8px);
+  margin: 0;
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.metaItem dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.metaItem dd {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--hds-color-foreground-highContrast);
+  margin: 0;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  padding: var(--hds-space-core-200, 4px) var(--hds-space-core-400, 12px);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.statusNotSubmitted {
+  background: var(--hds-color-core-neutral-40, #f6f9fc);
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.statusPending {
+  background: rgba(108, 48, 192, 0.1);
+  color: var(--hds-color-core-primary-700, #6c30c0);
+}
+
+.statusGraded {
+  background: rgba(28, 161, 96, 0.12);
+  color: #15803d;
+}
+
+.statusReturned {
+  background: rgba(220, 153, 0, 0.14);
+  color: #a16207;
+}

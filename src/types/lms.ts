@@ -25,3 +25,35 @@ export interface DashboardMetrics {
   newUsersByCountry: Record<string, number>
   knowledgeBaseGrowth: number
 }
+
+export type AssignmentSubmissionType = 'file' | 'text' | 'url'
+export type SubmissionStatus = 'pending' | 'graded' | 'returned'
+
+export interface Assignment {
+  _id: string
+  title: string
+  description?: string
+  courseId: string
+  dueDate?: string
+  submissionType: AssignmentSubmissionType
+  maxScore: number
+  createdBy: string
+  createdAt: string
+}
+
+export interface Submission {
+  _id: string
+  assignmentId: string
+  studentId: string
+  studentName?: string
+  courseId: string
+  submittedAt: string
+  textContent?: string
+  fileUrl?: string
+  linkUrl?: string
+  status: SubmissionStatus
+  grade?: number
+  feedback?: string
+  gradedBy?: string
+  gradedAt?: string
+}
