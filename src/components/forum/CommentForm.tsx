@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
 const Form = styled.form`
@@ -68,6 +69,7 @@ export default function CommentForm({
   parentCommentId?: string,
   onSuccess?: () => void
 }) {
+  const router = useRouter();
   const [content, setContent] = React.useState("");
   const [isLoading, setIsLoading] = React.useState(false);
   const [status, setStatus] = React.useState<'idle' | 'success' | 'error'>('idle');
@@ -90,8 +92,7 @@ export default function CommentForm({
         setStatus('success');
         setContent("");
         if (onSuccess) onSuccess();
-        // In a real app, we might trigger a revalidation or update local state
-        window.location.reload(); 
+        router.refresh();
       } else {
         setStatus('error');
       }

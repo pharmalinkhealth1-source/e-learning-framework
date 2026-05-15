@@ -32,7 +32,7 @@ const Label = styled.label`
   margin-bottom: 8px;
 `;
 
-const Input = styled.input`
+const inputBase = `
   width: 100%;
   padding: 14px 20px;
   border: 1px solid #e5edf5;
@@ -40,29 +40,23 @@ const Input = styled.input`
   font-size: 1rem;
   outline: none;
   transition: all 0.2s ease;
-  
+  font-family: inherit;
+  background: white;
+
   &:focus {
     border-color: #6c30c0;
     box-shadow: 0 0 0 4px rgba(108, 48, 192, 0.1);
   }
-`;
+`
+
+const Input = styled.input`${inputBase}`
+
+const Select = styled.select`${inputBase}`
 
 const TextArea = styled.textarea`
-  width: 100%;
+  ${inputBase}
   min-height: 200px;
-  padding: 14px 20px;
-  border: 1px solid #e5edf5;
-  border-radius: 12px;
-  font-size: 1rem;
-  font-family: inherit;
-  outline: none;
-  transition: all 0.2s ease;
   resize: vertical;
-  
-  &:focus {
-    border-color: #6c30c0;
-    box-shadow: 0 0 0 4px rgba(108, 48, 192, 0.1);
-  }
 `;
 
 const SubmitBtn = styled.button`
@@ -98,10 +92,20 @@ const ErrorMsg = styled.p`
   text-align: center;
 `;
 
+const CATEGORIES = [
+  { value: 'general', label: 'General' },
+  { value: 'clinical', label: 'Clinical' },
+  { value: 'regulatory', label: 'Regulatory' },
+  { value: 'supply_chain', label: 'Supply Chain' },
+  { value: 'technology', label: 'Technology' },
+  { value: 'careers', label: 'Careers' },
+]
+
 export default function CreatePostForm({ onSuccess }: { onSuccess?: () => void }) {
   const router = useRouter();
   const [title, setTitle] = React.useState("");
   const [content, setContent] = React.useState("");
+  const [category, setCategory] = React.useState("general");
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
 
@@ -116,7 +120,7 @@ export default function CreatePostForm({ onSuccess }: { onSuccess?: () => void }
       const res = await fetch("/api/forum/post", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title, content }),
+        body: JSON.stringify({ title, content, category }),
       });
 
       const data = await res.json();
@@ -127,7 +131,7 @@ export default function CreatePostForm({ onSuccess }: { onSuccess?: () => void }
       } else {
         setError(data.error || "Failed to create post");
       }
-    } catch (err) {
+    } catch {
       setError("An unexpected error occurred");
     } finally {
       setIsLoading(false);
@@ -139,11 +143,25 @@ export default function CreatePostForm({ onSuccess }: { onSuccess?: () => void }
       <Title>Start a Conversation</Title>
       <form onSubmit={handleSubmit}>
         <FormGroup>
+          <Label htmlFor="category">Category</Label>
+          <Select
+            id="category"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
+            disabled={isLoading}
+          >
+            {CATEGORIES.map((cat) => (
+              <option key={cat.value} value={cat.value}>{cat.label}</option>
+            ))}
+          </Select>
+        </FormGroup>
+
+        <FormGroup>
           <Label htmlFor="title">Post Title</Label>
-          <Input 
+          <Input
             id="title"
-            type="text" 
-            placeholder="e.g., Best practices for cold chain management" 
+            type="text"
+            placeholder="e.g., Best practices for cold chain management"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
@@ -153,9 +171,9 @@ export default function CreatePostForm({ onSuccess }: { onSuccess?: () => void }
 
         <FormGroup>
           <Label htmlFor="content">Post Content</Label>
-          <TextArea 
+          <TextArea
             id="content"
-            placeholder="Share your thoughts, questions, or updates with the community..." 
+            placeholder="Share your thoughts, questions, or updates with the community..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
             required

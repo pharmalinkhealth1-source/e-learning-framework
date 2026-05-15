@@ -36,5 +36,27 @@ export const forumPost = defineType({
       title: 'Published at',
       type: 'datetime',
     }),
+    defineField({
+      name: 'category',
+      title: 'Category',
+      type: 'string',
+      initialValue: 'general',
+      options: {
+        list: [
+          { title: 'General', value: 'general' },
+          { title: 'Clinical', value: 'clinical' },
+          { title: 'Regulatory', value: 'regulatory' },
+          { title: 'Supply Chain', value: 'supply_chain' },
+          { title: 'Technology', value: 'technology' },
+          { title: 'Careers', value: 'careers' },
+        ],
+      },
+    }),
+    defineField({
+      name: 'likedBy',
+      title: 'Liked By',
+      type: 'array',
+      of: [{ type: 'string' }],
+    }),
   ],
 })

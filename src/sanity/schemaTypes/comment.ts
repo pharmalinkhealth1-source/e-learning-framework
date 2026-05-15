@@ -33,5 +33,11 @@ export const comment = defineType({
       title: 'Published at',
       type: 'datetime',
     }),
+    defineField({
+      name: 'likedBy',
+      title: 'Liked By',
+      type: 'array',
+      of: [{ type: 'string' }],
+    }),
   ],
 })
