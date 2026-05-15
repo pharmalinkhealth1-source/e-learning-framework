@@ -57,3 +57,22 @@ export interface Submission {
   gradedBy?: string
   gradedAt?: string
 }
+
+export interface Conversation {
+  _id: string
+  participantIds: string[]
+  createdAt: string
+  lastMessageAt?: string
+  lastMessagePreview?: string
+  otherParticipant?: { userId: string; name: string; avatarUrl?: string }
+}
+
+export interface DirectMessage {
+  _id: string
+  conversationId: string
+  senderId: string
+  senderName: string
+  content: string
+  createdAt: string
+  readBy: string[]
+}

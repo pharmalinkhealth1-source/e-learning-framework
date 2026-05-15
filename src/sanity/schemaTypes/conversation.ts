@@ -1,0 +1,31 @@
+import { defineField, defineType } from 'sanity'
+
+export const conversation = defineType({
+  name: 'conversation',
+  title: 'Conversation',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'participantIds',
+      title: 'Participant IDs',
+      type: 'array',
+      of: [{ type: 'string' }],
+      validation: (Rule) => Rule.required().min(2),
+    }),
+    defineField({
+      name: 'createdAt',
+      title: 'Created At',
+      type: 'datetime',
+    }),
+    defineField({
+      name: 'lastMessageAt',
+      title: 'Last Message At',
+      type: 'datetime',
+    }),
+    defineField({
+      name: 'lastMessagePreview',
+      title: 'Last Message Preview',
+      type: 'string',
+    }),
+  ],
+})
