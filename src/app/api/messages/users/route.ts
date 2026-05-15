@@ -2,12 +2,8 @@ import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { client } from '@/sanity/lib/client'
 
-/**
- * GET /api/messages/users?q=searchterm
- * Searches author docs by name to start a new DM with.
- */
 export async function GET(req: Request) {
-  const { userId } = await auth()
+  const { userId, sessionClaims } = await auth()
   if (!userId) return new NextResponse('Unauthorized', { status: 401 })
 
   try {
@@ -15,8 +11,15 @@ export async function GET(req: Request) {
     const q = (searchParams.get('q') || '').trim()
     if (!q) return NextResponse.json({ users: [] })
 
-    const users = await client.fetch<any[]>(
-      `*[_type == "author" && name match $q + "*" && clerkId != $userId && defined(clerkId)][0...10] {
+    const requesterRole = (sessionClaims?.metadata as Record<string, unknown> | undefined)?.role as string | undefined
+
+    // Learners can only find teachers — prevents student-to-student discovery
+    const roleFilter = requesterRole === 'learner'
+      ? `&& role in ["program_manager", "system_admin"]`
+      : ''
+
+    const users = await client.fetch<Array<{ _id: string; name: string; clerkId: string; avatarUrl?: string }>>(
+      `*[_type == "author" && name match $q + "*" && clerkId != $userId && defined(clerkId) ${roleFilter}][0...10] {
         _id, name, clerkId, "avatarUrl": image._externalUrl
       }`,
       { q, userId }

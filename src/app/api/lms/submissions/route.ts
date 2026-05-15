@@ -77,18 +77,37 @@ export async function POST(req: Request) {
     (metadata?.name as string | undefined) ??
     undefined
 
+  const now = new Date().toISOString()
+
   const created = await writeClient.create({
     _type: 'submission',
     assignmentId,
     studentId: userId,
     studentName,
     courseId,
-    submittedAt: new Date().toISOString(),
+    submittedAt: now,
     textContent: textContent ?? undefined,
     fileUrl: fileUrl ?? undefined,
     linkUrl: linkUrl ?? undefined,
     status: 'pending',
   })
+
+  // Notify the assignment creator (teacher)
+  const assignment = await client.fetch<{ createdBy?: string } | null>(
+    `*[_type == "assignment" && _id == $assignmentId][0]{ createdBy }`,
+    { assignmentId }
+  )
+  if (assignment?.createdBy) {
+    writeClient.create({
+      _type: 'notification',
+      userId: assignment.createdBy,
+      type: 'assignment_submitted',
+      message: `${studentName ?? 'A student'} submitted an assignment`,
+      read: false,
+      courseId,
+      createdAt: now,
+    }).catch(() => {})
+  }
 
   return NextResponse.json(created)
 }

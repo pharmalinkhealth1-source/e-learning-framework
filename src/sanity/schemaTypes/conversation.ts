@@ -27,5 +27,17 @@ export const conversation = defineType({
       title: 'Last Message Preview',
       type: 'string',
     }),
+    defineField({
+      name: 'participantUnread',
+      title: 'Participant Unread Counts',
+      type: 'array',
+      of: [{
+        type: 'object',
+        fields: [
+          defineField({ name: 'userId', type: 'string', title: 'User ID' }),
+          defineField({ name: 'count', type: 'number', title: 'Unread Count', initialValue: 0 }),
+        ],
+      }],
+    }),
   ],
 })

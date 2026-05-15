@@ -1,4 +1,4 @@
-import { auth, currentUser } from '@clerk/nextjs/server'
+import { auth } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { client } from '@/sanity/lib/client'
 import { writeClient } from '@/sanity/lib/write-client'
@@ -67,7 +67,7 @@ export async function GET() {
  * Body: { recipientId: string }
  */
 export async function POST(req: Request) {
-  const { userId } = await auth()
+  const { userId, sessionClaims } = await auth()
   if (!userId) return new NextResponse('Unauthorized', { status: 401 })
 
   try {
@@ -79,7 +79,19 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Cannot start a conversation with yourself' }, { status: 400 })
     }
 
-    const existing = await writeClient.fetch<any>(
+    // Role restriction: learners can only message program_managers or system_admins
+    const requesterRole = (sessionClaims?.metadata as Record<string, unknown> | undefined)?.role as string | undefined
+    if (requesterRole === 'learner') {
+      const recipientAuthor = await client.fetch<{ role?: string } | null>(
+        `*[_type == "author" && clerkId == $recipientId][0]{ role }`,
+        { recipientId }
+      )
+      if (!recipientAuthor || !['program_manager', 'system_admin'].includes(recipientAuthor.role ?? '')) {
+        return NextResponse.json({ error: 'Learners can only message teachers.' }, { status: 403 })
+      }
+    }
+
+    const existing = await writeClient.fetch<{ _id: string } | null>(
       `*[_type == "conversation" && $userId in participantIds && $recipientId in participantIds][0]{ _id }`,
       { userId, recipientId }
     )
