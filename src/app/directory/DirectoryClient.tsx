@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const LocationMap = dynamic(() => import('@/components/map/LocationMap'), {
   ssr: false,
-  loading: () => <div style={{ height: '600px', background: '#f6f9fc', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#425466' }}>Loading Map...</div>
+  loading: () => <div style={{ height: '600px', background: '#f6f9fc', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--hds-color-text-secondary)' }}>Loading Map...</div>
 });
 
 const CATEGORIES = [
@@ -97,7 +97,7 @@ export default function DirectoryClient({
               ))
             ) : (
               <motion.div 
-                style={{ padding: '40px', textAlign: 'center', background: '#f6f9fc', borderRadius: '16px', color: '#425466' }}
+                style={{ padding: '40px', textAlign: 'center', background: '#f6f9fc', borderRadius: '16px', color: 'var(--hds-color-text-secondary)' }}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
               >

@@ -11,11 +11,14 @@ export async function POST(req: Request) {
   }
 
   try {
-    const { title, content } = await req.json();
+    const { title, content, category } = await req.json();
 
     if (!title || !content) {
       return NextResponse.json({ error: "Title and content are required" }, { status: 400 });
     }
+
+    const VALID_CATEGORIES = ['general', 'clinical', 'regulatory', 'supply_chain', 'technology', 'careers']
+    const resolvedCategory = VALID_CATEGORIES.includes(category) ? category : 'general'
 
     // 1. Find the author in Sanity based on Clerk userId
     const author = await writeClient.fetch(`*[_type == "author" && clerkId == $userId][0]._id`, { userId });
@@ -31,6 +34,7 @@ export async function POST(req: Request) {
     const result = await writeClient.create({
       _type: 'forumPost',
       title,
+      category: resolvedCategory,
       slug: {
         _type: 'slug',
         current: `${slug}-${Math.random().toString(36).substring(2, 7)}`,

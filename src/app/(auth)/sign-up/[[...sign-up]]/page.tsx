@@ -80,10 +80,10 @@ export default function SignUpPage() {
         <h1 style={{ fontSize: '24px', fontWeight: 600, color: 'var(--hds-color-fg)', marginBottom: '8px' }}>
           {pendingVerification ? 'Verify your email' : 'Create your account'}
         </h1>
-        <p style={{ fontSize: '14px', color: '#425466' }}>
+        <p style={{ fontSize: '14px', color: 'var(--hds-color-text-secondary)' }}>
           {pendingVerification 
             ? `We've sent a code to ${emailAddress}` 
-            : 'Join thousands of businesses using Stripe.'}
+            : 'Connect your pharmacy to the modern healthcare supply chain.'}
         </p>
       </div>
 
@@ -113,6 +113,7 @@ export default function SignUpPage() {
             <Link href="/privacy" style={{ color: 'var(--hds-color-primary)', textDecoration: 'none' }}>Privacy Policy</Link>.
           </p>
 
+          <div id="clerk-captcha" />
           <StripeButton type="submit" isLoading={isLoading}>
             Create account
           </StripeButton>
@@ -135,7 +136,7 @@ export default function SignUpPage() {
       )}
 
       {!pendingVerification && (
-        <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '14px', color: '#425466' }}>
+        <div style={{ marginTop: '24px', textAlign: 'center', fontSize: '14px', color: 'var(--hds-color-text-secondary)' }}>
           Already have an account?{' '}
           <Link href="/sign-in" style={{ color: 'var(--hds-color-primary)', fontWeight: 600, textDecoration: 'none' }}>
             Sign in

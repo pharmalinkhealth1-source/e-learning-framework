@@ -45,7 +45,7 @@
   justify-content: center;
   border-radius: 4px;
   background-color: #E8E9FF;
-  color: black;
+  color: var(--hds-color-text-primary);
   border: none;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);

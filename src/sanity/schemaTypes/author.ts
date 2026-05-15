@@ -50,5 +50,10 @@ export const author = defineType({
       title: 'Bio',
       type: 'text',
     }),
+    defineField({
+      name: 'role',
+      title: 'Platform Role',
+      type: 'string',
+    }),
   ],
 })

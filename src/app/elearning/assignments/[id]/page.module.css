@@ -1,0 +1,281 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--hds-color-core-neutral-0);
+  padding-block: var(--hds-space-core-1000, 80px);
+}
+
+.container {
+  width: 100%;
+  max-width: calc(var(--hds-space-layout-content-maxWidth, 1080px) + 2px);
+  margin: 0 auto;
+  padding-inline: var(--hds-space-layout-content-margin, 40px);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-800, 32px);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-300, 8px);
+}
+
+.backLink {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--hds-color-core-primary-700, #6c30c0);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--hds-color-foreground-highContrast);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-500, 16px);
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--hds-color-foreground-highContrast);
+  padding-bottom: var(--hds-space-core-400, 12px);
+  border-bottom: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: var(--hds-space-core-500, 16px);
+  margin: 0;
+}
+
+.metaItem {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--hds-space-core-400, 12px);
+  background: var(--hds-color-core-neutral-40, #f6f9fc);
+  border-radius: 8px;
+  border: 1px solid var(--hds-color-surface-border-quiet);
+}
+
+.metaItem dt {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.metaItem dd {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--hds-color-foreground-highContrast);
+  margin: 0;
+}
+
+.description {
+  padding: var(--hds-space-core-600, 24px);
+  background: var(--hds-color-core-neutral-40, #f6f9fc);
+  border-radius: 12px;
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-400, 12px);
+}
+
+.description p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--hds-color-foreground-highContrast);
+  white-space: pre-wrap;
+}
+
+.submissionCard {
+  padding: var(--hds-space-core-600, 24px);
+  background: var(--hds-color-core-neutral-0);
+  border-radius: 12px;
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-500, 16px);
+}
+
+.submissionMeta {
+  display: flex;
+  align-items: center;
+  gap: var(--hds-space-core-400, 12px);
+}
+
+.submittedAt {
+  font-size: 0.8125rem;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.submissionContent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-300, 8px);
+}
+
+.submissionContent h3 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.submissionContent p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: var(--hds-space-core-200, 4px) var(--hds-space-core-400, 12px);
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status_pending {
+  background: rgba(108, 48, 192, 0.1);
+  color: var(--hds-color-core-primary-700, #6c30c0);
+}
+
+.status_graded {
+  background: rgba(28, 161, 96, 0.12);
+  color: #15803d;
+}
+
+.status_returned {
+  background: rgba(220, 153, 0, 0.14);
+  color: #a16207;
+}
+
+.gradeBlock {
+  padding-top: var(--hds-space-core-500, 16px);
+  border-top: 1px solid var(--hds-color-surface-border-quiet);
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-400, 12px);
+}
+
+.gradeValue {
+  font-size: 1.125rem;
+  color: var(--hds-color-foreground-highContrast);
+}
+
+.feedbackBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-300, 8px);
+}
+
+.feedbackBlock h3 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--hds-color-foreground-lowContrast);
+}
+
+.feedbackBlock p {
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-500, 16px);
+  padding: var(--hds-space-core-600, 24px);
+  background: var(--hds-color-core-neutral-40, #f6f9fc);
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  border-radius: 12px;
+}
+
+.fieldLabel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--hds-space-core-300, 8px);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--hds-color-foreground-highContrast);
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: var(--hds-space-core-400, 12px);
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--hds-color-foreground-highContrast);
+  background: var(--hds-color-core-neutral-0);
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  border-radius: 8px;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: 2px solid var(--hds-color-core-primary-700, #6c30c0);
+  outline-offset: 1px;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.hint {
+  font-size: 0.75rem;
+  color: var(--hds-color-foreground-lowContrast);
+  font-weight: 400;
+}
+
+.errorMessage {
+  font-size: 0.875rem;
+  color: #b91c1c;
+}
+
+.submitBtn {
+  align-self: flex-start;
+  padding: var(--hds-space-core-400, 12px) var(--hds-space-core-700, 28px);
+  background: var(--hds-color-core-primary-700, #6c30c0);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: #5a26a3;
+}
+
+.submitBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

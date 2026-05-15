@@ -9,6 +9,8 @@ import SearchModal from '../search/SearchModal';
 import Megamenu, { AboutUsPanel, CommunityPanel, DataInsightsPanel, PodcastPanel, ContactUsPanel } from './Megamenu';
 import MobileMenu from './MobileMenu';
 import { NAV_DATA } from '@/lib/nav-data';
+import { useUser } from '@clerk/nextjs';
+import NotificationBell from './NotificationBell';
 
 const PLATFORMS = [
   { 
@@ -78,7 +80,59 @@ const RotatingAuthButton = () => {
   );
 };
 
+const MessagesNavButton = () => {
+  const [unread, setUnread] = useState(0);
+
+  useEffect(() => {
+    const fetchCount = () => {
+      fetch('/api/messages/unread-count')
+        .then((r) => r.json())
+        .then((data) => setUnread(data?.total ?? 0))
+        .catch(() => {});
+    };
+    fetchCount();
+    const id = setInterval(fetchCount, 30_000);
+    return () => clearInterval(id);
+  }, []);
+
+  return (
+    <Link
+      href="/messages"
+      className={`${styles.hdsButton} ${styles.hdsButtonTransparent}`}
+      style={{ padding: '8px', minWidth: 'auto', position: 'relative' }}
+      title="Messages"
+      aria-label={unread > 0 ? `Messages (${unread} unread)` : 'Messages'}
+    >
+      <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+      </svg>
+      {unread > 0 && (
+        <span style={{
+          position: 'absolute',
+          top: '2px',
+          right: '2px',
+          background: 'var(--hds-color-foreground-critical, #e53e3e)',
+          color: '#fff',
+          fontSize: '10px',
+          fontWeight: 700,
+          lineHeight: 1,
+          minWidth: '16px',
+          height: '16px',
+          borderRadius: '8px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '0 3px',
+        }}>
+          {unread > 99 ? '99+' : unread}
+        </span>
+      )}
+    </Link>
+  );
+};
+
 const Navbar = () => {
+  const { isSignedIn } = useUser();
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -220,18 +274,31 @@ const Navbar = () => {
               <li className={styles.navigationItem}>
                 <ThemeToggle />
               </li>
-              <li className={styles.navigationItem}>
-                <RotatingAuthButton />
-              </li>
-              <li className={styles.navigationItem}>
-                <Link href="/contact-us" className={`${styles.hdsButton} ${styles.navigationCtaButton} ${styles.hdsButtonPrimary}`}>
-                  Get Started
-                  <svg className={styles.hdsIconHoverArrow} width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M0.5 5.5h7" />
-                    <path d="M1.5 1.5l4 4-4 4" />
-                  </svg>
-                </Link>
-              </li>
+              {isSignedIn ? (
+                <>
+                  <li className={styles.navigationItem}>
+                    <NotificationBell />
+                  </li>
+                  <li className={styles.navigationItem}>
+                    <MessagesNavButton />
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li className={styles.navigationItem}>
+                    <RotatingAuthButton />
+                  </li>
+                  <li className={styles.navigationItem}>
+                    <Link href="/sign-up" className={`${styles.hdsButton} ${styles.navigationCtaButton} ${styles.hdsButtonPrimary}`}>
+                      Get Started
+                      <svg className={styles.hdsIconHoverArrow} width="10" height="10" fill="none" stroke="currentColor" strokeWidth="2">
+                        <path d="M0.5 5.5h7" />
+                        <path d="M1.5 1.5l4 4-4 4" />
+                      </svg>
+                    </Link>
+                  </li>
+                </>
+              )}
               <li className={`${styles.navigationItem} ${styles.hamburgerItem}`}>
                 <button
                   ref={hamburgerRef}

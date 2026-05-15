@@ -6,6 +6,7 @@
   position: relative;
   overflow: hidden;
   font-family: var(--hds-font-sans);
+  background-color: var(--hds-color-core-primary-50);
 }
 
 .gradientBg {
@@ -31,6 +32,10 @@
   z-index: 1;
 }
 
+.authCardWide {
+  max-width: 780px;
+}
+
 .authLogo {
   display: flex;
   justify-content: center;
@@ -38,6 +43,6 @@
 }
 
 .authLogo svg {
-  height: 32px;
-  fill: var(--hds-color-fg);
+  height: 140px;
+  width: auto;
 }

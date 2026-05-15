@@ -17,6 +17,8 @@ export const notification = defineType({
           { title: 'Certificate Ready', value: 'certificate_ready' },
           { title: 'Certificate Expiring', value: 'certificate_expiring' },
           { title: 'Inactivity', value: 'inactivity' },
+          { title: 'Assignment Submitted', value: 'assignment_submitted' },
+          { title: 'New Message', value: 'new_message' },
         ],
       },
     }),

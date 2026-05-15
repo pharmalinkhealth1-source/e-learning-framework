@@ -16,6 +16,10 @@ import { enrollment } from './enrollment'
 import { notification } from './notification'
 import { memberSpotlight } from './memberSpotlight'
 import blogPost from './blogPost'
+import { assignment } from './assignment'
+import { submission } from './submission'
+import { conversation } from './conversation'
+import { directMessage } from './directMessage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -23,5 +27,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     course, courseModule, lesson, quiz,
     lessonProgress, surveyResponse, certificate, enrollment, notification,
     memberSpotlight, blogPost,
+    assignment, submission,
+    conversation, directMessage,
   ],
 }
