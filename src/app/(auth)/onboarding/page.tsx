@@ -87,6 +87,7 @@ export default function OnboardingPage() {
   };
 
   if (!isLoaded) return null;
+  if (!user) { router.push('/sign-in'); return null; }
 
   return (
     <AuthLayout wide>
