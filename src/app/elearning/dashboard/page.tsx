@@ -1,15 +1,6 @@
 import { auth } from '@clerk/nextjs/server'
 import { redirect } from 'next/navigation'
-import {
-  getCsatAvg,
-  getNpsScore,
-  getKnowledgeGain,
-  getDau,
-  getConversionRate,
-  getRetentionRate,
-  getNewUsersByCountry,
-  getKnowledgeBaseGrowth,
-} from '@/sanity/lib/dashboardQueries'
+import { fetchDashboardMetrics, resolveFilters } from '@/sanity/lib/dashboardQueries'
 import { DashboardShell } from '@/components/lms/dashboard/DashboardShell'
 import type { LmsRole } from '@/types/lms'
 import styles from './page.module.css'
@@ -28,52 +19,14 @@ export default async function DashboardPage({
 
   if (!role || role === 'learner') redirect('/elearning')
 
-  const effectiveCountry = role === 'program_manager' ? userCountry : params.country
-
-  const filters = {
-    country: effectiveCountry,
+  const filters = resolveFilters(role, userCountry ?? '', {
+    country: params.country,
     gender: params.gender,
     ageGroup: params.ageGroup,
     learnerType: params.learnerType,
-    userRole: role,
-    userCountry: userCountry ?? '',
-  }
+  })
 
-  const [
-    csatAvg,
-    npsScore,
-    knowledgeGain,
-    dau,
-    conversionRate,
-    retentionRate,
-    newUsersByCountry,
-    knowledgeBaseGrowth,
-  ] = await Promise.all([
-    getCsatAvg(filters),
-    getNpsScore(filters),
-    getKnowledgeGain(filters),
-    getDau(filters),
-    getConversionRate(filters),
-    getRetentionRate(filters),
-    getNewUsersByCountry(filters),
-    getKnowledgeBaseGrowth(filters),
-  ])
-
-  const newUsersByCountryMap: Record<string, number> = {}
-  for (const row of newUsersByCountry) {
-    newUsersByCountryMap[row.country] = (newUsersByCountryMap[row.country] ?? 0) + row.count
-  }
-
-  const metrics = {
-    csatAvg,
-    npsScore,
-    knowledgeGain,
-    dau,
-    conversionRate,
-    retentionRate,
-    newUsersByCountry: newUsersByCountryMap,
-    knowledgeBaseGrowth,
-  }
+  const metrics = await fetchDashboardMetrics(filters)
 
   return (
     <main className={styles.page}>
