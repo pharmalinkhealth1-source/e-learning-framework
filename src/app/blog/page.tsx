@@ -7,24 +7,38 @@ import BlogClient from './BlogClient';
 
 export const revalidate = 60; // Revalidate every minute
 
+function resolveUrl(external?: unknown, sanity?: unknown): string | null {
+  const a = typeof external === 'string' ? external.trim() : null;
+  const b = typeof sanity === 'string' ? sanity.trim() : null;
+  return a || b || null;
+}
+
 export default async function BlogPage() {
-  let articles = [];
+  let articles: any[] = [];
   try {
-    articles = await client.fetch(`*[_type == "blogPost"] | order(publishedAt desc) {
+    const raw = await client.fetch(`*[_type == "blogPost"] | order(publishedAt desc) {
       _id,
       tag,
       title,
       summary,
       "slug": slug.current,
       "date": publishedAt,
-      "image": mainImage.asset->url,
+      "sanityImage": mainImage.asset->url,
       "externalImage": mainImage.externalUrl,
       author->{
         name,
-        "image": image.asset->url,
+        "sanityImage": image.asset->url,
         "externalImage": image.externalUrl
       }
     }`);
+    articles = raw.map((p: any) => ({
+      ...p,
+      imageUrl: resolveUrl(p.externalImage, p.sanityImage),
+      author: p.author ? {
+        name: p.author.name,
+        imageUrl: resolveUrl(p.author.externalImage, p.author.sanityImage),
+      } : null,
+    }));
   } catch (error) {
     console.error("Error fetching blog articles:", error);
   }

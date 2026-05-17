@@ -16,12 +16,6 @@ const CATEGORIES = [
   "Company News"
 ];
 
-function imgSrc(primary?: unknown, fallback?: unknown): string | null {
-  const a = typeof primary === 'string' ? primary.trim() : null;
-  const b = typeof fallback === 'string' ? fallback.trim() : null;
-  return a || b || null;
-}
-
 const HoverArrow = () => (
   <svg className={styles.HoverArrow} viewBox="0 0 10 10" aria-hidden="true">
     <g fillRule="evenodd">
@@ -73,11 +67,11 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             <div className={styles.BlogIndexPost__authorList}>
               <div className={styles.BlogAuthor}>
                 <div className={styles.BlogAuthor__avatar}>
-                  {(() => { const src = imgSrc(featuredPost.author?.externalImage, featuredPost.author?.image); return src ? (
-                    <Image src={src} alt={featuredPost.author?.name ?? ''} fill className={styles.BlogAuthor__avatarImage} />
+                  {featuredPost.author?.imageUrl ? (
+                    <Image src={featuredPost.author.imageUrl} alt={featuredPost.author?.name ?? ''} fill className={styles.BlogAuthor__avatarImage} />
                   ) : (
                     <div className={styles.BlogAuthor__avatarPlaceholder}></div>
-                  ); })()}
+                  )}
                 </div>
                 <div className={styles.BlogAuthor__caption}>
                   <div className={styles.BlogAuthor__link}>{featuredPost.author?.name || 'Anonymous'}</div>
@@ -93,9 +87,9 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             </Link>
             
             <div className={styles.BlogIndexPost__figure}>
-              {(() => { const src = imgSrc(featuredPost.externalImage, featuredPost.image); return src ? (
-                <Image src={src} alt={featuredPost.title} fill className={styles.BlogImageCard__image} />
-              ) : null; })()}
+              {featuredPost.imageUrl && (
+                <Image src={featuredPost.imageUrl} alt={featuredPost.title} fill className={styles.BlogImageCard__image} />
+              )}
             </div>
           </motion.div>
         )}
@@ -123,11 +117,11 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             <div className={styles.BlogIndexPost__authorList}>
               <div className={styles.BlogAuthor}>
                 <div className={styles.BlogAuthor__avatar}>
-                  {(() => { const src = imgSrc(post.author?.externalImage, post.author?.image); return src ? (
-                    <Image src={src} alt={post.author?.name ?? ''} fill className={styles.BlogAuthor__avatarImage} />
+                  {post.author?.imageUrl ? (
+                    <Image src={post.author.imageUrl} alt={post.author?.name ?? ''} fill className={styles.BlogAuthor__avatarImage} />
                   ) : (
                     <div className={styles.BlogAuthor__avatarPlaceholder}></div>
-                  ); })()}
+                  )}
                 </div>
                 <div className={styles.BlogAuthor__caption}>
                   <div className={styles.BlogAuthor__link}>{post.author?.name || 'Anonymous'}</div>
@@ -143,9 +137,9 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             </Link>
             
             <div className={styles.BlogIndexPost__figure}>
-              {(() => { const src = imgSrc(post.externalImage, post.image); return src ? (
-                <Image src={src} alt={post.title} fill className={styles.BlogImageCard__image} />
-              ) : null; })()}
+              {post.imageUrl && (
+                <Image src={post.imageUrl} alt={post.title} fill className={styles.BlogImageCard__image} />
+              )}
             </div>
           </motion.div>
         ))}
