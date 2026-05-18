@@ -1,0 +1,228 @@
+prd: forum
+prd_number: "004"
+feature: Forum Rules Acceptance Gate
+created: "2026-05-18"
+
+tasks:
+  - id: T001
+    title: "Create forumRules Sanity schema and seed initial document"
+    wave: 1
+    complexity: 2
+    model: sonnet
+    description: |
+      Create the Sanity schema for the forumRules singleton document and seed
+      the initial rules content. Register the schema in index.ts.
+    files_to_create:
+      - src/sanity/schemaTypes/forumRules.ts
+    files_to_modify:
+      - src/sanity/schemaTypes/index.ts
+    details: |
+      Schema fields:
+        - version: string (required, e.g. "v1.0") — admin bumps to re-trigger all users
+        - updatedAt: datetime
+        - rules: array of objects { title: string, body: text }
+
+      Use defineType/defineField from 'sanity'.
+      Set singleton behavior: hide "Create new" in studio (use __experimental_actions).
+      Register in index.ts alongside other schema types.
+
+      After schema, create a seed script or note for admin to manually create
+      the singleton document with _id: 'forumRules' and version: 'v1.0' containing
+      all 11 rule cards from the PRD (port verbatim from Elementor content).
+
+      The 11 rule cards (title + body) to seed:
+        1. "Welcome to PharmaLink" — intro paragraph
+        2. "The Non-Negotiable Rule" — patient confidentiality critical alert
+        3. "Rule #1: Protect Patient Confidentiality"
+        4. "Rule #2: Protect Facility & Organizational Information"
+        5. "Rule #3: Be Accurate and Evidence-Based"
+        6. "Rule #4: Respect Every Member"
+        7. "Rule #5: Only Share Appropriate Images and Files"
+        8. "Rule #6: Keep Content Professional and On-Topic"
+        9. "Rule #7: Report Violations Promptly"
+        10. "Rule #8: Understand the Consequences"
+        11. "Your Legal Obligations & Moderation"
+    success_criteria:
+      - forumRules.ts exports a valid Sanity schema type
+      - Schema registered in index.ts
+      - version, updatedAt, rules[] fields present
+      - Rules array supports {title, body} objects
+    dependencies: []
+
+  - id: T002
+    title: "Create POST /api/forum/rules/accept route"
+    wave: 1
+    complexity: 2
+    model: sonnet
+    description: |
+      Create the API route that records a user's acceptance of forum rules
+      by writing to Clerk publicMetadata.
+    files_to_create:
+      - src/app/api/forum/rules/accept/route.ts
+    files_to_modify: []
+    details: |
+      Route: POST /api/forum/rules/accept
+      Body: { version: string }
+
+      Implementation:
+        1. auth() → get userId, reject 401 if not authed
+        2. clerkClient() → clerk.users.getUser(userId) to get existing metadata
+        3. Validate body.version is present (400 if missing)
+        4. clerk.users.updateUserMetadata(userId, {
+             publicMetadata: {
+               ...existingUser.publicMetadata,  // CRITICAL: spread existing
+               forumRulesAcceptedAt: new Date().toISOString(),
+               forumRulesAcceptedVersion: body.version,
+             }
+           })
+        5. Return 200 { success: true }
+
+      Pattern reference: src/app/api/auth/onboarding/route.ts (same pattern)
+      Must spread existing publicMetadata to preserve role, onboarded fields.
+    success_criteria:
+      - Route returns 401 for unauthenticated requests
+      - Route returns 400 if version missing in body
+      - Clerk publicMetadata updated with forumRulesAcceptedAt + forumRulesAcceptedVersion
+      - Existing publicMetadata fields (role, onboarded) preserved after update
+    dependencies: []
+
+  - id: T003
+    title: "Create ForumRulesModal client component"
+    wave: 2
+    complexity: 4
+    model: sonnet
+    description: |
+      Create the ForumRulesModal React client component — a full-screen modal
+      with 11-step rule cards, progress bar, accept/exit logic.
+    files_to_create:
+      - src/components/forum/ForumRulesModal.tsx
+    files_to_modify: []
+    details: |
+      'use client' component. Props:
+        - rulesDoc: { version: string; rules: { title: string; body: string }[] }
+
+      State:
+        - currentStep: number (1-based, starts at 1)
+        - confirmed: boolean (checkbox state)
+        - loading: boolean (during API call)
+
+      UI structure (port from Elementor verbatim):
+        - Progress bar: width = (currentStep / totalSteps * 100)%
+        - Step counter: "Step N of 11"
+        - Rule card: title (h3) + body (p) — animate fadeIn on step change
+        - Navigation: Back (disabled on step 1) + Next buttons
+        - On final step (11): hide nav, show acceptance section:
+            - Legal disclaimer paragraph
+            - Checkbox: "I Accept & Agree to these Rules"
+            - "I Do Not Agree (Exit)" button
+            - "Accept & Enter Forum" button (disabled until checkbox checked)
+
+      Accept handler:
+        - Set loading = true
+        - POST /api/forum/rules/accept with { version: rulesDoc.version }
+        - On success: router.refresh() (re-runs server component, modal gone)
+        - On error: show error state, set loading = false
+
+      Exit handler:
+        - router.push('/')
+
+      Styling: inline styles using CSS custom properties matching existing forum
+      design (--e-global-color-primary = #6c30c0, white background, border-radius 12px).
+      Full-screen overlay with centered card (max-width 640px).
+
+      Animation: CSS keyframe fadeIn (opacity 0→1, translateY 10px→0) on step change.
+
+      The rule card body text for all 11 steps is available in the PRD and must
+      be stored in rulesDoc from Sanity (not hardcoded in component).
+    success_criteria:
+      - Component renders 11-step modal with progress bar
+      - Back/Next navigation works correctly (Back disabled on step 1)
+      - Step 11 shows acceptance section (not nav buttons)
+      - Checkbox enables "Accept & Enter Forum" button when checked
+      - Accept calls POST /api/forum/rules/accept then router.refresh()
+      - "I Do Not Agree" calls router.push('/')
+      - Loading state shown during API call
+    dependencies:
+      - T002
+
+  - id: T004
+    title: "Add server-side rules gate to forum/page.tsx"
+    wave: 3
+    complexity: 3
+    model: sonnet
+    description: |
+      Update the forum listing server component to check if the user needs to
+      accept rules before rendering the forum. Conditionally render ForumRulesModal.
+    files_to_modify:
+      - src/app/forum/page.tsx
+    details: |
+      In the existing async server component:
+
+      1. After auth() check, fetch rules version from Sanity:
+         const rulesDoc = await client.fetch(
+           `*[_id == "forumRules"][0]{ version, rules[] { title, body } }`
+         )
+
+      2. Fetch user's current acceptance metadata from Clerk:
+         const clerk = await clerkClient()
+         const user = await clerk.users.getUser(userId)
+         const meta = user.publicMetadata as {
+           forumRulesAcceptedAt?: string
+           forumRulesAcceptedVersion?: string
+           role?: string
+           onboarded?: boolean
+         }
+
+      3. Compute needsRules:
+         const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000
+         const needsRules =
+           !rulesDoc ||
+           !meta.forumRulesAcceptedAt ||
+           new Date(meta.forumRulesAcceptedAt).getTime() < Date.now() - THIRTY_DAYS ||
+           meta.forumRulesAcceptedVersion !== rulesDoc.version
+
+      4. If needsRules, return early with ONLY the modal (no forum content):
+         if (needsRules && rulesDoc) {
+           return (
+             <main>
+               <ForumRulesModal rulesDoc={rulesDoc} />
+             </main>
+           )
+         }
+
+      5. If rulesDoc is null (Sanity doc not seeded yet), log warning and allow
+         access (graceful degradation — don't block forum if admin hasn't seeded).
+
+      Import ForumRulesModal from '@/components/forum/ForumRulesModal'.
+
+      Keep all existing forum rendering logic untouched below the gate check.
+    success_criteria:
+      - User without acceptance sees only ForumRulesModal (not forum listing)
+      - User with fresh acceptance sees forum listing
+      - User with >30 day old acceptance sees modal again
+      - User with stale version sees modal again
+      - If Sanity forumRules doc missing, forum loads normally (graceful degradation)
+      - No TypeScript errors
+    dependencies:
+      - T001
+      - T003
+
+waves:
+  - wave: 1
+    tasks: [T001, T002]
+    label: "Foundation — schema + API route (parallel)"
+  - wave: 2
+    tasks: [T003]
+    label: "Modal component"
+  - wave: 3
+    tasks: [T004]
+    label: "Gate integration in forum page"
+
+summary:
+  total_tasks: 4
+  total_waves: 3
+  complexity_distribution:
+    sonnet: 4
+    opus: 0
+  total_points: 11
+  estimated_duration: "1-2 hours"
