@@ -1,9 +1,12 @@
 {
-  "status": "ready",
+  "status": "executing",
   "prd": "blog-typography-redesign",
   "prd_number": "005",
   "created": "2026-05-18",
   "approved": "2026-05-18",
+  "execution_started": "2026-05-18",
+  "execution_mode": "feature-branch",
+  "feature_branch": "feature/blog-typography-redesign",
   "tasks_total": 8,
   "tasks_completed": 0
 }
