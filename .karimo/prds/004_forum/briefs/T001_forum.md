@@ -165,21 +165,19 @@ Add after the last existing import:
 import { forumRules } from './forumRules'
 ```
 
-Add to the `types` array (append at end to avoid reordering):
+Add `forumRules` to the existing `types` array — do NOT replace the array. The array already contains all registered schemas; append `forumRules` at the end:
 
 ```ts
-export const schema: { types: SchemaTypeDefinition[] } = {
-  types: [
-    forumPost, directoryItem, jobOpening, dataInsight, author, comment,
-    course, courseModule, lesson, quiz,
-    lessonProgress, surveyResponse, certificate, enrollment, notification,
-    memberSpotlight, blogPost,
-    assignment, submission,
-    conversation, directMessage,
-    forumRules,  // <-- add here
-  ],
-}
+import { forumRules } from './forumRules'
 ```
+
+```ts
+// append forumRules to the existing types array in index.ts
+// Example — add forumRules to the end of whatever types array already exists:
+types: [...existingTypes, forumRules]
+```
+
+Do not reproduce or overwrite the full `types` array. Read the current contents of `index.ts` and insert `forumRules` as the last element only.
 
 ### Edge Cases
 

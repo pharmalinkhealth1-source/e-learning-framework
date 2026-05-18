@@ -143,6 +143,7 @@ tasks:
       - "I Do Not Agree" calls router.push('/')
       - Loading state shown during API call
     dependencies:
+      - T001
       - T002
 
   - id: T004

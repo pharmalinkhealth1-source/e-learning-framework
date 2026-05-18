@@ -61,7 +61,7 @@ This task is part of **Wave 3** — the final integration. It requires both T001
 3. Add `import ForumRulesModal from '@/components/forum/ForumRulesModal'` at the top
 4. After the `auth()` + redirect block, insert the gate logic:
    a. Fetch `rulesDoc` from Sanity using `_id == "forumRules"`
-   b. Fetch user metadata from Clerk via `clerkClient().users.getUser(userId)`
+   b. Fetch user metadata from Clerk via `const clerk = await clerkClient(); const user = await clerk.users.getUser(userId);`
    c. Compute `needsRules` using the 30-day + version check
    d. If `needsRules && rulesDoc`, return early with only `<ForumRulesModal>`
    e. If `rulesDoc` is null/undefined, log a warning and continue (graceful degradation)
@@ -169,6 +169,7 @@ export default async function ForumListingPage({ searchParams }: ...) {
     if (needsRules) {
       return (
         <main>
+          {/* ForumSync intentionally omitted — real-time listener irrelevant before rules acceptance */}
           <ForumRulesModal rulesDoc={rulesDoc} />
         </main>
       );
@@ -239,6 +240,7 @@ export default async function ForumListingPage({
     if (needsRules) {
       return (
         <main>
+          {/* ForumSync intentionally omitted — real-time listener irrelevant before rules acceptance */}
           <ForumRulesModal rulesDoc={rulesDoc} />
         </main>
       );
@@ -251,6 +253,10 @@ export default async function ForumListingPage({
   const { category, page } = await searchParams
   // ... rest of existing code unchanged ...
 ```
+
+### Why ForumSync Is Omitted From the Early Return
+
+`ForumSync` is a real-time Sanity listener component that subscribes to live forum post updates. It is intentionally excluded from the early-return path (`return <main><ForumRulesModal .../></main>`). A user who has not yet accepted the forum rules has no forum content to subscribe to — rendering `ForumSync` before rules acceptance would be meaningless and would open an unnecessary WebSocket connection. `ForumSync` is present in the normal forum render path (below the gate block) and must not be added to the modal-only return.
 
 ### Why the Gate Is Wrapped in `if (rulesDoc)`
 
