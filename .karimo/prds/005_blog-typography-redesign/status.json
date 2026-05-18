@@ -1,5 +1,5 @@
 {
-  "status": "merging",
+  "status": "complete",
   "prd": "blog-typography-redesign",
   "prd_number": "005",
   "created": "2026-05-18",
@@ -47,5 +47,6 @@
     }
   },
   "final_pr_number": 7,
-  "final_pr_created_at": "2026-05-18T00:00:00Z"
+  "final_pr_created_at": "2026-05-18T00:00:00Z",
+  "merged_at": "2026-05-18T00:00:00Z"
 }
