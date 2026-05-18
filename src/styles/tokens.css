@@ -209,6 +209,10 @@
   --hds-color-hero-glow-1: rgba(99, 91, 255, 0.15);
   --hds-color-hero-glow-2: rgba(151, 98, 234, 0.15);
 
+  /* Brand + Secondary Overrides (dark) */
+  --hds-color-util-brand-500: var(--hds-color-core-brand-200);
+  --hds-color-core-secondary-500: var(--hds-color-core-secondary-300);
+
   /* Extended Neutral Overrides */
   --hds-color-core-neutral-15: #0a2540;
   --hds-color-core-neutral-40: #0d1b2e;
