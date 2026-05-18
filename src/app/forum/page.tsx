@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { auth } from '@clerk/nextjs/server';
+import { auth, clerkClient } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { client } from '@/sanity/lib/client';
@@ -9,6 +9,7 @@ import Navbar from '@/components/stripe/Navbar';
 import Footer from '@/components/stripe/Footer';
 import FooterCTA from '@/components/stripe/FooterCTA';
 import styles from './ForumListing.module.css';
+import ForumRulesModal from '@/components/forum/ForumRulesModal';
 
 const CATEGORIES = [
   { value: '', label: 'All' },
@@ -30,6 +31,41 @@ export default async function ForumListingPage({
   if (!userId) {
     redirect('/sign-in');
   }
+
+  // --- Forum Rules Gate ---
+  const rulesDoc = await client.fetch<{
+    version: string;
+    rules: { title: string; body: string }[];
+  } | null>(
+    `*[_id == "forumRules"][0]{ version, rules[]{ title, body } }`
+  );
+
+  if (rulesDoc) {
+    const clerk = await clerkClient();
+    const user = await clerk.users.getUser(userId);
+    const meta = user.publicMetadata as {
+      forumRulesAcceptedAt?: string;
+      forumRulesAcceptedVersion?: string;
+    };
+
+    const THIRTY_DAYS = 30 * 24 * 60 * 60 * 1000;
+    const needsRules =
+      !meta.forumRulesAcceptedAt ||
+      new Date(meta.forumRulesAcceptedAt).getTime() < Date.now() - THIRTY_DAYS ||
+      meta.forumRulesAcceptedVersion !== rulesDoc.version;
+
+    if (needsRules) {
+      return (
+        <main>
+          {/* ForumSync intentionally omitted — real-time listener irrelevant before rules acceptance */}
+          <ForumRulesModal rulesDoc={rulesDoc} />
+        </main>
+      );
+    }
+  } else {
+    console.warn('[ForumGate] forumRules Sanity document not found — allowing access');
+  }
+  // --- End Forum Rules Gate ---
 
   const { category, page } = await searchParams
   const offset = Math.max(0, (parseInt(page ?? '1', 10) - 1)) * 20
