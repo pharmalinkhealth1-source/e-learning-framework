@@ -24,7 +24,7 @@ Replace all 7 undefined `--hds-*` token references in `BlogPostDetail.module.css
 - The border lines (`--hds-color-border-subtle`) are invisible
 - The font-family on `.title` and `.content` (`--hds-font-sans`) falls through to browser default
 
-All 7 replacement tokens have been verified to exist in `tokens.css` and have correct dark mode variants. This task must land before any visual typography changes (T003–T006) because those tasks assume the token names are already valid.
+All 7 replacement tokens have been verified to exist in `tokens.css`. 5 of 7 have explicit dark mode overrides in the `:root[data-theme='dark']` block (`--hds-color-surface-bg-quiet`, `--hds-color-surface-bg-subdued`, `--hds-color-surface-border-quiet`, `--hds-color-core-neutral-50`). Two accent tokens (`--hds-color-util-brand-500`, `--hds-color-core-secondary-500`) have no dark mode override and will retain their light-mode values (`#635bff` and `#E84AC7`) in dark mode — verify contrast visually in dark mode after T002 lands. This task must land before any visual typography changes (T003–T006) because those tasks assume the token names are already valid.
 
 Current token occurrences by selector (from reading the file):
 

@@ -59,7 +59,9 @@ tasks:
 
       Read the ENTIRE file before making changes to identify every occurrence.
       All replacement tokens exist in src/styles/tokens.css — verify before replacing.
-      All replacements have dark mode variants — dark mode safe.
+      5 of 7 replacements have dark mode overrides. Two accent tokens (--hds-color-util-brand-500,
+      --hds-color-core-secondary-500) have no dark mode override — verify contrast visually in dark
+      mode after this task lands.
 
       Do NOT change any font-size, font-weight, spacing, or layout values in this task.
       Typography changes are handled in T003–T006.
@@ -251,7 +253,7 @@ tasks:
       any media query variants that may override these values.
     success_criteria:
       - .container uses --hds-space-layout-content-maxWidth token
-      - .heroImageContainer has aspect-ratio: 16/9, no fixed height, border-radius 8px
+      - .heroImageContainer has aspect-ratio: 16/9, no fixed height, border-radius 8px, no box-shadow
       - .relatedCard border-radius is 8px
       - .relatedCard hover has no translateY
       - .relatedTitle is 28px, weight 600

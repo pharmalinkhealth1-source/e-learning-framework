@@ -114,7 +114,7 @@ The `::before` on `.BlogPostDate` duplicates the brand-bar decoration from `.Cop
 
 1. Read `src/app/blog/Blog.module.css` in full before editing.
 
-2. Update `.BlogIndexPost__body` desktop override inside `@media (min-width: 600px)`. Only the font-size and line-height change — the selector scoping (`:not(.BlogIndexPost--variantFeatured)` wrapper at line 301) must be preserved as-is:
+2. Update `.BlogIndexPost__body` desktop override. There are two separate `@media (min-width: 600px)` blocks for `.BlogIndexPost__body` in the file. The first (around line 301) is a padding-left scoped override using `:not(.BlogIndexPost--variantFeatured)` — do not touch it. The second (around line 306) is an unscoped block that sets `font-size: 18px` on `.BlogIndexPost__body` — that is the block to update:
    ```css
    @media (min-width: 600px) {
      .BlogIndexPost__body {

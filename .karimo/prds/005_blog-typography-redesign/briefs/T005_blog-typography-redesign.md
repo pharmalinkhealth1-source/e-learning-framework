@@ -60,7 +60,7 @@ All `font-weight: 500` and `font-weight: 700` on non-heading elements are being 
      font-size: 13px;
      font-weight: 500;
      letter-spacing: 0;
-     color: var(--hds-color-util-brand-500);  /* use valid token from T002 */
+     color: var(--hds-color-util-brand-500);  /* valid token from T002 — no dark mode override, verify visually in dark mode */
      margin-bottom: 24px;
    }
    ```
@@ -110,7 +110,7 @@ All `font-weight: 500` and `font-weight: 700` on non-heading elements are being 
    .relatedTag {
      font-size: 12px;                           /* was 0.65rem */
      font-weight: 500;                          /* was 700 */
-     color: var(--hds-color-util-brand-500);   /* valid token from T002 */
+     color: var(--hds-color-util-brand-500);   /* valid token from T002 — no dark mode override, verify visually in dark mode */
      margin-bottom: 12px;
      display: block;
    }
