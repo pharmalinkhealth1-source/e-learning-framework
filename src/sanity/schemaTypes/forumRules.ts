@@ -17,12 +17,15 @@ import { defineField, defineType } from 'sanity'
  * 11. Your Legal Obligations & Moderation
  *
  * Set version to 'v1.0'. Bump version string to re-prompt all users.
+ *
+ * Studio note: To prevent duplicate creation, configure the singleton plugin
+ * in sanity.config.ts — __experimental_actions is not supported in this
+ * version of the Sanity TypeScript definitions.
  */
 export const forumRules = defineType({
   name: 'forumRules',
   title: 'Forum Rules',
   type: 'document',
-  __experimental_actions: ['update', 'publish'],
   fields: [
     defineField({
       name: 'version',
