@@ -1,8 +1,8 @@
 {
-  "status": "executing",
+  "status": "ready-for-merge",
   "slug": "forum",
   "prd_number": "004",
-  "wave": 1,
+  "wave": 3,
   "created_at": "2026-05-14",
   "planned_at": "2026-05-18",
   "executed_at": "2026-05-18",
@@ -26,9 +26,10 @@
       "merged_at": "2026-05-18"
     },
     "T004": {
-      "status": "queued",
+      "status": "done",
       "title": "Add server-side rules gate to forum/page.tsx",
-      "wave": 3
+      "wave": 3,
+      "merged_at": "2026-05-18"
     }
   }
 }
