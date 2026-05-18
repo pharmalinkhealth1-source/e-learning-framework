@@ -1,8 +1,50 @@
 import { client } from './client'
 import { groq } from 'next-sanity'
-import type { DashboardFilters, LmsRole } from '@/types/lms'
+import type { DashboardFilters, DashboardMetrics, LmsRole } from '@/types/lms'
 
-type QueryFilters = DashboardFilters & { userRole: LmsRole; userCountry: string }
+export type QueryFilters = DashboardFilters & { userRole: LmsRole; userCountry: string }
+
+export function resolveFilters(
+  role: LmsRole,
+  userCountry: string,
+  raw: DashboardFilters,
+): QueryFilters {
+  return {
+    ...raw,
+    country: role === 'program_manager' ? userCountry : raw.country,
+    userRole: role,
+    userCountry,
+  }
+}
+
+export async function fetchDashboardMetrics(filters: QueryFilters): Promise<DashboardMetrics> {
+  const [
+    csatAvg,
+    npsScore,
+    knowledgeGain,
+    dau,
+    conversionRate,
+    retentionRate,
+    newUsersByCountryRows,
+    knowledgeBaseGrowth,
+  ] = await Promise.all([
+    getCsatAvg(filters),
+    getNpsScore(filters),
+    getKnowledgeGain(filters),
+    getDau(filters),
+    getConversionRate(filters),
+    getRetentionRate(filters),
+    getNewUsersByCountry(filters),
+    getKnowledgeBaseGrowth(filters),
+  ])
+
+  const newUsersByCountry: Record<string, number> = {}
+  for (const row of newUsersByCountryRows) {
+    newUsersByCountry[row.country] = (newUsersByCountry[row.country] ?? 0) + row.count
+  }
+
+  return { csatAvg, npsScore, knowledgeGain, dau, conversionRate, retentionRate, newUsersByCountry, knowledgeBaseGrowth }
+}
 
 function buildParams(filters: QueryFilters): Record<string, string | undefined> {
   return {

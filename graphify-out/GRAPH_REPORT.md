@@ -1,453 +1,122 @@
-# Graph Report - stripe clone reset  (2026-05-12)
+# Graph Report - src  (2026-05-16)
 
 ## Corpus Check
-- 163 files · ~869,292 words
+- 175 files · ~60,379 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 3493 nodes · 7810 edges · 118 communities detected
-- Extraction: 100% EXTRACTED · 0% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.8)
+- 359 nodes · 287 edges · 23 communities detected
+- Extraction: 93% EXTRACTED · 7% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.81)
 - Token cost: 0 input · 0 output
 
 ## Community Hubs (Navigation)
-- [[_COMMUNITY_Community 0|Community 0]]
-- [[_COMMUNITY_Community 1|Community 1]]
-- [[_COMMUNITY_Community 2|Community 2]]
-- [[_COMMUNITY_Community 3|Community 3]]
-- [[_COMMUNITY_Community 4|Community 4]]
-- [[_COMMUNITY_Community 5|Community 5]]
-- [[_COMMUNITY_Community 6|Community 6]]
-- [[_COMMUNITY_Community 7|Community 7]]
-- [[_COMMUNITY_Community 8|Community 8]]
-- [[_COMMUNITY_Community 9|Community 9]]
-- [[_COMMUNITY_Community 10|Community 10]]
-- [[_COMMUNITY_Community 11|Community 11]]
-- [[_COMMUNITY_Community 12|Community 12]]
-- [[_COMMUNITY_Community 13|Community 13]]
-- [[_COMMUNITY_Community 14|Community 14]]
-- [[_COMMUNITY_Community 15|Community 15]]
-- [[_COMMUNITY_Community 16|Community 16]]
-- [[_COMMUNITY_Community 17|Community 17]]
-- [[_COMMUNITY_Community 18|Community 18]]
-- [[_COMMUNITY_Community 19|Community 19]]
-- [[_COMMUNITY_Community 20|Community 20]]
-- [[_COMMUNITY_Community 21|Community 21]]
-- [[_COMMUNITY_Community 22|Community 22]]
-- [[_COMMUNITY_Community 23|Community 23]]
-- [[_COMMUNITY_Community 24|Community 24]]
-- [[_COMMUNITY_Community 25|Community 25]]
-- [[_COMMUNITY_Community 26|Community 26]]
-- [[_COMMUNITY_Community 27|Community 27]]
-- [[_COMMUNITY_Community 28|Community 28]]
-- [[_COMMUNITY_Community 29|Community 29]]
-- [[_COMMUNITY_Community 30|Community 30]]
-- [[_COMMUNITY_Community 31|Community 31]]
-- [[_COMMUNITY_Community 32|Community 32]]
-- [[_COMMUNITY_Community 33|Community 33]]
-- [[_COMMUNITY_Community 34|Community 34]]
-- [[_COMMUNITY_Community 35|Community 35]]
-- [[_COMMUNITY_Community 36|Community 36]]
-- [[_COMMUNITY_Community 37|Community 37]]
-- [[_COMMUNITY_Community 38|Community 38]]
-- [[_COMMUNITY_Community 39|Community 39]]
-- [[_COMMUNITY_Community 40|Community 40]]
-- [[_COMMUNITY_Community 41|Community 41]]
-- [[_COMMUNITY_Community 42|Community 42]]
-- [[_COMMUNITY_Community 43|Community 43]]
-- [[_COMMUNITY_Community 44|Community 44]]
-- [[_COMMUNITY_Community 45|Community 45]]
-- [[_COMMUNITY_Community 46|Community 46]]
-- [[_COMMUNITY_Community 47|Community 47]]
-- [[_COMMUNITY_Community 48|Community 48]]
-- [[_COMMUNITY_Community 49|Community 49]]
-- [[_COMMUNITY_Community 50|Community 50]]
-- [[_COMMUNITY_Community 51|Community 51]]
-- [[_COMMUNITY_Community 52|Community 52]]
-- [[_COMMUNITY_Community 53|Community 53]]
-- [[_COMMUNITY_Community 54|Community 54]]
-- [[_COMMUNITY_Community 55|Community 55]]
-- [[_COMMUNITY_Community 56|Community 56]]
-- [[_COMMUNITY_Community 57|Community 57]]
-- [[_COMMUNITY_Community 58|Community 58]]
-- [[_COMMUNITY_Community 59|Community 59]]
-- [[_COMMUNITY_Community 60|Community 60]]
-- [[_COMMUNITY_Community 61|Community 61]]
-- [[_COMMUNITY_Community 62|Community 62]]
-- [[_COMMUNITY_Community 63|Community 63]]
-- [[_COMMUNITY_Community 64|Community 64]]
-- [[_COMMUNITY_Community 65|Community 65]]
-- [[_COMMUNITY_Community 66|Community 66]]
-- [[_COMMUNITY_Community 68|Community 68]]
-- [[_COMMUNITY_Community 69|Community 69]]
-- [[_COMMUNITY_Community 70|Community 70]]
-- [[_COMMUNITY_Community 71|Community 71]]
-- [[_COMMUNITY_Community 72|Community 72]]
-- [[_COMMUNITY_Community 73|Community 73]]
-- [[_COMMUNITY_Community 74|Community 74]]
-- [[_COMMUNITY_Community 75|Community 75]]
-- [[_COMMUNITY_Community 76|Community 76]]
-- [[_COMMUNITY_Community 77|Community 77]]
-- [[_COMMUNITY_Community 78|Community 78]]
-- [[_COMMUNITY_Community 79|Community 79]]
-- [[_COMMUNITY_Community 80|Community 80]]
-- [[_COMMUNITY_Community 81|Community 81]]
-- [[_COMMUNITY_Community 82|Community 82]]
-- [[_COMMUNITY_Community 83|Community 83]]
-- [[_COMMUNITY_Community 84|Community 84]]
-- [[_COMMUNITY_Community 85|Community 85]]
-- [[_COMMUNITY_Community 86|Community 86]]
-- [[_COMMUNITY_Community 87|Community 87]]
-- [[_COMMUNITY_Community 88|Community 88]]
-- [[_COMMUNITY_Community 89|Community 89]]
-- [[_COMMUNITY_Community 90|Community 90]]
-- [[_COMMUNITY_Community 91|Community 91]]
-- [[_COMMUNITY_Community 92|Community 92]]
-- [[_COMMUNITY_Community 93|Community 93]]
-- [[_COMMUNITY_Community 94|Community 94]]
-- [[_COMMUNITY_Community 95|Community 95]]
-- [[_COMMUNITY_Community 96|Community 96]]
-- [[_COMMUNITY_Community 97|Community 97]]
-- [[_COMMUNITY_Community 98|Community 98]]
-- [[_COMMUNITY_Community 100|Community 100]]
-- [[_COMMUNITY_Community 101|Community 101]]
-- [[_COMMUNITY_Community 102|Community 102]]
-- [[_COMMUNITY_Community 103|Community 103]]
-- [[_COMMUNITY_Community 104|Community 104]]
-- [[_COMMUNITY_Community 105|Community 105]]
-- [[_COMMUNITY_Community 106|Community 106]]
-- [[_COMMUNITY_Community 107|Community 107]]
-- [[_COMMUNITY_Community 111|Community 111]]
-- [[_COMMUNITY_Community 112|Community 112]]
-- [[_COMMUNITY_Community 114|Community 114]]
-- [[_COMMUNITY_Community 117|Community 117]]
-- [[_COMMUNITY_Community 119|Community 119]]
-- [[_COMMUNITY_Community 120|Community 120]]
-- [[_COMMUNITY_Community 121|Community 121]]
-- [[_COMMUNITY_Community 122|Community 122]]
-- [[_COMMUNITY_Community 125|Community 125]]
-- [[_COMMUNITY_Community 129|Community 129]]
-- [[_COMMUNITY_Community 130|Community 130]]
-- [[_COMMUNITY_Community 131|Community 131]]
+- [[_COMMUNITY_Dashboard & API Routes|Dashboard & API Routes]]
+- [[_COMMUNITY_Navigation & Megamenu|Navigation & Megamenu]]
+- [[_COMMUNITY_Onboarding & Role Selection|Onboarding & Role Selection]]
+- [[_COMMUNITY_Member Spotlights Client|Member Spotlights Client]]
+- [[_COMMUNITY_Certificate Dashboard|Certificate Dashboard]]
+- [[_COMMUNITY_eLearning SCORM Player|eLearning SCORM Player]]
+- [[_COMMUNITY_Community UI|Community UI]]
+- [[_COMMUNITY_WebGL Mesh Gradient|WebGL Mesh Gradient]]
+- [[_COMMUNITY_Global Search|Global Search]]
+- [[_COMMUNITY_User Registration|User Registration]]
+- [[_COMMUNITY_Email Automation|Email Automation]]
+- [[_COMMUNITY_Job Apply Flow|Job Apply Flow]]
+- [[_COMMUNITY_Forum Realtime Sync|Forum Realtime Sync]]
+- [[_COMMUNITY_News Carousel|News Carousel]]
+- [[_COMMUNITY_Theme System|Theme System]]
+- [[_COMMUNITY_Assignment Creation|Assignment Creation]]
+- [[_COMMUNITY_Spotlights Page|Spotlights Page]]
+- [[_COMMUNITY_Job Detail Page|Job Detail Page]]
+- [[_COMMUNITY_Age Group API|Age Group API]]
+- [[_COMMUNITY_API Route Handler|API Route Handler]]
+- [[_COMMUNITY_Community Page|Community Page]]
+- [[_COMMUNITY_Globe Partners Section|Globe Partners Section]]
+- [[_COMMUNITY_Brand Identity|Brand Identity]]
 
 ## God Nodes (most connected - your core abstractions)
-1. `er` - 85 edges
-2. `ii` - 81 edges
-3. `i()` - 78 edges
-4. `eU` - 76 edges
-5. `b()` - 69 edges
-6. `o()` - 56 edges
-7. `e()` - 56 edges
-8. `ev` - 56 edges
-9. `eL` - 55 edges
-10. `t()` - 54 edges
+1. `DashboardPage()` - 9 edges
+2. `GET()` - 9 edges
+3. `buildParams()` - 8 edges
+4. `roleScope()` - 8 edges
+5. `getCsatAvg()` - 8 edges
+6. `getNpsScore()` - 8 edges
+7. `getKnowledgeGain()` - 8 edges
+8. `getDau()` - 8 edges
+9. `getConversionRate()` - 8 edges
+10. `getRetentionRate()` - 8 edges
 
 ## Surprising Connections (you probably didn't know these)
-- `oT()` --calls--> `rw`  [INFERRED]
-  stripe-assets/js/framework-bfbcaa5a2903bc7d.js → stripe-assets/js/c67c952e-7f65a464f661b1d2.js
-- `A()` --calls--> `tD()`  [INFERRED]
-  stripe-assets/js/framework-bfbcaa5a2903bc7d.js → stripe-assets/js/_app-b48ae7f57830d636.js
-- `na()` --calls--> `e0()`  [INFERRED]
-  stripe-assets/js/framework-bfbcaa5a2903bc7d.js → stripe-assets/js/_app-b48ae7f57830d636.js
-- `tI()` --calls--> `tD()`  [INFERRED]
-  stripe-assets/js/framework-bfbcaa5a2903bc7d.js → stripe-assets/js/_app-b48ae7f57830d636.js
-- `af()` --calls--> `tD()`  [INFERRED]
-  stripe-assets/js/framework-bfbcaa5a2903bc7d.js → stripe-assets/js/_app-b48ae7f57830d636.js
+- `CardContent()` --calls--> `urlForImage()`  [INFERRED]
+  components/community/SpotlightCarousel.tsx → /Users/ciarannash/Downloads/stripe clone reset/src/sanity/lib/image.ts
+- `DashboardPage()` --calls--> `getCsatAvg()`  [INFERRED]
+  app/elearning/dashboard/page.tsx → sanity/lib/dashboardQueries.ts
+- `DashboardPage()` --calls--> `getNpsScore()`  [INFERRED]
+  app/elearning/dashboard/page.tsx → sanity/lib/dashboardQueries.ts
+- `DashboardPage()` --calls--> `getKnowledgeGain()`  [INFERRED]
+  app/elearning/dashboard/page.tsx → sanity/lib/dashboardQueries.ts
+- `DashboardPage()` --calls--> `getDau()`  [INFERRED]
+  app/elearning/dashboard/page.tsx → sanity/lib/dashboardQueries.ts
 
-## Communities (236 total, 49 thin omitted)
+## Communities (147 total, 13 thin omitted)
 
-### Community 0 - "Community 0"
-Cohesion: 0.03
-Nodes (42): a5(), a9(), aa(), ab(), aD(), ae(), ak(), aL() (+34 more)
+### Community 0 - "Dashboard & API Routes"
+Cohesion: 0.49
+Nodes (13): DashboardPage(), GET(), buildParams(), filterClauses(), getConversionRate(), getCsatAvg(), getDau(), getKnowledgeBaseGrowth() (+5 more)
 
-### Community 1 - "Community 1"
-Cohesion: 0.05
-Nodes (75): e0(), e1(), e2(), e3(), e4(), e5(), e6(), e7() (+67 more)
-
-### Community 2 - "Community 2"
-Cohesion: 0.05
-Nodes (29): $(), a(), B(), c, d, ea(), ec(), ef() (+21 more)
-
-### Community 5 - "Community 5"
-Cohesion: 0.05
-Nodes (3): ih, iT, rY
-
-### Community 7 - "Community 7"
-Cohesion: 0.05
-Nodes (4): av, ir, rd, sF()
-
-### Community 8 - "Community 8"
-Cohesion: 0.03
-Nodes (29): ae, ar, e3(), e4, eH(), eX(), eZ(), io (+21 more)
-
-### Community 9 - "Community 9"
-Cohesion: 0.06
-Nodes (56): _(), a1(), aE(), aS(), ax(), b(), C(), ee() (+48 more)
-
-### Community 10 - "Community 10"
-Cohesion: 0.07
-Nodes (7): next(), prev(), aw(), is, ne, nl(), rV
-
-### Community 11 - "Community 11"
-Cohesion: 0.14
-Nodes (22): _(), d(), e(), ej(), F(), g(), k(), l() (+14 more)
-
-### Community 13 - "Community 13"
-Cohesion: 0.06
-Nodes (4): handleSubmit(), b(), p(), subscribe()
-
-### Community 14 - "Community 14"
-Cohesion: 0.06
-Nodes (4): eI(), eV(), rA, so
-
-### Community 15 - "Community 15"
-Cohesion: 0.08
-Nodes (4): a(), o(), r(), tx
-
-### Community 17 - "Community 17"
-Cohesion: 0.06
-Nodes (6): b(), ef, es(), ev(), ey, w
-
-### Community 18 - "Community 18"
-Cohesion: 0.06
-Nodes (3): sc, sx, sy
-
-### Community 20 - "Community 20"
-Cohesion: 0.07
-Nodes (5): nn, nr, s7, s9, sZ
-
-### Community 21 - "Community 21"
-Cohesion: 0.07
-Nodes (6): a, b(), d, m(), o(), w()
-
-### Community 22 - "Community 22"
-Cohesion: 0.09
-Nodes (12): ea(), eb(), ec(), ed(), eM, eO(), ep, er() (+4 more)
-
-### Community 24 - "Community 24"
-Cohesion: 0.09
-Nodes (3): C(), D(), s()
-
-### Community 25 - "Community 25"
-Cohesion: 0.07
-Nodes (3): i(), nG, tW()
-
-### Community 26 - "Community 26"
-Cohesion: 0.09
-Nodes (3): ee(), en(), eW()
-
-### Community 27 - "Community 27"
-Cohesion: 0.08
-Nodes (14): _(), b(), g, i(), j, k, L(), M() (+6 more)
-
-### Community 28 - "Community 28"
-Cohesion: 0.09
-Nodes (28): _(), B(), d(), e_(), ea(), ed(), eE(), eF() (+20 more)
-
-### Community 29 - "Community 29"
-Cohesion: 0.07
-Nodes (10): a, b(), C, d(), E(), m(), r, v() (+2 more)
-
-### Community 30 - "Community 30"
-Cohesion: 0.09
-Nodes (3): ns, r3, rg()
-
-### Community 31 - "Community 31"
-Cohesion: 0.06
-Nodes (17): _(), d(), e_, ea, ec, ed, eh, el (+9 more)
-
-### Community 32 - "Community 32"
-Cohesion: 0.08
-Nodes (3): I(), m(), P
-
-### Community 34 - "Community 34"
-Cohesion: 0.08
-Nodes (5): ef, ei(), eu(), ez(), h()
-
-### Community 35 - "Community 35"
-Cohesion: 0.07
-Nodes (5): eN(), k, o(), si(), w()
-
-### Community 37 - "Community 37"
-Cohesion: 0.07
-Nodes (7): nt, s1, s3(), s4, s5(), s6, s8
-
-### Community 38 - "Community 38"
-Cohesion: 0.12
-Nodes (20): a(), e_(), ea(), eb(), ec(), ed(), ee(), ef() (+12 more)
-
-### Community 39 - "Community 39"
-Cohesion: 0.07
-Nodes (6): eN(), r2, rM, rw, sb, sn
-
-### Community 40 - "Community 40"
-Cohesion: 0.14
-Nodes (33): ad(), aL(), ap(), az(), eb(), ey(), lD(), lo() (+25 more)
-
-### Community 41 - "Community 41"
-Cohesion: 0.12
-Nodes (32): a5(), a7(), a8(), ab(), aQ(), ia(), l5(), lk() (+24 more)
-
-### Community 43 - "Community 43"
-Cohesion: 0.13
-Nodes (4): g(), h, k(), v()
-
-### Community 45 - "Community 45"
-Cohesion: 0.1
-Nodes (7): c(), h(), iL(), j(), sh(), sq(), T()
-
-### Community 46 - "Community 46"
-Cohesion: 0.27
-Nodes (28): _(), a(), b(), c(), d(), E(), f(), g() (+20 more)
-
-### Community 47 - "Community 47"
-Cohesion: 0.1
-Nodes (3): ad, ai, sj
-
-### Community 48 - "Community 48"
-Cohesion: 0.09
-Nodes (10): na(), nc(), nf(), ng(), nm(), no(), np(), nu() (+2 more)
-
-### Community 49 - "Community 49"
-Cohesion: 0.17
-Nodes (5): c(), f(), l(), s(), u()
-
-### Community 50 - "Community 50"
-Cohesion: 0.14
-Nodes (27): ea(), ei(), en(), es(), et(), J(), l3(), l7() (+19 more)
-
-### Community 51 - "Community 51"
-Cohesion: 0.11
-Nodes (5): nb(), nd(), nk, nw(), nx()
-
-### Community 52 - "Community 52"
-Cohesion: 0.08
-Nodes (6): ag(), ay, e7, e9(), iZ, n3
-
-### Community 53 - "Community 53"
-Cohesion: 0.1
-Nodes (4): F(), tg(), tw, Z()
-
-### Community 54 - "Community 54"
-Cohesion: 0.14
-Nodes (24): aA(), ac(), am(), aO(), ay(), E(), ec(), ef() (+16 more)
-
-### Community 56 - "Community 56"
-Cohesion: 0.11
-Nodes (3): n8, sr, ss
-
-### Community 58 - "Community 58"
-Cohesion: 0.17
-Nodes (22): a2(), a3(), a4(), a6(), aj(), eh(), lb(), lg() (+14 more)
-
-### Community 60 - "Community 60"
-Cohesion: 0.15
-Nodes (3): i(), L(), r()
-
-### Community 62 - "Community 62"
-Cohesion: 0.13
-Nodes (4): aH(), aM(), av, n()
-
-### Community 63 - "Community 63"
-Cohesion: 0.12
-Nodes (4): n_(), nj(), nq, nz()
-
-### Community 64 - "Community 64"
-Cohesion: 0.11
-Nodes (4): g, M(), v(), Z()
-
-### Community 65 - "Community 65"
-Cohesion: 0.18
-Nodes (6): B(), h(), ne, nm(), nt(), O()
-
-### Community 69 - "Community 69"
-Cohesion: 0.16
-Nodes (4): a(), H(), M(), O()
-
-### Community 70 - "Community 70"
-Cohesion: 0.14
-Nodes (8): $(), b(), P(), tk(), tS(), tv, U(), V()
-
-### Community 72 - "Community 72"
-Cohesion: 0.21
-Nodes (11): d(), et(), H(), K(), o(), q(), r(), T() (+3 more)
-
-### Community 73 - "Community 73"
-Cohesion: 0.15
-Nodes (9): a(), d(), g(), h(), I, l(), r(), w() (+1 more)
-
-### Community 74 - "Community 74"
-Cohesion: 0.15
-Nodes (3): c, f(), u
-
-### Community 75 - "Community 75"
+### Community 1 - "Navigation & Megamenu"
 Cohesion: 0.19
-Nodes (16): A(), af(), ah(), ak(), aN(), aR(), aT(), aU() (+8 more)
+Nodes (4): CommunityPanel(), ContactUsPanel(), DataInsightsPanel(), PodcastPanel()
 
-### Community 77 - "Community 77"
-Cohesion: 0.17
-Nodes (7): e(), eb(), ib(), nb(), ob(), rb(), t()
-
-### Community 79 - "Community 79"
+### Community 2 - "Onboarding & Role Selection"
 Cohesion: 0.18
-Nodes (5): ek, ew(), ex(), nC, e$()
+Nodes (3): handleSubmit(), validateGphc(), StripeButton()
 
-### Community 80 - "Community 80"
-Cohesion: 0.18
-Nodes (4): c(), l(), o(), p()
-
-### Community 81 - "Community 81"
+### Community 3 - "Member Spotlights Client"
 Cohesion: 0.27
-Nodes (11): _(), D(), f(), g(), I(), N(), ng(), p() (+3 more)
+Nodes (3): SpotlightCard(), CardContent(), urlForImage()
 
-### Community 85 - "Community 85"
+### Community 4 - "Certificate Dashboard"
 Cohesion: 0.22
-Nodes (4): _(), E(), S(), T()
+Nodes (5): CertificateList(), ExpiryAlert(), MetricCard(), getEnrollmentsByCountry(), getExpiringCertificates()
 
-### Community 86 - "Community 86"
-Cohesion: 0.27
-Nodes (5): i(), l(), m(), s(), u()
-
-### Community 88 - "Community 88"
-Cohesion: 0.2
-Nodes (4): Avatar(), AvatarAddButton(), SpotlightCarousel(), cn()
-
-### Community 90 - "Community 90"
-Cohesion: 0.27
-Nodes (4): a(), c(), i(), o()
-
-### Community 96 - "Community 96"
-Cohesion: 0.32
-Nodes (3): a(), s(), u()
-
-### Community 102 - "Community 102"
-Cohesion: 0.38
-Nodes (7): nC(), nD(), nP(), nT(), nu(), nz(), rD()
-
-### Community 103 - "Community 103"
+### Community 5 - "eLearning SCORM Player"
 Cohesion: 0.29
-Nodes (7): e1(), e3(), e5(), e8(), e9(), ej(), eq()
+Nodes (4): CertificateViewer(), ScormPlayer(), ScormPlayerSlot(), SurveyFormSlot()
 
-### Community 122 - "Community 122"
+### Community 6 - "Community UI"
+Cohesion: 0.29
+Nodes (3): Avatar(), AvatarAddButton(), cn()
+
+### Community 10 - "User Registration"
+Cohesion: 0.7
+Nodes (4): generateUsername(), isAtLeast18(), isValidEmail(), POST()
+
+### Community 11 - "Email Automation"
+Cohesion: 0.7
+Nodes (4): getExpiringCertificates(), getInactiveLearnerIds(), isoWeek(), POST()
+
+### Community 38 - "Brand Identity"
 Cohesion: 0.67
-Nodes (3): m(), na(), r()
+Nodes (3): App Icon SVG, Icon Color Palette, PharmaLink Brand Identity
 
 ## Knowledge Gaps
-- **49 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **2 isolated node(s):** `PharmaLink Brand Identity`, `Icon Color Palette`
+  These have ≤1 connection - possible missing edges or undocumented components.
+- **13 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `e0()` connect `Community 1` to `Community 50`, `Community 79`?**
-  _High betweenness centrality (0.126) - this node is a cross-community bridge._
-- **Why does `e$()` connect `Community 79` to `Community 8`?**
-  _High betweenness centrality (0.110) - this node is a cross-community bridge._
-- **Why does `R` connect `Community 33` to `Community 49`, `Community 66`, `Community 97`, `Community 31`?**
-  _High betweenness centrality (0.058) - this node is a cross-community bridge._
-- **Should `Community 0` be split into smaller, more focused modules?**
-  _Cohesion score 0.03 - nodes in this community are weakly interconnected._
-- **Should `Community 1` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
-- **Should `Community 2` be split into smaller, more focused modules?**
-  _Cohesion score 0.05 - nodes in this community are weakly interconnected._
-- **Should `Community 3` be split into smaller, more focused modules?**
-  _Cohesion score 0.03 - nodes in this community are weakly interconnected._
+- **Why does `getEnrollmentsByCountry()` connect `Certificate Dashboard` to `Dashboard & API Routes`?**
+  _High betweenness centrality (0.002) - this node is a cross-community bridge._
+- **Why does `getExpiringCertificates()` connect `Certificate Dashboard` to `Dashboard & API Routes`?**
+  _High betweenness centrality (0.000) - this node is a cross-community bridge._
+- **Are the 8 inferred relationships involving `DashboardPage()` (e.g. with `getCsatAvg()` and `getNpsScore()`) actually correct?**
+  _`DashboardPage()` has 8 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 8 inferred relationships involving `GET()` (e.g. with `getCsatAvg()` and `getNpsScore()`) actually correct?**
+  _`GET()` has 8 INFERRED edges - model-reasoned connections that need verification._
+- **Are the 2 inferred relationships involving `getCsatAvg()` (e.g. with `DashboardPage()` and `GET()`) actually correct?**
+  _`getCsatAvg()` has 2 INFERRED edges - model-reasoned connections that need verification._
+- **What connects `PharmaLink Brand Identity`, `Icon Color Palette` to the rest of the system?**
+  _2 weakly-connected nodes found - possible documentation gaps or missing edges._

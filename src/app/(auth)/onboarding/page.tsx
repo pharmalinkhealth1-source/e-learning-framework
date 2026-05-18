@@ -4,7 +4,6 @@ export const dynamic = 'force-dynamic';
 
 import * as React from "react";
 import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
 import AuthLayout from "@/components/stripe/AuthLayout";
 import { StripeButton, StripeInput } from "@/components/stripe/StripeUI";
 
@@ -42,8 +41,6 @@ export default function OnboardingPage() {
   const [fields, setFields] = React.useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = React.useState(false);
   const [error, setError] = React.useState("");
-  const router = useRouter();
-
   const setField = (key: string, value: string) =>
     setFields(prev => ({ ...prev, [key]: value }));
 
@@ -74,7 +71,7 @@ export default function OnboardingPage() {
 
       if (res.ok) {
         await user?.reload();
-        router.push(ROLE_DESTINATIONS[role]);
+        window.location.href = ROLE_DESTINATIONS[role];
       } else {
         const data = await res.json();
         setError(data.error || "Failed to save onboarding data.");
@@ -87,7 +84,7 @@ export default function OnboardingPage() {
   };
 
   if (!isLoaded) return null;
-  if (!user) { router.push('/sign-in'); return null; }
+  if (!user) { window.location.href = '/sign-in'; return null; }
 
   return (
     <AuthLayout wide>

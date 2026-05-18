@@ -67,13 +67,8 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             <div className={styles.BlogIndexPost__authorList}>
               <div className={styles.BlogAuthor}>
                 <div className={styles.BlogAuthor__avatar}>
-                  {featuredPost.author?.externalImage || featuredPost.author?.image ? (
-                    <Image 
-                      src={featuredPost.author.externalImage || featuredPost.author.image} 
-                      alt={featuredPost.author.name} 
-                      fill 
-                      className={styles.BlogAuthor__avatarImage}
-                    />
+                  {featuredPost.author?.imageUrl ? (
+                    <Image src={featuredPost.author.imageUrl} alt={featuredPost.author?.name ?? ''} fill className={styles.BlogAuthor__avatarImage} />
                   ) : (
                     <div className={styles.BlogAuthor__avatarPlaceholder}></div>
                   )}
@@ -92,13 +87,8 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             </Link>
             
             <div className={styles.BlogIndexPost__figure}>
-              {(featuredPost.externalImage || featuredPost.image) && (
-                <Image 
-                  src={featuredPost.externalImage || featuredPost.image} 
-                  alt={featuredPost.title}
-                  fill
-                  className={styles.BlogImageCard__image}
-                />
+              {featuredPost.imageUrl && (
+                <Image src={featuredPost.imageUrl} alt={featuredPost.title} fill className={styles.BlogImageCard__image} />
               )}
             </div>
           </motion.div>
@@ -119,7 +109,7 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             </div>
             
             <div className={styles.BlogIndexPost__date}>
-              <span className={styles.BlogPostDate}>{post.date ? new Date(post.date).toLocaleDateString() : ''}</span>
+              <span className={styles.BlogPostDate}>{post.date ? new Date(post.date).toLocaleDateString('en-GB') : ''}</span>
             </div>
 
             <h2 className={styles.BlogIndexPost__title}>{post.title}</h2>
@@ -127,13 +117,8 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             <div className={styles.BlogIndexPost__authorList}>
               <div className={styles.BlogAuthor}>
                 <div className={styles.BlogAuthor__avatar}>
-                  {post.author?.externalImage || post.author?.image ? (
-                    <Image 
-                      src={post.author.externalImage || post.author.image} 
-                      alt={post.author.name} 
-                      fill 
-                      className={styles.BlogAuthor__avatarImage}
-                    />
+                  {post.author?.imageUrl ? (
+                    <Image src={post.author.imageUrl} alt={post.author?.name ?? ''} fill className={styles.BlogAuthor__avatarImage} />
                   ) : (
                     <div className={styles.BlogAuthor__avatarPlaceholder}></div>
                   )}
@@ -152,13 +137,8 @@ export default function BlogClient({ initialArticles }: { initialArticles: any[]
             </Link>
             
             <div className={styles.BlogIndexPost__figure}>
-              {(post.externalImage || post.image) && (
-                <Image 
-                  src={post.externalImage || post.image}
-                  alt={post.title}
-                  fill
-                  className={styles.BlogImageCard__image}
-                />
+              {post.imageUrl && (
+                <Image src={post.imageUrl} alt={post.title} fill className={styles.BlogImageCard__image} />
               )}
             </div>
           </motion.div>

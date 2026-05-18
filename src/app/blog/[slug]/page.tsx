@@ -8,10 +8,16 @@ import Footer from '@/components/stripe/Footer';
 import { PortableText } from '@portabletext/react';
 import styles from '../BlogPostDetail.module.css';
 
+function resolveUrl(external?: unknown, sanity?: unknown): string | null {
+  const a = typeof external === 'string' ? external.trim() : null;
+  const b = typeof sanity === 'string' ? sanity.trim() : null;
+  return a || b || null;
+}
+
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  
-  const post = await client.fetch(`*[_type == "blogPost" && slug.current == $slug][0] {
+
+  const raw = await client.fetch(`*[_type == "blogPost" && slug.current == $slug][0] {
     _id,
     title,
     tag,
@@ -19,28 +25,39 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     content,
     publishedAt,
     "slug": slug.current,
-    "image": mainImage.asset->url,
+    "sanityImage": mainImage.asset->url,
     "externalImage": mainImage.externalUrl,
     author->{
       name,
-      "image": image.asset->url,
+      "sanityImage": image.asset->url,
       "externalImage": image.externalUrl
     }
   }`, { slug });
+  const post = raw ? {
+    ...raw,
+    imageUrl: resolveUrl(raw.externalImage, raw.sanityImage),
+    author: raw.author ? {
+      name: raw.author.name,
+      imageUrl: resolveUrl(raw.author.externalImage, raw.author.sanityImage),
+    } : null,
+  } : null;
 
   if (!post) {
     notFound();
   }
 
-  // Fetch related posts (same tag, excluding current post)
-  const relatedPosts = await client.fetch(`*[_type == "blogPost" && tag == $tag && slug.current != $slug][0...3] {
+  const relatedRaw = await client.fetch(`*[_type == "blogPost" && tag == $tag && slug.current != $slug][0...3] {
     _id,
     title,
     tag,
     "slug": slug.current,
-    "image": mainImage.asset->url,
+    "sanityImage": mainImage.asset->url,
     "externalImage": mainImage.externalUrl
   }`, { tag: post.tag, slug });
+  const relatedPosts = relatedRaw.map((r: any) => ({
+    ...r,
+    imageUrl: resolveUrl(r.externalImage, r.sanityImage),
+  }));
 
   return (
     <main className={styles.main}>
@@ -62,13 +79,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <div className={styles.meta}>
               <div className={styles.authorSection}>
                 <div className={styles.authorAvatar}>
-                  {post.author?.externalImage || post.author?.image ? (
-                    <Image 
-                      src={post.author.externalImage || post.author.image} 
-                      alt={post.author.name} 
-                      fill 
-                      className={styles.authorImage}
-                    />
+                  {post.author?.imageUrl ? (
+                    <Image src={post.author.imageUrl} alt={post.author.name ?? ''} fill className={styles.authorImage} />
                   ) : (
                     <div className={styles.avatarPlaceholder} />
                   )}
@@ -91,15 +103,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             </div>
           </header>
 
-          {(post.externalImage || post.image) && (
+          {post.imageUrl && (
             <div className={styles.heroImageContainer}>
-              <Image 
-                src={post.externalImage || post.image} 
-                alt={post.title} 
-                fill 
-                className={styles.heroImage}
-                priority
-              />
+              <Image src={post.imageUrl} alt={post.title} fill className={styles.heroImage} priority />
               <div className={styles.imageOverlay} />
             </div>
           )}
@@ -137,12 +143,9 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               {relatedPosts.map((related: any) => (
                 <Link key={related._id} href={`/blog/${related.slug}`} className={styles.relatedCard}>
                   <div className={styles.relatedImageContainer}>
-                    <Image 
-                      src={related.externalImage || related.image} 
-                      alt={related.title} 
-                      fill 
-                      className={styles.relatedImage}
-                    />
+                    {related.imageUrl && (
+                      <Image src={related.imageUrl} alt={related.title} fill className={styles.relatedImage} />
+                    )}
                   </div>
                   <div className={styles.relatedContent}>
                     <span className={styles.relatedTag}>{related.tag}</span>
