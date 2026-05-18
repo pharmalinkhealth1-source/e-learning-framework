@@ -1,0 +1,107 @@
+.page { min-height: 100vh; }
+
+.hero {
+  max-width: var(--hds-space-layout-content-maxWidth);
+  margin-inline: auto;
+  padding-inline: var(--hds-space-layout-content-margin);
+  padding-top: 80px;
+  padding-bottom: 48px;
+}
+
+.eyebrow {
+  font-family: var(--hds-font-family);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--hds-color-core-primary-700);
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--hds-font-family);
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 800;
+  color: var(--hds-color-text-primary);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.description {
+  font-family: var(--hds-font-family);
+  font-size: 18px;
+  color: var(--hds-color-text-secondary);
+  max-width: 560px;
+  line-height: 1.6;
+}
+
+.grid {
+  max-width: var(--hds-space-layout-content-maxWidth);
+  margin-inline: auto;
+  padding-inline: var(--hds-space-layout-content-margin);
+  padding-bottom: 80px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--hds-color-surface-border-quiet);
+  border-radius: 12px;
+  padding: 28px;
+  text-decoration: none;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease;
+  gap: 16px;
+}
+
+.card:hover {
+  border-color: var(--hds-color-core-primary-700);
+  box-shadow: 0 4px 24px rgba(79, 38, 131, 0.1);
+}
+
+.iconWrap {
+  width: 48px;
+  height: 48px;
+  background: rgba(99, 91, 255, 0.08);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--hds-color-core-primary-700);
+  flex-shrink: 0;
+}
+
+.cardTitle {
+  font-family: var(--hds-font-family);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--hds-color-text-primary);
+  margin: 0;
+}
+
+.cardSummary {
+  font-family: var(--hds-font-family);
+  font-size: 15px;
+  color: var(--hds-color-text-secondary);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.cardCta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--hds-font-family);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--hds-color-core-primary-700);
+  margin-top: 8px;
+}
+
+@media (max-width: 768px) {
+  .grid { grid-template-columns: 1fr; }
+}

@@ -24,6 +24,7 @@ import { forumRules } from './forumRules'
 import { pbidSurveyResponse } from './pbidSurveyResponse'
 import { pbidSurveyConfig } from './pbidSurveyConfig'
 import { siteSettings } from './siteSettings'
+import { legalPage } from './legalPage'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -36,5 +37,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     forumRules,
     pbidSurveyResponse, pbidSurveyConfig,
     siteSettings,
+    legalPage,
   ],
 }
