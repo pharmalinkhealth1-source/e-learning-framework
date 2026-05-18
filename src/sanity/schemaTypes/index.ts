@@ -20,6 +20,7 @@ import { assignment } from './assignment'
 import { submission } from './submission'
 import { conversation } from './conversation'
 import { directMessage } from './directMessage'
+import { forumRules } from './forumRules'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -29,5 +30,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     memberSpotlight, blogPost,
     assignment, submission,
     conversation, directMessage,
+    forumRules,
   ],
 }
