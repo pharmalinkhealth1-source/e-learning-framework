@@ -14,16 +14,18 @@ import {
 const NAV_LINKS = [
   { label: 'About Us', href: '/about-us' },
   { label: 'Community', href: '/community' },
-  { label: 'Resources', href: '/elearning' },
-  { label: 'Legal & Support', href: '/contact-us' },
+  { label: 'E-learning', href: '/elearning' },
+  { label: 'Data Insights', href: '/data-insights' },
+  { label: 'Podcast', href: '/podcast' },
+  { label: 'Contact Us', href: '/contact-us' },
 ]
 
 const SOCIAL_LINKS = [
   { label: 'Facebook', href: '#', Icon: FacebookLogo },
   { label: 'Instagram', href: '#', Icon: InstagramLogo },
-  { label: 'X', href: '#', Icon: XLogo },
-  { label: 'LinkedIn', href: '#', Icon: LinkedinLogo },
-  { label: 'YouTube', href: '#', Icon: YoutubeLogo },
+  { label: 'X', href: 'https://x.com/PharmaLinkOrg', Icon: XLogo },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/pharmalink-health-93092a386/', Icon: LinkedinLogo },
+  { label: 'YouTube', href: 'https://www.youtube.com/@PharmaLinkHealth', Icon: YoutubeLogo },
 ]
 
 interface Props {
