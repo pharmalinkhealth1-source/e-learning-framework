@@ -23,6 +23,7 @@ import { directMessage } from './directMessage'
 import { forumRules } from './forumRules'
 import { pbidSurveyResponse } from './pbidSurveyResponse'
 import { pbidSurveyConfig } from './pbidSurveyConfig'
+import { siteSettings } from './siteSettings'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -34,5 +35,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     conversation, directMessage,
     forumRules,
     pbidSurveyResponse, pbidSurveyConfig,
+    siteSettings,
   ],
 }

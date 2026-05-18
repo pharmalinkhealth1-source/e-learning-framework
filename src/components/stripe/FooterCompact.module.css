@@ -1,0 +1,130 @@
+.footer {
+  background: #1a0f40;
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 44px 48px 28px;
+}
+
+.topRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+  gap: 24px;
+}
+
+.tagline {
+  font-size: 44px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  max-width: 500px;
+  font-family: var(--hds-font-family);
+  letter-spacing: -0.02em;
+}
+
+.logoMark {
+  width: 148px;
+  height: auto;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+.navRow {
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.navLink {
+  font-family: var(--hds-font-family);
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.18s ease;
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  color: #ffffff;
+}
+
+.bottomRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  padding-top: 20px;
+}
+
+.copyright {
+  font-family: var(--hds-font-family);
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.socialLinks {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--hds-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.18s ease;
+  white-space: nowrap;
+}
+
+.socialLink:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 900px) {
+  .tagline {
+    font-size: 34px;
+  }
+
+  .navRow {
+    flex-wrap: wrap;
+    gap: 18px 32px;
+  }
+
+  .socialLinks {
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding: 36px 24px 24px;
+  }
+
+  .topRow {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+  }
+
+  .tagline {
+    font-size: 28px;
+  }
+
+  .bottomRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}

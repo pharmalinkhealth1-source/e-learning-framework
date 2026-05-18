@@ -3,7 +3,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import Navbar from '@/components/stripe/Navbar';
-import Footer from '@/components/stripe/Footer';
+import Footer from '@/components/stripe/FooterCompact';
 import styles from './Contact.module.css';
 import Link from 'next/link';
 import CountrySelect from '@/components/shared/CountrySelect';
