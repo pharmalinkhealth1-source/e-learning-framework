@@ -1,0 +1,46 @@
+prd: blog-typography-redesign
+prd_number: "005"
+
+waves:
+  - wave: 1
+    parallel: true
+    tasks:
+      - id: T001
+        title: "Add IBM Plex Sans weight 600 import to globals.css"
+        files: [src/styles/globals.css]
+        note: "require_review — global change, flag in PR"
+      - id: T002
+        title: "Fix 7 undefined token references in BlogPostDetail.module.css"
+        files: [src/app/blog/BlogPostDetail.module.css]
+    rationale: "Both are bug fixes with no visual logic. Can run in parallel. Must complete before Wave 2."
+
+  - wave: 2
+    parallel: false
+    tasks:
+      - id: T003
+        title: "Article H1 typography"
+        files: [src/app/blog/BlogPostDetail.module.css]
+      - id: T004
+        title: "Body copy, lead, H2, H3"
+        files: [src/app/blog/BlogPostDetail.module.css]
+      - id: T005
+        title: "Category badge + meta row"
+        files: [src/app/blog/BlogPostDetail.module.css]
+      - id: T006
+        title: "Layout, hero, cards, related, sidebar"
+        files: [src/app/blog/BlogPostDetail.module.css]
+    rationale: "All target BlogPostDetail.module.css — run sequentially to avoid selector conflicts."
+
+  - wave: 3
+    parallel: false
+    tasks:
+      - id: T007
+        title: "Listing card titles + featured post title"
+        files: [src/app/blog/Blog.module.css]
+      - id: T008
+        title: "Meta sizes + remove BlogPostDate border"
+        files: [src/app/blog/Blog.module.css]
+    rationale: "Both target Blog.module.css — run sequentially. Independent of Wave 2."
+
+critical_path: T001 → T003 → T004 → T005 → T006
+longest_chain_length: 5

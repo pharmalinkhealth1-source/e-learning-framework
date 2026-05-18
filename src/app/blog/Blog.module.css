@@ -247,10 +247,10 @@
   grid-area: title;
   --titlePaddingLeft: 0;
   --titlePaddingRight: var(--columnPaddingLarge);
-  font-weight: 700;
-  font-size: 38px;
+  font-weight: 600;
+  font-size: 22px;
   line-height: 48px;
-  letter-spacing: -0.2px;
+  letter-spacing: -0.01em;
   color: var(--titleColor);
   margin-top: 16px;
   margin-bottom: 16px;
@@ -261,16 +261,16 @@
     --titlePaddingLeft: 16px;
   }
   .BlogIndexPost--variantFeatured .BlogIndexPost__title {
-    font-size: 38px;
+    font-size: 32px;
     line-height: 48px;
-    font-weight: 500;
-    letter-spacing: -1.2px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
     margin: 0;
   }
 }
 @media (max-width: 600px) {
   .BlogIndexPost__title {
-    font-size: 28px;
+    font-size: 22px;
     line-height: 36px;
   }
 }
@@ -304,7 +304,7 @@
 }
 @media (min-width: 600px) {
   .BlogIndexPost__body {
-    font-size: 18px;
+    font-size: 15px;
     line-height: 28px;
   }
 }
@@ -383,7 +383,7 @@
 .CopyTitle--variantDetail {
   --titlePaddingLeft: 16px;
   --titlePaddingRight: var(--columnPaddingMedium);
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.6;
   font-weight: 600;
   letter-spacing: 0.2px;
@@ -391,7 +391,6 @@
   position: relative;
   padding: 0 var(--titlePaddingRight) 0 var(--titlePaddingLeft);
   display: inline-block;
-  text-transform: uppercase;
 }
 .CopyTitle--variantDetail::before {
   content: "";
@@ -404,7 +403,7 @@
 }
 
 .BlogPostDate {
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--textColor);
   position: relative;
@@ -413,15 +412,6 @@
 }
 .BlogIndexPost:not(.BlogIndexPost--variantFeatured) .BlogPostDate {
   padding-left: 16px;
-}
-.BlogPostDate::before {
-  content: "";
-  position: absolute;
-  top: 5px;
-  left: 0;
-  width: 2px;
-  height: 15px;
-  background-color: var(--accentColor);
 }
 
 /* Author block */
@@ -452,13 +442,13 @@
 }
 .BlogAuthor__link {
   font-weight: 600;
-  font-size: 15px;
+  font-size: 14px;
   line-height: 1.6;
   color: var(--titleColor);
 }
 .BlogAuthor__role {
   font-weight: 400;
-  font-size: 15px;
+  font-size: 13px;
   line-height: 1.6;
   color: var(--textColor);
 }

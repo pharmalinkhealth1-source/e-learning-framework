@@ -1,0 +1,367 @@
+prd: blog-typography-redesign
+prd_number: "005"
+feature: Blog Typography & Layout Redesign
+created: "2026-05-18"
+
+tasks:
+  - id: T001
+    title: "Add IBM Plex Sans weight 600 import to globals.css"
+    wave: 1
+    complexity: 1
+    model: sonnet
+    description: |
+      Add @fontsource/ibm-plex-sans weight 600 import to globals.css.
+      This is the prerequisite for all heading weight changes across the blog.
+    files_to_modify:
+      - src/styles/globals.css
+    details: |
+      Add after the existing weight imports:
+        @import '@fontsource/ibm-plex-sans/600.css';
+
+      Existing imports to reference:
+        @import '@fontsource/ibm-plex-sans/300.css';
+        @import '@fontsource/ibm-plex-sans/400.css';
+
+      Place the 600 import directly after 400.css import.
+
+      Do NOT add weight 500 or 700 — 600 is sufficient.
+      Do NOT modify any other line in globals.css.
+
+      This is a global change affecting all pages. Flag in PR description.
+      Package @fontsource/ibm-plex-sans is already installed — no npm install needed.
+    success_criteria:
+      - globals.css contains @import '@fontsource/ibm-plex-sans/600.css'
+      - No other lines modified
+      - npx tsc --noEmit passes
+    dependencies: []
+
+  - id: T002
+    title: "Fix 7 undefined token references in BlogPostDetail.module.css"
+    wave: 1
+    complexity: 2
+    model: sonnet
+    description: |
+      Replace all undefined --hds-* token references in BlogPostDetail.module.css
+      with valid tokens from tokens.css. This fixes invisible borders, wrong
+      backgrounds, and broken colors on the article detail page.
+    files_to_modify:
+      - src/app/blog/BlogPostDetail.module.css
+    details: |
+      Find and replace these token references throughout the file:
+
+        --hds-font-sans           → --hds-font-family
+        --hds-color-bg-primary    → --hds-color-surface-bg-quiet
+        --hds-color-bg-subdued    → --hds-color-surface-bg-subdued
+        --hds-color-bg-tertiary   → --hds-color-core-neutral-50
+        --hds-color-accent-primary   → --hds-color-util-brand-500
+        --hds-color-accent-secondary → --hds-color-core-secondary-500
+        --hds-color-border-subtle → --hds-color-surface-border-quiet
+
+      Read the ENTIRE file before making changes to identify every occurrence.
+      All replacement tokens exist in src/styles/tokens.css — verify before replacing.
+      5 of 7 replacements have dark mode overrides. Two accent tokens (--hds-color-util-brand-500,
+      --hds-color-core-secondary-500) have no dark mode override — verify contrast visually in dark
+      mode after this task lands.
+
+      Do NOT change any font-size, font-weight, spacing, or layout values in this task.
+      Typography changes are handled in T003–T006.
+    success_criteria:
+      - Zero references to undefined tokens in BlogPostDetail.module.css
+      - All 7 token names replaced with valid equivalents
+      - No visual/layout CSS changed
+      - npx tsc --noEmit passes
+    dependencies: []
+
+  - id: T003
+    title: "Redesign article H1 title typography in BlogPostDetail.module.css"
+    wave: 2
+    complexity: 2
+    model: sonnet
+    description: |
+      Update .title selector in BlogPostDetail.module.css to match Stripe
+      newsroom H1 conventions: tighter clamp ceiling, correct line-height,
+      reduced letter-spacing, weight 600.
+    files_to_modify:
+      - src/app/blog/BlogPostDetail.module.css
+    details: |
+      Target values for .title:
+        font-size: clamp(36px, 5vw, 52px)   (was: clamp(2.5rem, 5vw, 4rem))
+        font-weight: 600                      (was: 700; renders correctly after T001)
+        line-height: 1.12                     (was: 1.05)
+        letter-spacing: -0.02em              (was: -0.05em)
+        font-family: var(--hds-font-family)  (was: var(--hds-font-sans) — T002 may already fix this)
+
+      Standardize to px units — remove rem values from this selector.
+
+      Do not change color, margin, padding, or any other properties on .title.
+    success_criteria:
+      - .title uses clamp(36px, 5vw, 52px)
+      - .title line-height is 1.12
+      - .title letter-spacing is -0.02em
+      - .title font-weight is 600
+      - No rem units remain in .title selector
+    dependencies:
+      - T001
+      - T002
+
+  - id: T004
+    title: "Redesign body copy, lead, H2, and add H3 rule in BlogPostDetail.module.css"
+    wave: 2
+    complexity: 3
+    model: sonnet
+    description: |
+      Update article body copy size, lead paragraph, paragraph spacing,
+      H2 section headings, and add missing H3 rule to BlogPostDetail.module.css.
+    files_to_modify:
+      - src/app/blog/BlogPostDetail.module.css
+    details: |
+      .lead:
+        font-size: 20px          (was: 1.5rem / 24px)
+        font-weight: 400         (was: 500 — weight 500 not loaded, convert to 400)
+        letter-spacing: -0.01em  (was: -0.02em — slightly loosen)
+
+      .content (wrapper):
+        font-size: 17px          (was: 1.25rem / 20px)
+        line-height: 1.7         (keep existing)
+
+      .content p:
+        margin-bottom: 24px      (was: 32px)
+
+      .content h2:
+        font-size: 24px          (was: 2.25rem / 36px)
+        font-weight: 600         (was: 700)
+        line-height: 1.2         (keep or adjust to 1.2)
+        letter-spacing: -0.01em  (was: -0.04em)
+        margin: 48px 0 16px      (was: 80px 0 32px)
+
+      Add new rule .content h3 (does not currently exist):
+        font-size: 19px
+        font-weight: 600
+        line-height: 1.3
+        letter-spacing: -0.01em
+        margin: 32px 0 12px
+
+      Standardize all values to px — remove any remaining rem units.
+
+      Do not change .content max-width (720px — correct, keep).
+      Do not change .content line-height if already 1.7.
+    success_criteria:
+      - .lead is 20px, weight 400
+      - .content font-size is 17px
+      - .content p margin-bottom is 24px
+      - .content h2 is 24px, weight 600, margin 48px 0 16px
+      - .content h3 rule exists at 19px, weight 600
+      - No rem units remain in these selectors
+    dependencies:
+      - T001
+      - T002
+
+  - id: T005
+    title: "Simplify category badge and normalize meta row in BlogPostDetail.module.css"
+    wave: 2
+    complexity: 2
+    model: sonnet
+    description: |
+      Convert over-designed category badge to plain text label. Normalize
+      author/role/date meta row to consistent 14px/13px hierarchy.
+    files_to_modify:
+      - src/app/blog/BlogPostDetail.module.css
+    details: |
+      .categoryBadge:
+        Remove: background, border, border-radius, padding (all decorative pill properties)
+        Remove: text-transform: uppercase
+        Set: font-size: 13px
+        Set: font-weight: 500
+        Set: letter-spacing: 0  (remove positive tracking)
+        Keep: color (retain brand accent color)
+        Keep: display and margin/padding that governs position above H1
+
+      .authorName:
+        font-size: 14px          (was: 1.05rem / ~17px)
+        font-weight: 600         (keep)
+
+      .authorRole:
+        font-size: 13px          (was: 0.8rem / ~13px — standardize to px)
+        font-weight: 400         (was: 500 — convert)
+
+      .publishLabel:
+        font-size: 13px          (was: 0.7rem / ~11px)
+        font-weight: 400         (was: 700)
+        Remove: text-transform: uppercase
+        Remove: letter-spacing: 0.05em
+
+      .publishDate:
+        font-size: 13px          (was: 0.95rem / ~15px)
+        font-weight: 400         (was: 500 — convert)
+
+      .relatedTag:
+        font-size: 12px          (was: 0.65rem / ~10px)
+        font-weight: 500         (was: 700)
+        Remove: text-transform: uppercase
+
+      Standardize all to px — no rem units in these selectors.
+    success_criteria:
+      - .categoryBadge has no background, border, or border-radius (pill removed)
+      - .categoryBadge is 13px, weight 500, no uppercase
+      - .authorName is 14px
+      - .authorRole is 13px, weight 400
+      - .publishLabel is 13px, weight 400, no uppercase
+      - .publishDate is 13px, weight 400
+      - .relatedTag is 12px, weight 500, no uppercase
+    dependencies:
+      - T001
+      - T002
+
+  - id: T006
+    title: "Update layout, hero image, cards, related section, and sidebar share in BlogPostDetail.module.css"
+    wave: 2
+    complexity: 3
+    model: sonnet
+    description: |
+      Align layout and structural visual properties with Stripe benchmark:
+      hero image aspect-ratio, reduced border-radii, tokenized container,
+      related section title size, and simplified sidebar share.
+    files_to_modify:
+      - src/app/blog/BlogPostDetail.module.css
+    details: |
+      .container:
+        max-width: var(--hds-space-layout-content-maxWidth)  (was: 1000px hardcoded)
+
+      .heroImageContainer:
+        Remove: height: 560px
+        Add: aspect-ratio: 16 / 9
+        border-radius: 8px       (was: 32px)
+        Remove or significantly reduce box-shadow if present (editorial images have no large shadow)
+
+      .relatedCard:
+        border-radius: 8px       (was: 24px)
+        Remove translateY from :hover transform (keep opacity or border-color change only)
+
+      .relatedTitle:
+        font-size: 28px          (was: 2.5rem / 40px)
+        font-weight: 600         (was: 700)
+        letter-spacing: -0.02em  (was: -0.04em)
+
+      .shareTitle (sidebar share):
+        Remove: transform: rotate(...)  (remove rotation entirely)
+        Remove: font-weight: 800        (use 500)
+        Remove: text-transform: uppercase
+        font-size: 12px          (was: 0.65rem / ~10px)
+        font-weight: 500
+
+      Read the full file before editing — verify exact selector names and
+      any media query variants that may override these values.
+    success_criteria:
+      - .container uses --hds-space-layout-content-maxWidth token
+      - .heroImageContainer has aspect-ratio: 16/9, no fixed height, border-radius 8px, no box-shadow
+      - .relatedCard border-radius is 8px
+      - .relatedCard hover has no translateY
+      - .relatedTitle is 28px, weight 600
+      - .shareTitle has no rotation, weight 500, no uppercase
+    dependencies:
+      - T001
+      - T002
+
+  - id: T007
+    title: "Redesign listing card titles and featured post title in Blog.module.css"
+    wave: 3
+    complexity: 2
+    model: sonnet
+    description: |
+      Reduce oversized listing card titles from 38px to 22px. Reduce and
+      rebalance featured post title. Correct letter-spacing.
+    files_to_modify:
+      - src/app/blog/Blog.module.css
+    details: |
+      .BlogIndexPost__title at desktop (900px+ breakpoint):
+        font-size: 22px          (was: 38px)
+        font-weight: 600         (was: 700 — renders correctly after T001)
+        letter-spacing: -0.01em  (was: -0.2px — standardize to em)
+
+      .BlogIndexPost__title at mobile (<600px):
+        font-size: 22px          (was: 28px — listing titles same scale mobile/desktop)
+
+      .BlogIndexPost__title featured variant (600px+ with featured modifier):
+        font-size: 32px          (was: 38px)
+        font-weight: 600         (was: 500)
+        letter-spacing: -0.02em  (was: -1.2px ≈ -0.032em at 38px — over-compressed)
+
+      Read the full file to understand all breakpoints and modifier class
+      combinations before editing. The featured variant may be a compound
+      selector — identify it correctly.
+
+      Do not change line-height values if they are in the 1.2–1.3 range (already good).
+    success_criteria:
+      - Default listing card titles render at 22px across all breakpoints
+      - Featured post title renders at 32px, weight 600, letter-spacing -0.02em
+      - No listing title breakpoint renders above 32px
+    dependencies:
+      - T001
+
+  - id: T008
+    title: "Normalize meta sizes and remove date border decoration in Blog.module.css"
+    wave: 3
+    complexity: 2
+    model: sonnet
+    description: |
+      Reduce excerpt, author, and date meta sizes. Remove decorative left-border
+      from BlogPostDate — retain it on category label only.
+    files_to_modify:
+      - src/app/blog/Blog.module.css
+    details: |
+      .BlogIndexPost__body at desktop (600px+):
+        font-size: 15px          (was: 18px)
+        Keep: line-height (28px or similar — close enough)
+
+      .CopyTitle--variantDetail (category label):
+        font-size: 13px          (was: 15px)
+        Remove: text-transform: uppercase
+        Keep: left-border decoration (2px brand color bar — on-brand, retain)
+        Keep: font-weight: 600
+        Keep: color
+
+      .BlogPostDate:
+        font-size: 13px          (was: 15px)
+        Remove: ::before pseudo-element with left-border decoration
+        Remove: padding-left compensation for the border (if any)
+        Keep: color
+
+      .BlogAuthor__link:
+        font-size: 14px          (was: 15px)
+        Keep: font-weight: 600
+
+      .BlogAuthor__role:
+        font-size: 13px          (was: 15px)
+        Keep: font-weight: 400
+
+      Read full file before editing. The ::before pseudo-element for BlogPostDate
+      may share styles with CopyTitle::before — ensure only BlogPostDate ::before
+      is removed, not the category label decoration.
+    success_criteria:
+      - .BlogIndexPost__body desktop is 15px
+      - .CopyTitle--variantDetail is 13px, retains left-border, no uppercase
+      - .BlogPostDate is 13px, has no ::before border decoration
+      - .BlogAuthor__link is 14px
+      - .BlogAuthor__role is 13px
+    dependencies:
+      - T001
+
+waves:
+  - wave: 1
+    tasks: [T001, T002]
+    label: "Bug fixes — font-weight import and broken token references (parallel)"
+  - wave: 2
+    tasks: [T003, T004, T005, T006]
+    label: "Post detail visual redesign (sequential, same file)"
+  - wave: 3
+    tasks: [T007, T008]
+    label: "Index page redesign (sequential, same file)"
+
+summary:
+  total_tasks: 8
+  total_waves: 3
+  complexity_distribution:
+    sonnet: 8
+    opus: 0
+  total_points: 17
+  estimated_duration: "2-3 hours"
