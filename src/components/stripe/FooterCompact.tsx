@@ -9,7 +9,14 @@ import {
   LinkedinLogo,
   YoutubeLogo,
   XLogo,
+  type Icon,
 } from '@phosphor-icons/react'
+
+export interface SocialLink {
+  platform: string
+  url: string
+  enabled: boolean
+}
 
 const NAV_LINKS = [
   { label: 'About Us', href: '/about-us' },
@@ -20,20 +27,22 @@ const NAV_LINKS = [
   { label: 'Contact Us', href: '/contact-us' },
 ]
 
-const SOCIAL_LINKS = [
-  { label: 'Facebook', href: '#', Icon: FacebookLogo },
-  { label: 'Instagram', href: '#', Icon: InstagramLogo },
-  { label: 'X', href: 'https://x.com/PharmaLinkOrg', Icon: XLogo },
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/pharmalink-health-93092a386/', Icon: LinkedinLogo },
-  { label: 'YouTube', href: 'https://www.youtube.com/@PharmaLinkHealth', Icon: YoutubeLogo },
-]
+const PLATFORM_META: Record<string, { label: string; Icon: Icon }> = {
+  facebook:  { label: 'Facebook',  Icon: FacebookLogo  },
+  instagram: { label: 'Instagram', Icon: InstagramLogo },
+  x:         { label: 'X',         Icon: XLogo         },
+  linkedin:  { label: 'LinkedIn',  Icon: LinkedinLogo  },
+  youtube:   { label: 'YouTube',   Icon: YoutubeLogo   },
+}
 
 interface Props {
   tagline?: string
+  socialLinks?: SocialLink[]
 }
 
-const FooterCompact = ({ tagline = 'Bridging Gaps with\nInnovative Care' }: Props) => {
+const FooterCompact = ({ tagline = 'Bridging Gaps with\nInnovative Care', socialLinks = [] }: Props) => {
   const lines = tagline.split('\n')
+  const activeSocials = socialLinks.filter(s => s.enabled && s.url && PLATFORM_META[s.platform])
 
   return (
     <footer className={styles.footer}>
@@ -97,12 +106,15 @@ const FooterCompact = ({ tagline = 'Bridging Gaps with\nInnovative Care' }: Prop
             © {new Date().getFullYear()} PharmaLink. All Rights Reserved.
           </p>
           <div className={styles.socialLinks}>
-            {SOCIAL_LINKS.map(({ label, href, Icon }) => (
-              <a key={label} href={href} className={styles.socialLink} target="_blank" rel="noopener noreferrer">
-                <Icon size={18} weight="bold" />
-                {label}
-              </a>
-            ))}
+            {activeSocials.map(({ platform, url }) => {
+              const { label, Icon } = PLATFORM_META[platform]
+              return (
+                <a key={platform} href={url} className={styles.socialLink} target="_blank" rel="noopener noreferrer">
+                  <Icon size={18} weight="bold" />
+                  {label}
+                </a>
+              )
+            })}
           </div>
         </div>
       </div>
