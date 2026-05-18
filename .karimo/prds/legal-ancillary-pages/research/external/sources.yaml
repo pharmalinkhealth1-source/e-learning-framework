@@ -1,0 +1,100 @@
+sources:
+  - url: https://www.mondaq.com/nigeria/data-protection/1434994/nigeria-data-protection-act-2023-relevant-provisions-for-health-care-delivery-in-nigeria
+    title: "Nigeria Data Protection Act 2023: Relevant Provisions For Health Care Delivery In Nigeria"
+    accessed: 2026-05-18
+    relevance: Nigeria NDPA 2023 healthcare sector requirements
+
+  - url: https://iclg.com/practice-areas/data-protection-laws-and-regulations/nigeria
+    title: "Data Protection Laws and Regulations Report 2025-2026 Nigeria"
+    accessed: 2026-05-18
+    relevance: Nigeria data protection law overview
+
+  - url: https://www.clydeco.com/en/insights/2025/01/critical-update-for-healthcare-providers-in-kenya
+    title: "Compliance update for healthcare providers: Data Protection Act requirements"
+    accessed: 2026-05-18
+    relevance: Kenya DPA 2019 healthcare requirements, January 2025 update
+
+  - url: https://www.dataguidance.com/notes/kenya-data-protection-overview
+    title: "Kenya - Data Protection Overview"
+    accessed: 2026-05-18
+    relevance: Kenya DPA overview
+
+  - url: https://www.mondaq.com/privacy-protection/1766200/ethiopian-personal-data-protection-law-proclamation-13212024-business-compliance-guide
+    title: "Ethiopian Personal Data Protection Law (Proclamation 1321/2024): Business Compliance Guide"
+    accessed: 2026-05-18
+    relevance: Ethiopia PDPP 1321/2024 requirements
+
+  - url: https://aln.africa/wp-content/uploads/2024/04/Ethiopias-New-Data-Protection-Law-Enhancing-Privacy-and-Security-in-the-Digital-Age-ALN-Mesfin-Tafesse-and-Associates.pdf
+    title: "Ethiopia's New Data Protection Law"
+    accessed: 2026-05-18
+    relevance: Ethiopia data localization, healthcare sector 33 controls
+
+  - url: https://secureprivacy.ai/blog/hipaa-privacy-policy-website-compliance
+    title: "HIPAA Privacy Policy: Essential Website Compliance for Healthcare Organizations"
+    accessed: 2026-05-18
+    relevance: HIPAA privacy policy requirements
+
+  - url: https://iclg.com/practice-areas/digital-health-laws-and-regulations/usa
+    title: "Digital Health Laws and Regulations Report 2026 USA"
+    accessed: 2026-05-18
+    relevance: US digital health legal framework
+
+  - url: https://www.ada.gov/resources/2024-03-08-web-rule/
+    title: "Fact Sheet: New Rule on the Accessibility of Web Content and Mobile Apps (ADA.gov)"
+    accessed: 2026-05-18
+    relevance: ADA WCAG 2.1 AA rule 2024
+
+  - url: https://www.w3.org/WAI/standards-guidelines/wcag/
+    title: "WCAG 2 Overview | Web Accessibility Initiative (WAI) | W3C"
+    accessed: 2026-05-18
+    relevance: WCAG standards reference
+
+  - url: https://secureprivacy.ai/blog/gdpr-cookie-consent-requirements-2025
+    title: "GDPR Cookie Consent Requirements for 2025"
+    accessed: 2026-05-18
+    relevance: GDPR cookie consent requirements
+
+  - url: https://transcend.io/blog/2025-cookie-consent-laws
+    title: "Cookie consent in 2025: The new rules every website owner must know"
+    accessed: 2026-05-18
+    relevance: Global cookie consent laws
+
+  - url: https://www.congress.gov/crs-product/IF11478
+    title: "Digital Millennium Copyright Act (DMCA) Safe Harbor Provisions for Online Service Providers"
+    accessed: 2026-05-18
+    relevance: DMCA safe harbor requirements
+
+  - url: https://www.copyright.gov/512/
+    title: "Section 512 of Title 17: Resources on Online Service Provider Safe Harbors"
+    accessed: 2026-05-18
+    relevance: DMCA designated agent registration requirement
+
+  - url: https://www.ftc.gov/news-events/news/press-releases/2025/09/ed-tech-provider-chegg-pay-75-million-settle-ftc-allegations-concerning-unlawful-cancellation-practices
+    title: "Ed Tech Provider Chegg to Pay $7.5 Million to Settle FTC Allegations"
+    accessed: 2026-05-18
+    relevance: FTC subscription cancellation enforcement precedent
+
+  - url: http://firemark.com/2024/10/21/how-the-new-ftc-click-to-cancel-rules-impact-online-course-creators-and-membership-business-owners/
+    title: "How the New FTC Click to Cancel Rules Impact Online Course Creators"
+    accessed: 2026-05-18
+    relevance: FTC Click-to-Cancel rule for e-learning platforms
+
+  - url: https://www.npmjs.com/package/@portabletext/react
+    title: "@portabletext/react on npm"
+    accessed: 2026-05-18
+    relevance: PortableText custom components API
+
+  - url: https://prismic.io/blog/nextjs-table-of-contents-tutorial
+    title: "How to Add an Automated Table of Contents to a Next.js Blog"
+    accessed: 2026-05-18
+    relevance: Table of contents pattern for Next.js
+
+  - url: https://github.com/portabletext/react-portabletext/
+    title: "GitHub - portabletext/react-portabletext"
+    accessed: 2026-05-18
+    relevance: Official PortableText React library documentation
+
+  - url: https://www.ftc.gov/business-guidance/resources/health-products-compliance-guidance
+    title: "Health Products Compliance Guidance | Federal Trade Commission"
+    accessed: 2026-05-18
+    relevance: FTC health claims and medical disclaimer requirements
