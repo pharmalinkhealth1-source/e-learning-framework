@@ -21,6 +21,8 @@ import { submission } from './submission'
 import { conversation } from './conversation'
 import { directMessage } from './directMessage'
 import { forumRules } from './forumRules'
+import { pbidSurveyResponse } from './pbidSurveyResponse'
+import { pbidSurveyConfig } from './pbidSurveyConfig'
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -31,5 +33,6 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     assignment, submission,
     conversation, directMessage,
     forumRules,
+    pbidSurveyResponse, pbidSurveyConfig,
   ],
 }

@@ -1,0 +1,217 @@
+.wrapper {
+  background: #eeedf2;
+  min-height: 100vh;
+  font-family: "IBM Plex Sans", sans-serif;
+  padding: 24px;
+}
+
+.card {
+  background: white;
+  padding: 28px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  max-width: 860px;
+  margin-inline: auto;
+}
+
+.title {
+  color: rgb(79, 38, 131);
+  margin-bottom: 8px;
+}
+
+.sectionHeader {
+  color: rgb(79, 38, 131);
+  border-bottom: 2px solid rgb(79, 38, 131);
+  padding-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.questionBlock {
+  margin-bottom: 24px;
+  padding: 15px;
+  border: 1px solid #D1BAF8;
+  border-radius: 4px;
+}
+
+.questionLabel {
+  font-weight: bold;
+  color: #220a47;
+  margin-bottom: 10px;
+  display: block;
+  line-height: 1.5;
+}
+
+.optionItem {
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #220a47;
+}
+
+.conditionalBlock {
+  background: #f9f9f9;
+  padding: 15px;
+  border-left: 5px solid #f19f4b;
+  margin-bottom: 20px;
+  border-radius: 0 4px 4px 0;
+}
+
+.textInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #D1BAF8;
+  border-radius: 4px;
+  margin-top: 5px;
+  font-family: inherit;
+}
+
+.navFooter {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.btnPrimary {
+  padding: 10px 20px;
+  background: rgb(79, 38, 131);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btnSecondary {
+  padding: 10px 20px;
+  background: #ccc;
+  color: #220a47;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btnSubmit {
+  padding: 10px 20px;
+  background: #d656c2;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btnDisabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.errorBox {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c00;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+
+.successBox {
+  background: #efe;
+  border: 1px solid #cfc;
+  color: #060;
+  padding: 24px;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.gateBox {
+  max-width: 400px;
+  margin: 60px auto;
+  background: white;
+  padding: 36px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  text-align: center;
+}
+
+.codeInput {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid #D1BAF8;
+  border-radius: 4px;
+  font-size: 1.2rem;
+  text-align: center;
+  letter-spacing: 0.2em;
+  margin: 16px 0;
+  font-family: inherit;
+}
+
+.likertTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.likertRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 12px;
+}
+
+.likertQ {
+  flex: 2;
+  font-weight: bold;
+  color: #220a47;
+  font-size: 0.9rem;
+}
+
+.likertOptions {
+  flex: 3;
+  display: flex;
+  justify-content: space-between;
+}
+
+.likertCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  flex: 1;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #555;
+}
+
+.likertHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #D1BAF8;
+}
+
+.progressBar {
+  width: 100%;
+  height: 4px;
+  background: #D1BAF8;
+  border-radius: 2px;
+  margin-bottom: 4px;
+}
+
+.progressFill {
+  height: 100%;
+  background: rgb(79, 38, 131);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+:global(input[type="radio"]),
+:global(input[type="checkbox"]) {
+  accent-color: #d656c2;
+}
