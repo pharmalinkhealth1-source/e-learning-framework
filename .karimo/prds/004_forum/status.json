@@ -20,9 +20,10 @@
       "merged_at": "2026-05-18"
     },
     "T003": {
-      "status": "queued",
+      "status": "done",
       "title": "Create ForumRulesModal client component",
-      "wave": 2
+      "wave": 2,
+      "merged_at": "2026-05-18"
     },
     "T004": {
       "status": "queued",
